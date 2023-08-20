@@ -16,3 +16,19 @@ export function createEmployee(credentials) {
       });
   });
 }
+
+export function getAllEmployee() {
+  return new Promise((resolve, reject) => {
+    axios
+      .get("/all/employees")
+      .then((response) => {
+        if (response.status === 200) {
+          resolve(response.data);
+        }
+        reject(response.data);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+}

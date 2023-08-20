@@ -1,23 +1,20 @@
-import { ADD_ITEM, DELETE_ITEM } from "../actionTypes/actionTypes";
 
-const initialState = {
-  numOfItems: 0,
-};
+var userJson = {
+    userID: "UserID",
+    firstName: "User name",
+    lastName: "lastName",
+    role: "Role",
+    email: "email",
+    gender: "gender",
+    phoneNumber: "phoneNumber"
+}
 
-export default loginReducer = (state = initialState, action) => {
-  switch (action.type) {
-    case ADD_ITEM:
-      return {
-        ...state,
-        numOfItems: state.numOfItems + 1,
-      };
-
-    case DELETE_ITEM:
-      return {
-        ...state,
-        numOfItems: state.numOfItems - 1,
-      };
-    default:
-      return state;
-  }
-};
+const loginReducer = (state = userJson, action) => {
+    console.log("userReducer")
+    if (action.type ==='user/getUserInfo') {
+        return action.payload
+    } else {
+        return state;
+    }
+}
+export default loginReducer

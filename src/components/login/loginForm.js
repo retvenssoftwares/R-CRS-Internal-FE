@@ -7,9 +7,13 @@ import Card from '@material-ui/core/Card';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import { signIn, authenticate } from '../../actions/auth';
+import { getHotelDB } from '../../actions/hotel';
 import Alert from '@material-ui/lab/Alert';
 import { Image } from 'antd';
 import logo from '../../assets/R-CRS.png';
+import { useSelector, useDispatch } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import {actions} from '../../actionTypes'
 
 const useStyles = makeStyles({
   form:{
@@ -60,6 +64,12 @@ const LoginForm = () => {
     success:""
   })
 
+  //redux
+  const dispatch = useDispatch()
+  const userDataFromStore = useSelector(state => state.userInfo)
+  const hotelsDataFromStore = useSelector(state => state.hotelList)
+  const {loggedInUser, get_hotel_list} = bindActionCreators(actions, dispatch)
+
   const handleChange = (type) => (e) => {
       switch (type) {
         case "email":
@@ -81,13 +91,38 @@ const LoginForm = () => {
      .then((value) => {
        setLogin({...login, isLoading:false, success: value.message })
          authenticate(value, () => {
-           history.push("/dashboard")
+          let userDataFromServer = value.employee
+          userDataFromStore.userID = userDataFromServer.employee_id
+          userDataFromStore.firstName = userDataFromServer.first_name
+          userDataFromStore.lastName = userDataFromServer.last_name
+          userDataFromStore.role = userDataFromServer.role
+          userDataFromStore.email = userDataFromServer.email
+          userDataFromStore.gender = userDataFromServer.gender
+          userDataFromStore.phoneNumber = userDataFromServer.phone_number
+          loggedInUser(userDataFromStore)
+          fetchAllHotel(e)
          })
      })
      .catch((err) => {
        setLogin({...login, isLoading:false, error: err.error })
      })
  }
+
+ const fetchAllHotel = (e) => {
+  e.preventDefault()
+  getHotelDB()
+    .then((value) => {
+      console.log(hotelsDataFromStore)
+      let hotelsDataFromServer = value.hotels
+      console.log(hotelsDataFromServer)
+      get_hotel_list(hotelsDataFromServer)
+      console.log(hotelsDataFromStore)
+      history.push("/dashboard")
+    })
+    .catch((err) => {
+      console.log("Error fetching all hotels:", err)
+    })
+}
 
   return <>
          <div className={classes.root}>

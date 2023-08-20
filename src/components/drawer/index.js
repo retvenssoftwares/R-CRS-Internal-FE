@@ -36,6 +36,8 @@ import SettingsIcon from '@material-ui/icons/Settings';
 import ApartmentIcon from '@material-ui/icons/Apartment';
 import BookingIcon from '@material-ui/icons/MenuBook';
 import { signout } from '../../actions/auth';
+import { useSelector } from 'react-redux';
+import { actions } from '../../actionTypes';
 
 const drawerWidth = 240;
 
@@ -113,6 +115,7 @@ const useStyles = makeStyles((theme) => ({
   const [openEmployeeCollapse, setOpenEmployeeCollapse] = React.useState(true);
   const [openHotelCollapse, setOpenHotelCollapse] = React.useState(true);
 
+  const userDataFromServer = useSelector(state => state.userInfo)
 
   function handleOpenEmployee(){
      setOpenEmployeeCollapse(!openEmployeeCollapse);
@@ -161,7 +164,7 @@ const useStyles = makeStyles((theme) => ({
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" noWrap>
-
+            {userDataFromServer.firstName}
           </Typography>
         </Toolbar>
       </AppBar>
