@@ -288,14 +288,23 @@ const RoomDetails = (props) => {
     // const [rateTypeID, setRateTypeID] = useState('');
     // const [selectedRoom, setSelectedRoom] = React.useState('');
     // const [numberOfRooms, setNumberOfRooms] = useState(0); // Default to 1 room
+
     const [maxRoomsAvailable, setMaxRoomsAvailable] = useState(0); // Set to the maximum available rooms
+
     // const [numberOfAdults, setNumberOfAdults] = useState(1); // Default to 1 adult
     // const [numberOfChildren, setNumberOfChildren] = useState(0); // Default to 0 children
     // const [totalPrice, setTotalPrice] = useState(0);
+
     const [selectedExtras, setSelectedExtras] = React.useState([]);
+
     const [baseRate, setBaseRate] = React.useState(0);
     const [extraAdultRate, setExtraAdultRate] = React.useState(0);
     const [extraChildRate, setExtraChildRate] = React.useState(0);
+
+    const [totalbaseRate, setTotalbaseRate] = React.useState(0);
+    const [totalChildRate, setTotalChildRate] = React.useState(0);
+    const [totalAdultRate, setTotalAdultRate] = React.useState(0);
+
     const [open, setOpen] = React.useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
@@ -399,6 +408,7 @@ const RoomDetails = (props) => {
         reservation.roomTypes[index].child_number,
         reservation.roomTypes[index].number_of_rooms
       );
+      
       updatedRoomTypes[index].base_rate = baseRate
       updatedRoomTypes[index].extra_adult_rate = extraAdultRate
       updatedRoomTypes[index].extra_child_rate = extraChildRate
@@ -583,7 +593,7 @@ const RoomDetails = (props) => {
       }
     }
     
-    function calculateTotalPricee(selectedRoomID, selectedRateTypeID, numberOfAdults, numberOfChildren, numberOfRooms) {
+    function calculateTotalPricee() {
       // Extract the relevant room rate information based on the selectedRoomID
       const roomInfo = roomRate.RES_Response.RoomInfo.Source.find(
         (source) => source.RoomTypes.RateType.RoomTypeID === reservation.roomTypes[index].room_type_id && source.RoomTypes.RateType.RateTypeID === reservation.roomTypes[index].rate_type_id
@@ -602,14 +612,16 @@ const RoomDetails = (props) => {
       setBaseRate(basePrice)
       setExtraAdultRate(extraAdultPrice)
       setExtraChildRate(extraChildPrice)
-        console.log(reservation.roomTypes[index].number_of_rooms)
+      setTotalbaseRate(basePrice)
+      setTotalAdultRate(extraAdultPrice)
+      setTotalChildRate(extraChildPrice)
+
       const totalPrice =
         (basePrice +
-        extraAdultPrice * Math.max(reservation.roomTypes[index].adult_number - 1, 0) +
+        extraAdultPrice * Math.max(reservation.roomTypes[index].adult_number - 2, 0) +
         extraChildPrice * Math.max(reservation.roomTypes[index].child_number, 0))* reservation.roomTypes[index].number_of_rooms;
         console.log("printing total price")
       console.log(totalPrice)
-      
       return totalPrice.toFixed(2); // Round to 2 decimal places
     }
 
@@ -798,9 +810,9 @@ const RoomDetails = (props) => {
                     <FormControlLabel
                       control={
                         <Checkbox
-                          checked={selectedItems.includes(item.ExtraChargeId)}
-                          onChange={handleCheckboxChange}
-                          value={item.ExtraChargeId}
+                          checked = {selectedItems.includes(item.ExtraChargeId)}
+                          onChange = {handleCheckboxChange}
+                          value = {item.ExtraChargeId}
                         />
                       }
                       label={`${item.ShortCode} - Rate: ${item.Rate}`}
@@ -814,6 +826,9 @@ const RoomDetails = (props) => {
           <SelectedItemList  reservation = {reservation} setReservation = {setReservation} handleChange={handleChange}/>
 
       {/* Display the selected values */}
+      <p>Total Base Rate per room: ₹{baseRate}</p>
+      <p>Total Adult Rate per person: ₹{extraAdultRate}</p>
+      <p>Total Child Rate per person: ₹{extraChildRate}</p>
       <p>Total Price: ₹{reservation.roomTypes[index].price}</p>
 
       <Grid item xs={12} md={6}>

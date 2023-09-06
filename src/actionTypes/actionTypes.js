@@ -31,3 +31,12 @@ export const get_hotel_list = (hotels) => {
     }
   }
 
+  export const get_room_detail_action = (room) => {
+      return (dispatch) => {
+          dispatch ({
+              type: "hotel/allHotelFromDB",
+              payload: room
+          })
+      }
+    }
+

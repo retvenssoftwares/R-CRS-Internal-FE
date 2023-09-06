@@ -2,8 +2,17 @@ import React, {useState, useEffect} from 'react';
 import DashboardLayout from '../../components/layout/dashboardLayout';
 import { makeStyles } from '@material-ui/core/styles';
 import { getAllBookingDB } from '../../actions/booking';
+import { Grid, Button, Card, TextField } from '@material-ui/core';
 import { Space, Table } from 'antd';
 import Paper from '@material-ui/core/Paper';
+import Alert from '@material-ui/lab/Alert';
+import CancelIcon from '@material-ui/icons/Cancel';
+import Autocomplete from '@material-ui/lab/Autocomplete';
+import InputAdornment from '@material-ui/core/InputAdornment';
+import Visibility from '@material-ui/icons/Visibility';
+import VisibilityOff from '@material-ui/icons/VisibilityOff';
+import IconButton from '@material-ui/core/IconButton';
+import OutlinedInput from '@material-ui/core/OutlinedInput';
 const { Column, ColumnGroup } = Table;
 
 const useStyles = makeStyles((theme) => ({
@@ -27,9 +36,179 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const AllBookingDisplay = () => {
-    const classes = useStyles();
 
+    const classes = useStyles();
     const [allBookings, setAllBookings] = useState(null);
+    const [openForm, setOpenForm] = React.useState(false);
+    const [filterBookingID, setfilterBookingID] = useState("");
+    const [filterEmployName, setFilterEmployName] = useState("");
+    const [filterHotelName, setFilterHotelName] = useState("");
+    const [filterGuestName, setFilterGuestName] = useState("");
+
+    const demoBookings = [
+        {
+            key: '1',
+            bookingID: '13b4bh34h2b',
+            employName: "Shivam Tiwari",
+            hotelName: "Hotel Arjuna",
+            guestName: 'Mr. Maheshwari',
+            roomNights: 2,
+        },
+        {
+            key: '2',
+            bookingID: '13b4bh34h2b',
+            employName: "Shivam Tiwari",
+            hotelName: "Hotel Arjuna",
+            guestName: 'Mr. Maheshwari',
+            roomNights: 2,
+        },
+        {
+            key: '3',
+            bookingID: '13b4bh34h2b',
+            employName: "Shivam Tiwari",
+            hotelName: "Hotel Arjuna",
+            guestName: 'Mr. Maheshwari',
+            roomNights: 2,
+        },
+        {
+            key: '4',
+            bookingID: '13b4bh34h2b',
+            employName: "Shivam Tiwari",
+            hotelName: "Hotel Arjuna",
+            guestName: 'Mr. Maheshwari',
+            roomNights: 2,
+        },
+        {
+            key: '5',
+            bookingID: '13b4bh34h2b',
+            employName: "Shivam Tiwari",
+            hotelName: "Hotel Arjuna",
+            guestName: 'Mr. Maheshwari',
+            roomNights: 2,
+        },
+        {
+            key: '6',
+            bookingID: '13b4bh34h2b',
+            employName: "Shivam Tiwari",
+            hotelName: "Hotel Arjuna",
+            guestName: 'Mr. Maheshwari',
+            roomNights: 2,
+        },
+        {
+            key: '7',
+            bookingID: '13b4bh34h2b',
+            employName: "Shivam Tiwari",
+            hotelName: "Hotel Arjuna",
+            guestName: 'Mr. Maheshwari',
+            roomNights: 2,
+        },
+        {
+            key: '8',
+            bookingID: '13b4bh34h2b',
+            employName: "Shivam Tiwari",
+            hotelName: "Hotel Arjuna",
+            guestName: 'Mr. Maheshwari',
+            roomNights: 2,
+        },
+        {
+            key: '9',
+            bookingID: '13b4bh34h2b',
+            employName: "Shivam Tiwari",
+            hotelName: "Hotel Arjuna",
+            guestName: 'Mr. Maheshwari',
+            roomNights: 2,
+        },
+        {
+            key: '10',
+            bookingID: '13b4bh34h2b',
+            employName: "Shivam Tiwari",
+            hotelName: "Hotel Arjuna",
+            guestName: 'Mr. Maheshwari',
+            roomNights: 2,
+        },
+        {
+            key: '11',
+            bookingID: '13b4bh34h2b',
+            employName: "Shivam Tiwari",
+            hotelName: "Hotel Arjuna",
+            guestName: 'Mr. Maheshwari',
+            roomNights: 2,
+        },
+        {
+            key: '12',
+            bookingID: '13b4bh34h2b',
+            employName: "Shivam Tiwari",
+            hotelName: "Hotel Arjuna",
+            guestName: 'Mr. Maheshwari',
+            roomNights: 2,
+        },
+        {
+            key: '13',
+            bookingID: '13b4bh34h2b',
+            employName: "Shivam Tiwari",
+            hotelName: "Hotel Arjuna",
+            guestName: 'Mr. Maheshwari',
+            roomNights: 2,
+        },
+        {
+            key: '14',
+            bookingID: '13b4bh34h2b',
+            employName: "Shivam Tiwari",
+            hotelName: "Hotel Arjuna",
+            guestName: 'Mr. Maheshwari',
+            roomNights: 2,
+        },
+        {
+            key: '15',
+            bookingID: '13b4bh34h2b',
+            employName: "Shivam Tiwari",
+            hotelName: "Hotel Arjuna",
+            guestName: 'Mr. Maheshwari',
+            roomNights: 2,
+        },
+        {
+            key: '16',
+            bookingID: '13b4bh34h2b',
+            employName: "Shivam Tiwari",
+            hotelName: "Hotel Arjuna",
+            guestName: 'Mr. Maheshwari',
+            roomNights: 2,
+        },
+      ];
+      const guestNamesList = [...new Set(demoBookings.map((booking) => booking.guestName))];
+      const bookingIDList = [...new Set(demoBookings.map((booking) => booking.bookingID))];
+      const employNameList = [...new Set(demoBookings.map((booking) => booking.employName))];
+      const hotelNamesList = [...new Set(demoBookings.map((booking) => booking.hotelName))];
+
+    const columns = [
+      {
+        title: 'Booking ID',
+        dataIndex: 'bookingID',
+        key: 'bookingID',
+        render: (text) => <a>{text}</a>,
+      },
+      {
+        title: 'Made By',
+        dataIndex: 'employName',
+        key: 'employName',
+      },
+      {
+        title: 'Hotel Name',
+        dataIndex: 'hotelName',
+        key: 'hotelName',
+      },
+      {
+        title: 'Guest Name',
+        dataIndex: 'guestName',
+        key: 'guestName',
+      },
+      {
+        title: 'Room Nights',
+        dataIndex: 'roomNights',
+        key: 'roomNights',
+      }
+    ];
+
 
     React.useEffect(() => {
         getAllBookingDB()
@@ -46,26 +225,113 @@ const AllBookingDisplay = () => {
     }, [])
 
 
-   return <>
+    if(!openForm){
+        return <>
+
+            <Grid container spacing={3} justify="flex-end">
+                <Grid item  md={4} sm={4} xs={12}>
+                    <Button
+                    variant="contained"
+                    onClick={() => setOpenForm(true)}
+                    fullWidth
+                    color="primary">
+                    Filters
+                    </Button>
+                </Grid>
+            </Grid>
+            <Paper>
+                    <Table columns={columns} dataSource={demoBookings} />
+            </Paper>
+        </>
+    } else {
+
+        return <>
+
+        <Grid container spacing={3} justify="flex-end">
+            <Grid item  md={4} sm={4} xs={12}>
+                <Button
+                variant="contained"
+                onClick={() => setOpenForm(false)}
+                className={classes.close}
+                color="primary">
+                <CancelIcon />
+                </Button>
+            </Grid>
+        </Grid>
+        <br /><br /><br />
+        <Grid container spacing={3} justify="center">
+        <Grid item xs={12} md={10}>
+            <Card className={classes.cardRoot} variant="outlined">
+            <br />
+            <Grid container spacing={3}>
+                <Grid item xs={12} md={6}>
+                    <Autocomplete
+                    options={guestNamesList}
+                    onChange={(e, val) => {
+                        console.log(e)
+                        if(val){
+                            setFilterGuestName(val)
+                        }
+                    }}
+                    getOptionLabel={(option) => option}
+                    style={{ width: "100%" }}
+                    renderInput={(params) => <TextField {...params} label="Filter Guest" variant="outlined"  value={filterGuestName}/>}
+                    />
+                </Grid>
+                <Grid item xs={12} md={6}>
+                    <Autocomplete
+                    options={employNameList}
+                    onChange={(e, val) => {
+                        console.log(e)
+                        if(val){
+                            setFilterEmployName(val)
+                        }
+                    }}
+                    getOptionLabel={(option) => option}
+                    style={{ width: "100%" }}
+                    renderInput={(params) => <TextField {...params} label="Filter Employee" variant="outlined"  value={filterEmployName}/>}
+                    />
+                </Grid>
+                <Grid item xs={12} md={6}>
+                    <Autocomplete
+                    options={hotelNamesList}
+                    onChange={(e, val) => {
+                        console.log(e)
+                        if(val){
+                            setFilterHotelName(val)
+                        }
+                    }}
+                    getOptionLabel={(option) => option}
+                    style={{ width: "100%" }}
+                    renderInput={(params) => <TextField {...params} label="Filter Hotel" variant="outlined"  value={filterHotelName}/>}
+                    />
+                </Grid>
+                <Grid item xs={12} md={6}>
+                    <Autocomplete
+                    options={bookingIDList}
+                    onChange={(e, val) => {
+                        console.log(e)
+                        if(val){
+                            setfilterBookingID(val)
+                        }
+                    }}
+                    getOptionLabel={(option) => option}
+                    style={{ width: "100%" }}
+                    renderInput={(params) => <TextField {...params} label="Filter Booking ID" variant="outlined"  value={filterBookingID}/>}
+                    />
+                </Grid>
+            </Grid>
+            </Card>
+        </Grid>
+        </Grid>
 
         <Paper>
-            {/* <Table dataSource={allBookings}>
-                <Column title="BookingStatus" dataIndex="booking_status" key="booking_status" />
-                <Column title="Employee ID" dataIndex="employee_id" key="employee_id" />
-                <Column title="Retvens Hotel Code" dataIndex="hotel_r_code" key="hotel_r_code" />
-                <Column
-                title="Action"
-                key="action"
-                render={(_, record) => (
-                    <Space size="middle">
-                    <a>Deactivate</a>
-                    </Space>
-                )}
-                />
-            </Table> */}
+            <Table columns={columns} dataSource={demoBookings} />
         </Paper>
-    </>
-}
+
+        </>
+        }
+    }
 
 const Bookings = () => {
     return  <>
