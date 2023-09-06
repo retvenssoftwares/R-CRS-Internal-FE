@@ -26,37 +26,46 @@ const Dashboard = () => {
       <Box sx={{ flexGrow: 1 }}>
         <Grid container spacing={2}>
           <Grid item xs={4}>
+            <Item>
+              <Typography variant="h5" color={'black'} component="h5" marginTop={1}>
+                Total Booking
+              </Typography>
+              <CountUp end={983}  duration={5} style={{ fontSize: '40px',color:'green' }} /> 
+            </Item>
+          </Grid>
+          <Grid item xs={4}>
+            <Item>
+              <Typography variant="h5" color={'black'} component="h5" marginTop={1}>
+                Total Cancelled
+              </Typography>
+              <CountUp end={12} duration={5} style={{ fontSize: '40px',color:'red' }} />
+            </Item>
+          </Grid>
+          <Grid item xs={4}>
+            <Item>
+            <Typography variant="h5" color={'black'} component="h5" marginTop={1}>
+                Total Revenue
+              </Typography>
+             <p style={{margin:0}}> <span style={{ fontSize: '40px',color:'green' }}>₹</span><CountUp end={5139430} duration={5} style={{ fontSize: '40px',color:'green',marginBottom:"0px" }} /></p>
+            </Item>
+          </Grid>
+        
+          <Grid item xs={6}>
             <Item> <MultiTypeChart /></Item>
           </Grid>
-          <Grid item xs={4}>
+          <Grid item xs={6}>
             <Item><BarChart /></Item>
           </Grid>
-          <Grid item xs={4}>
+          <Grid item xs={8}>
             <Item><AreaChart /></Item>
           </Grid>
           <Grid item xs={4}>
             <Item>
-              <Typography variant="h4" color={'black'} component="h5" marginTop={4}>
-                Total Booking
+            <Typography variant="h5" color={'black'} component="h5" marginTop={1} marginBottom={2}>
+               Top 5 Employee Bookings
               </Typography>
-              <CountUp end={116}  duration={5} style={{ fontSize: '60px',color:'green' }} /> 
-              <Divider />
-              <Typography variant="h4" color={'black'} component="h5" marginTop={4}>
-                Total Cancelled
-              </Typography>
-              <CountUp end={12} duration={5} style={{ fontSize: '60px',color:'red' }} />
-            </Item>
-          </Grid>
-          <Grid item xs={4}>
-            <Item>
-            <Typography variant="h4" color={'black'} component="h5" marginTop={4}>
-                Total Revenue
-              </Typography>
-             <p> <span style={{ fontSize: '60px',color:'green' }}>$</span><CountUp end={520} duration={5} style={{ fontSize: '60px',color:'green' }} /></p>
-            </Item>
-          </Grid>
-          <Grid item xs={4}>
-            <Item><App /></Item>
+              <App />
+              </Item>
           </Grid>
         </Grid>
       </Box>
