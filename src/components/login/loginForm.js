@@ -7,7 +7,7 @@ import Card from '@material-ui/core/Card';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import { signIn, authenticate } from '../../actions/auth';
-import { getHotelDB } from '../../actions/hotel';
+// import { getHotelDB } from '../../actions/hotel';
 import Alert from '@material-ui/lab/Alert';
 import { Image } from 'antd';
 import logo from '../../assets/R-CRS.png';
@@ -100,7 +100,8 @@ const LoginForm = () => {
           userDataFromStore.gender = userDataFromServer.gender
           userDataFromStore.phoneNumber = userDataFromServer.phone_number
           loggedInUser(userDataFromStore)
-          fetchAllHotel(e)
+          history.push("/dashboard")
+          // fetchAllHotel(e)
          })
      })
      .catch((err) => {
@@ -108,21 +109,21 @@ const LoginForm = () => {
      })
  }
 
- const fetchAllHotel = (e) => {
-  e.preventDefault()
-  getHotelDB()
-    .then((value) => {
-      console.log(hotelsDataFromStore)
-      let hotelsDataFromServer = value.hotels
-      console.log(hotelsDataFromServer)
-      get_hotel_list(hotelsDataFromServer)
-      console.log(hotelsDataFromStore)
-      history.push("/dashboard")
-    })
-    .catch((err) => {
-      console.log("Error fetching all hotels:", err)
-    })
-}
+//  const fetchAllHotel = (e) => {
+//   e.preventDefault()
+//   getHotelDB()
+//     .then((value) => {
+//       console.log(hotelsDataFromStore)
+//       let hotelsDataFromServer = value.hotels
+//       console.log(hotelsDataFromServer)
+//       get_hotel_list(hotelsDataFromServer)
+//       console.log(hotelsDataFromStore)
+//       history.push("/dashboard")
+//     })
+//     .catch((err) => {
+//       console.log("Error fetching all hotels:", err)
+//     })
+// }
 
   return <>
          <div className={classes.root}>

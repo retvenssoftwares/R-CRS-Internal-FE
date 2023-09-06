@@ -34,6 +34,22 @@ export function getBooking() {
     });
   }
 
+export function getAllBooking() {
+  return new Promise((resolve, reject) => {
+    axios
+      .get("/get/allBookingDB")
+      .then((response) => {
+        if (response.status === 200) {
+          resolve(response.data);
+        }
+        reject(response.data);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+}
+
 export function getTransaction() {
     return new Promise((resolve, reject) => {
       axios

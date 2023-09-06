@@ -203,26 +203,26 @@ const useStyles = makeStyles((theme) => ({
               <ListItemIcon>
                 <LocationCityIcon />
               </ListItemIcon>
-              <ListItemText primary="Hotels"  />
+              <ListItemText primary="Reservations"  />
               {openHotelCollapse ? <ExpandLess /> : <ExpandMore />}
           </ListItem>
           <Collapse in={openHotelCollapse} timeout="auto" unmountOnExit>
              <List component="div" disablePadding className={classes.collapseList}>
-                   <ListItem button key={120} selected={currentTab("/all-employees")} onClick={() => history.push("/all-employees")}>
+                   <ListItem button key={120} selected={currentTab(`/reservation/${"hotel1"}`)} onClick={() => history.push(`/reservation/${"hotel1"}`)}>
                      <ListItemIcon> 
                       <ApartmentIcon />
                      </ListItemIcon>
                      <ListItemText secondary='Hotel 1' />
                    </ListItem>
 
-                   <ListItem button key={543} selected={currentTab("/department")} onClick={() => history.push("/department")}>
+                   <ListItem button key={543} selected={currentTab(`/reservation/${"hotel2"}`)} onClick={() => history.push(`/reservation/${"hotel2"}`)}>
                      <ListItemIcon> 
                       <ApartmentIcon />
                      </ListItemIcon>
                      <ListItemText secondary='Hotel 2' />
                    </ListItem>
 
-                   <ListItem button key={31232} selected={currentTab("/designation")} onClick={() => history.push("/designation")}>
+                   <ListItem button key={31232} selected={currentTab(`/reservation/${"hotel3"}`)} onClick={() => history.push(`/reservation/${"hotel3"}`)}>
                      <ListItemIcon> 
                       <ApartmentIcon />
                      </ListItemIcon>
@@ -232,7 +232,7 @@ const useStyles = makeStyles((theme) => ({
           </Collapse>
 
         
-          <ListItem button key={1} selected={currentTab("/dashboard")} onClick={() => history.push("/dashboard")}>
+          <ListItem button key={2} selected={currentTab("/bookings")} onClick={() => history.push("/bookings")}>
             <ListItemIcon><BookingIcon /></ListItemIcon>
             <ListItemText primary="Bookings" />
           </ListItem>
@@ -254,7 +254,7 @@ const useStyles = makeStyles((theme) => ({
                      <ListItemText secondary='All Employees' />
                    </ListItem>
 
-                   <ListItem button key={987} selected={currentTab("/our-hotel")} onClick={() => history.push("/our-hotels")}>
+                   <ListItem button key={987} selected={currentTab("/all-hotels")} onClick={() => history.push("/all-hotels")}>
                      <ListItemIcon><VerticalSplitIcon /></ListItemIcon>
                      <ListItemText secondary='Our Hotels' />
                    </ListItem>

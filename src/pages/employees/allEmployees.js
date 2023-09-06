@@ -1,33 +1,26 @@
 import React from 'react';
 import DashboardLayout from '../../components/layout/dashboardLayout';
 import { Grid } from '@material-ui/core';
-import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button'
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
-// import Divider from '@material-ui/core/Divider';
-import CardContent from '@material-ui/core/CardContent';
-import CardActions from '@material-ui/core/CardActions';
-import CardGiftcardIcon from '@material-ui/icons/CardGiftcard';
-import { Typography } from '@material-ui/core';
-import Box from '@material-ui/core/Box';
-import LocalOfferIcon from '@material-ui/icons/LocalOffer';
-import StyleIcon from '@material-ui/icons/Style';
-import GroupWorkIcon from '@material-ui/icons/GroupWork';
 import { TextField } from '@material-ui/core';
-import Select from '@material-ui/core/Select';
-import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import InputLabel from '@material-ui/core/InputLabel';
 import MuiPhoneNumber from 'material-ui-phone-number';
 import Autocomplete from '@material-ui/lab/Autocomplete';
-import { getDepartments } from '../../actions/department';
-import { getDesignations } from '../../actions/designation';
+import { getAllEmployee } from '../../actions/employee';
 import { createEmployee } from '../../actions/employee';
-import { onBoard } from '../../actions/auth';
 import Alert from '@material-ui/lab/Alert';
 import CancelIcon from '@material-ui/icons/Cancel';
-
+import InputAdornment from '@material-ui/core/InputAdornment';
+import Visibility from '@material-ui/icons/Visibility';
+import VisibilityOff from '@material-ui/icons/VisibilityOff';
+import IconButton from '@material-ui/core/IconButton';
+import OutlinedInput from '@material-ui/core/OutlinedInput';
+import { Space, Table } from 'antd';
+import Paper from '@material-ui/core/Paper';
+const { Column, ColumnGroup } = Table;
 
 const useStyles = makeStyles((theme) => ({
    cardRoot:{
@@ -57,35 +50,33 @@ const AddEmployee = () => {
         role:"",
         date_of_joining:"",
         phone_number:"",
-        department:"",
-        designation:"",
         email:"",
         address:"",
         gender:"",
+        password:"",
         isLoading:false,
         error:"",
         success:""
    });
 
-  const [allDepartments, setAllDepartments] = React.useState(null);
-  const [allDesignations, setAllDesignations] = React.useState(null);
+  const [allEmployees, setAllEmployees] = React.useState(null);
   const [openForm, setOpenForm] = React.useState(false);
+  const [showPassword, setShowPassword] = React.useState(false);
 
+  const handleClickShowPassword = () => setShowPassword((show) => !show);
+
+  const handleMouseDownPassword = (event) => {
+    event.preventDefault();
+  };
 
   React.useEffect(() => {
-       getDepartments()
+    getAllEmployee()
          .then((value) => {
-           setAllDepartments(value.departments)
+          console.log("employee fetched")
+           setAllEmployees(value.employees)
          })
          .catch((err) => {
-           console.log(err)
-         })
-
-       getDesignations()
-         .then((value) => {
-           setAllDesignations(value.designations)
-         })
-         .catch((err) => {
+          console.log("error")
            console.log(err)
          })
   }, [])
@@ -105,12 +96,14 @@ const AddEmployee = () => {
       case "email":
            setEmployee({...employee, email: e.target.value });
         break;
-
       case "address":
            setEmployee({...employee, address: e.target.value });
         break;
       case "doj":
            setEmployee({...employee, date_of_joining: e.target.value });
+        break;
+      case "password":
+            setEmployee({...employee, password: e.target.value });
         break;
       default:
 
@@ -120,10 +113,9 @@ const AddEmployee = () => {
   const handleSubmit = (e) => {
      e.preventDefault();
     setEmployee({...employee, isLoading:true})
+    console.log(employee)
     createEmployee(employee)
       .then((value) => {
-        onBoard(value.employee._id)
-          .then((response) => {
             setEmployee({...employee,
                isLoading:false,
                first_name:"",
@@ -131,19 +123,13 @@ const AddEmployee = () => {
                role:"",
                date_of_joining:"",
                phone_number:"",
-               department:"",
-               designation:"",
                email:"",
                address:"",
                gender:"",
-               success:response.message,
+               password:"",
+               success: value,
                error:"" })
           })
-          .catch((err) => {
-            console.log(err)
-          })
-
-      })
       .catch((err) => {
           setEmployee({...employee, isLoading:false, error: err.error, success:"" })
         console.log(err)
@@ -161,7 +147,8 @@ const AddEmployee = () => {
   ]
 
 if(!openForm){
-   return <Grid container spacing={3} justify="flex-end">
+   return <>
+        <Grid container spacing={3} justify="flex-end">
            <Grid item  md={4} sm={4} xs={12}>
              <Button
               variant="contained"
@@ -172,6 +159,28 @@ if(!openForm){
              </Button>
            </Grid>
         </Grid>
+
+        <Paper elevation={3}>
+        <Table dataSource={allEmployees}>
+            <ColumnGroup title="Name">
+              <Column title="First Name" dataIndex="first_name" key="first_name" />
+              <Column title="Last Name" dataIndex="last_name" key="last_name" />
+            </ColumnGroup>
+            <Column title="Role" dataIndex="role" key="role" />
+            <Column title="Phone Number" dataIndex="phone_number" key="phone_number" />
+            <Column title="Email" dataIndex="email" key="email" />
+            <Column
+              title="Action"
+              key="action"
+              render={(_, record) => (
+                <Space size="middle">
+                  <a>Deactivate</a>
+                </Space>
+              )}
+            /> 
+        </Table>
+        </Paper>
+    </>
 } else{
 return <>
 
@@ -213,42 +222,12 @@ return <>
           </Grid>
           <Grid item xs={12} md={6}>
             <Autocomplete
-               onChange={(event, newValue) => {
-                 if(newValue){
-                   setEmployee({...employee, department: newValue._id});
-                 }
-                }}
-
-               renderTags={(val,e) => console.log(val, e)}
-               options={allDepartments || ""}
-               getOptionLabel={(option) => option.department_name}
-               style={{ width: "100%" }}
-               renderInput={(params) => <TextField {...params} label="Department" variant="outlined"   value={employee.department}/>}
-             />
-          </Grid>
-          <Grid item xs={12} md={6}>
-            <Autocomplete
-              onChange={(event, newValue) => {
-                if(newValue){
-                  setEmployee({...employee, designation: newValue._id});
-                }
-               }}
-
-               options={allDesignations}
-               getOptionLabel={(option) => option.designation_name}
-               style={{ width: "100%" }}
-               renderInput={(params) => <TextField {...params} label="Designation" variant="outlined" value={employee.designation}/>}
-             />
-          </Grid>
-          <Grid item xs={12} md={6}>
-            <Autocomplete
                options={role}
                onChange={(e, val) => {
                  if(val){
                      setEmployee({...employee, role: val.title });
                  }
                }}
-
                getOptionLabel={(option) => option.title}
                style={{ width: "100%" }}
                renderInput={(params) => <TextField {...params} label="Role" variant="outlined"  value={employee.role}/>}
@@ -310,10 +289,34 @@ return <>
               label="Address"/>
           </Grid>
 
+          <Grid item xs={12} md={6}>
+            <FormControl sx={{ m: 1, width: '25ch' }} 
+                  fullWidth variant="outlined" onChange = {handleChange("password")}>
+                <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
+                <OutlinedInput
+                  id="outlined-adornment-password"
+                  type={showPassword ? 'text' : 'password'}
+                  endAdornment={
+                    <InputAdornment position="end">
+                      <IconButton
+                        aria-label="toggle password visibility"
+                        onClick={handleClickShowPassword}
+                        onMouseDown={handleMouseDownPassword}
+                        edge="end"
+                      >
+                        {showPassword ? <VisibilityOff /> : <Visibility />}
+                      </IconButton>
+                    </InputAdornment>
+                  }
+                  label="Password"
+                />
+            </FormControl>
+          </Grid>
+
           <Grid container justify="center" spacing={3}>
             <Grid item xs={12} md={6}>
               <br />
-              <Button variant="contained" color="primary" type="submit" fullWidth>Send Invitation</Button>
+              <Button variant="contained" color="primary" type="submit" fullWidth>Add Employee</Button>
             </Grid>
           </Grid>
 

@@ -115,16 +115,22 @@ export function getHotelAmenities() {
   }
 
   export function addHotel(hotelInfo) {
+    console.log("adding hotel")
+    console.log(hotelInfo)
     return new Promise((resolve, reject) => {
       axios
         .post("/add/hotel", hotelInfo)
         .then((response) => {
           if (response.status === 200) {
+            console.log("Success")
+            console.log(response.data)
             resolve(response.data);
           }
+          console.log("rejected with error")
           reject(response.data);
         })
         .catch((error) => {
+          console.log("rejected with error")
           reject(error);
         });
     });
