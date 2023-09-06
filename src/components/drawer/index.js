@@ -115,7 +115,8 @@ const useStyles = makeStyles((theme) => ({
   const [openEmployeeCollapse, setOpenEmployeeCollapse] = React.useState(true);
   const [openHotelCollapse, setOpenHotelCollapse] = React.useState(true);
 
-  const userDataFromServer = useSelector(state => state.userInfo)
+  // const userDataFromServer = useSelector(state => state.userInfo)
+  const storedUserContext = JSON.parse(window.localStorage.getItem('userContext'))
 
   function handleOpenEmployee(){
      setOpenEmployeeCollapse(!openEmployeeCollapse);
@@ -164,7 +165,7 @@ const useStyles = makeStyles((theme) => ({
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" noWrap>
-            {userDataFromServer.firstName}
+            {storedUserContext?.firstName}
           </Typography>
         </Toolbar>
       </AppBar>
