@@ -99,6 +99,7 @@ const LoginForm = () => {
           userDataFromStore.email = userDataFromServer.email
           userDataFromStore.gender = userDataFromServer.gender
           userDataFromStore.phoneNumber = userDataFromServer.phone_number
+          window.localStorage.setItem('userContext',JSON.stringify(userDataFromStore))
           loggedInUser(userDataFromStore)
           history.push("/dashboard")
           // fetchAllHotel(e)
