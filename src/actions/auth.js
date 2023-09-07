@@ -39,6 +39,7 @@ export function signIn(credentials) {
       .post("/signin", credentials)
       .then((response) => {
         if (response.status === 200) {
+          window.localStorage.setItem('userContext',JSON.stringify(response.data))
           resolve(response.data);
         }
         reject(response.data);

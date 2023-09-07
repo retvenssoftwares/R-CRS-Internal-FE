@@ -3,8 +3,8 @@ import ReactDOM from 'react-dom';
 import App from './App';
 import './style/global.css';
 import { Provider } from 'react-redux'
-import {store} from './store/store'
-// import {store} from '../src/redux/store/store'
+// import {store} from './store/store'
+import {store} from '../src/redux/store/store'
 import { PersistGate } from 'redux-persist/integration/react';
 
 import { ThemeProvider } from '@material-ui/core';

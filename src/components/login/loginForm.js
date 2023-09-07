@@ -87,25 +87,20 @@ const LoginForm = () => {
  const handleSubmit = (e) => {
    e.preventDefault()
    setLogin({...login, isLoading:true })
+   console.log("hey")
    signIn({ email: login.credentials.email, password: login.credentials.password })
      .then((value) => {
        setLogin({...login, isLoading:false, success: value.message })
          authenticate(value, () => {
           let userDataFromServer = value.employee
-          userDataFromStore.userID = userDataFromServer.employee_id
-          userDataFromStore.firstName = userDataFromServer.first_name
-          userDataFromStore.lastName = userDataFromServer.last_name
-          userDataFromStore.role = userDataFromServer.role
-          userDataFromStore.email = userDataFromServer.email
-          userDataFromStore.gender = userDataFromServer.gender
-          userDataFromStore.phoneNumber = userDataFromServer.phone_number
-          window.localStorage.setItem('userContext',JSON.stringify(userDataFromStore))
-          loggedInUser(userDataFromStore)
+          console.log(userDataFromServer)
           history.push("/dashboard")
           // fetchAllHotel(e)
          })
+         console.log("fuck")
      })
      .catch((err) => {
+      console.log(err)
        setLogin({...login, isLoading:false, error: err.error })
      })
  }
