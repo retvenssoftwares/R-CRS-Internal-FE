@@ -10,7 +10,6 @@ import { AreaChart } from '../charts/areaChart';
 import { MultiTypeChart } from '../charts/multiTypeChart';
 import CountUp from 'react-countup/';
 import { Typography } from '@mui/material';
-import { Divider } from '@material-ui/core';
 
 
 const Dashboard = () => {

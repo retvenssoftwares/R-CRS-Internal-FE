@@ -35,6 +35,11 @@ import LocationCityIcon from '@material-ui/icons/LocationCity';
 import SettingsIcon from '@material-ui/icons/Settings';
 import ApartmentIcon from '@material-ui/icons/Apartment';
 import BookingIcon from '@material-ui/icons/MenuBook';
+import AccountCircleIcon from '@material-ui/icons/AccountCircle';
+import PeopleIcon from '@material-ui/icons/People';
+import InsertChartIcon from '@material-ui/icons/InsertChart';
+import AssessmentIcon from '@material-ui/icons/Assessment';
+import DescriptionIcon from '@material-ui/icons/Description';
 import { signout } from '../../actions/auth';
 import { useSelector } from 'react-redux';
 import { actions } from '../../actionTypes';
@@ -44,7 +49,7 @@ const drawerWidth = 240;
 const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',
-    boxShadow:"0px 0px 0px 0px"
+    boxShadow: "0px 0px 0px 0px"
   },
   appBar: {
     zIndex: theme.zIndex.drawer + 1,
@@ -102,29 +107,29 @@ const useStyles = makeStyles((theme) => ({
     flexGrow: 1,
     padding: theme.spacing(3),
   },
-  collapseList:{
+  collapseList: {
     // backgroundColor:"lightgrey"
   }
 }));
 
- const SideDrawer = ({ children }) => {
+const SideDrawer = ({ children }) => {
   const classes = useStyles();
   const history = useHistory();
   const theme = useTheme();
   const [open, setOpen] = React.useState(true);
-  const [openEmployeeCollapse, setOpenEmployeeCollapse] = React.useState(true);
-  const [openHotelCollapse, setOpenHotelCollapse] = React.useState(true);
+  const [openEmployeeCollapse, setOpenEmployeeCollapse] = React.useState(false);
+  const [openHotelCollapse, setOpenHotelCollapse] = React.useState(false);
 
   // const userDataFromServer = useSelector(state => state.userInfo)
   const storedUserContext = JSON.parse(window.localStorage.getItem('userContext'))
 
-  function handleOpenEmployee(){
-     setOpenEmployeeCollapse(!openEmployeeCollapse);
+  function handleOpenEmployee() {
+    setOpenEmployeeCollapse(!openEmployeeCollapse);
   }
 
-  function handleOpenHotel(){
+  function handleOpenHotel() {
     setOpenHotelCollapse(!openHotelCollapse);
- }
+  }
 
 
   const handleDrawerOpen = () => {
@@ -137,10 +142,10 @@ const useStyles = makeStyles((theme) => ({
 
 
   const currentTab = path => {
-     if(path === history.location.pathname){
-       return true;
-     }
-     return false;
+    if (path === history.location.pathname) {
+      return true;
+    }
+    return false;
   }
 
   return (
@@ -199,71 +204,97 @@ const useStyles = makeStyles((theme) => ({
             <ListItemText primary="Dashboard" />
           </ListItem>
 
+          <ListItem button key={2} selected={currentTab("/clients")} onClick={() => history.push("/clients")}>
+            <ListItemIcon><PeopleIcon /></ListItemIcon>
+            <ListItemText primary="Clients" />
+          </ListItem>
+
+          <ListItem button key={3} selected={currentTab("/accounts")} onClick={() => history.push("/accounts")}>
+            <ListItemIcon><AccountCircleIcon /></ListItemIcon>
+            <ListItemText primary="Accounts" />
+          </ListItem>
+
+          <ListItem button key={4} selected={currentTab("/sales")} onClick={() => history.push("/sales")}>
+            <ListItemIcon><InsertChartIcon /></ListItemIcon>
+            <ListItemText primary="Sales" />
+          </ListItem>
+
+          <ListItem button key={5} selected={currentTab("/reports")} onClick={() => history.push("/reports")}>
+            <ListItemIcon><DescriptionIcon /></ListItemIcon>
+            <ListItemText primary="Reports" />
+          </ListItem>
+
 
           <ListItem button onClick={handleOpenHotel} className='mt-3'>
-              <ListItemIcon>
-                <LocationCityIcon />
-              </ListItemIcon>
-              <ListItemText primary="Reservations"  />
-              {openHotelCollapse ? <ExpandLess /> : <ExpandMore />}
+            <ListItemIcon>
+              <LocationCityIcon />
+            </ListItemIcon>
+            <ListItemText primary="Reservations" />
+            {openHotelCollapse ? <ExpandLess /> : <ExpandMore />}
           </ListItem>
           <Collapse in={openHotelCollapse} timeout="auto" unmountOnExit>
-             <List component="div" disablePadding className={classes.collapseList}>
-                   <ListItem button key={120} selected={currentTab(`/reservation/${"hotel1"}`)} onClick={() => history.push(`/reservation/${"hotel1"}`)}>
-                     <ListItemIcon> 
-                      <ApartmentIcon />
-                     </ListItemIcon>
-                     <ListItemText secondary='Hotel 1' />
-                   </ListItem>
+            <List component="div" disablePadding className={classes.collapseList}>
+              <ListItem button key={120} selected={currentTab(`/reservation/${"hotel1"}`)} onClick={() => history.push(`/reservation/${"hotel1"}`)}>
+                <ListItemIcon>
+                  <ApartmentIcon />
+                </ListItemIcon>
+                <ListItemText secondary='Hotel 1' />
+              </ListItem>
 
-                   <ListItem button key={543} selected={currentTab(`/reservation/${"hotel2"}`)} onClick={() => history.push(`/reservation/${"hotel2"}`)}>
-                     <ListItemIcon> 
-                      <ApartmentIcon />
-                     </ListItemIcon>
-                     <ListItemText secondary='Hotel 2' />
-                   </ListItem>
+              <ListItem button key={543} selected={currentTab(`/reservation/${"hotel2"}`)} onClick={() => history.push(`/reservation/${"hotel2"}`)}>
+                <ListItemIcon>
+                  <ApartmentIcon />
+                </ListItemIcon>
+                <ListItemText secondary='Hotel 2' />
+              </ListItem>
 
-                   <ListItem button key={31232} selected={currentTab(`/reservation/${"hotel3"}`)} onClick={() => history.push(`/reservation/${"hotel3"}`)}>
-                     <ListItemIcon> 
-                      <ApartmentIcon />
-                     </ListItemIcon>
-                     <ListItemText secondary='Hotel 3' />
-                   </ListItem>
-             </List>
+              <ListItem button key={31232} selected={currentTab(`/reservation/${"hotel3"}`)} onClick={() => history.push(`/reservation/${"hotel3"}`)}>
+                <ListItemIcon>
+                  <ApartmentIcon />
+                </ListItemIcon>
+                <ListItemText secondary='Hotel 3' />
+              </ListItem>
+            </List>
           </Collapse>
 
-        
-          <ListItem button key={2} selected={currentTab("/bookings")} onClick={() => history.push("/bookings")}>
+
+          <ListItem button key={6} selected={currentTab("/bookings")} onClick={() => history.push("/bookings")}>
             <ListItemIcon><BookingIcon /></ListItemIcon>
             <ListItemText primary="Bookings" />
           </ListItem>
 
-          <ListItem button onClick={handleOpenEmployee} className='mt-3'>
-                      <ListItemIcon>
-                        <SettingsIcon />
-                      </ListItemIcon>
-                      <ListItemText primary="Setting"  />
-                      {openEmployeeCollapse ? <ExpandLess /> : <ExpandMore />}
+          <ListItem button key={7} selected={currentTab("/leadsManagement")} onClick={() => history.push("/leadsManagement")}>
+            <ListItemIcon><AssessmentIcon /></ListItemIcon>
+            <ListItemText primary="Leads Management" />
           </ListItem>
-          
+
+          <ListItem button onClick={handleOpenEmployee} className='mt-3'>
+            <ListItemIcon>
+              <SettingsIcon />
+            </ListItemIcon>
+            <ListItemText primary="Setting" />
+            {openEmployeeCollapse ? <ExpandLess /> : <ExpandMore />}
+          </ListItem>
+
           <Collapse in={openEmployeeCollapse} timeout="auto" unmountOnExit>
-             <List component="div" disablePadding className={classes.collapseList}>
-                   <ListItem button key={120} selected={currentTab("/all-employees")} onClick={() => history.push("/all-employees")}>
-                     <ListItemIcon> 
-                      <PeopleAltIcon />
-                     </ListItemIcon>
-                     <ListItemText secondary='All Employees' />
-                   </ListItem>
+            <List component="div" disablePadding className={classes.collapseList}>
+              <ListItem button key={120} selected={currentTab("/all-employees")} onClick={() => history.push("/all-employees")}>
+                <ListItemIcon>
+                  <PeopleAltIcon />
+                </ListItemIcon>
+                <ListItemText secondary='All Employees' />
+              </ListItem>
 
-                   <ListItem button key={987} selected={currentTab("/all-hotels")} onClick={() => history.push("/all-hotels")}>
-                     <ListItemIcon><VerticalSplitIcon /></ListItemIcon>
-                     <ListItemText secondary='Our Hotels' />
-                   </ListItem>
+              <ListItem button key={987} selected={currentTab("/all-hotels")} onClick={() => history.push("/all-hotels")}>
+                <ListItemIcon><VerticalSplitIcon /></ListItemIcon>
+                <ListItemText secondary='Our Hotels' />
+              </ListItem>
 
-             </List>
+            </List>
           </Collapse>
 
-          <ListItem button key={423}  onClick={() => signout(() => history.push("/"))}>
+          
+          <ListItem button key={423} onClick={() => signout(() => history.push("/"))}>
             <ListItemIcon><ExitToAppIcon /></ListItemIcon>
             <ListItemText primary="Signout" />
           </ListItem>
@@ -272,7 +303,7 @@ const useStyles = makeStyles((theme) => ({
       </Drawer>
       <main className={classes.content}>
         <div className={classes.toolbar} />
-         {children}
+        {children}
       </main>
     </div>
   );
