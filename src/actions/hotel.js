@@ -8,6 +8,7 @@ export function getHotelDB() {
         .then((response) => {
           if (response.status === 200) {
             resolve(response.data);
+            window.localStorage.setItem('hotelData',JSON.stringify(response.data))
           }
           reject(response.data);
         })

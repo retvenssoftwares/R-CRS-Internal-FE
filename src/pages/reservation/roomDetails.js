@@ -1,6 +1,8 @@
 import React, {useState, useEffect} from 'react';
 import { Grid, TextField, FormGroup, FormControl, FormControlLabel, Checkbox, Typography, Button, Modal, Box, Card, Select, MenuItem, InputLabel } from '@material-ui/core';
 import { Autocomplete } from '@material-ui/lab';
+import {useGetRoomsTypeQuery} from '../../redux/slices/rooms/api'
+
 
 
 import { makeStyles } from '@material-ui/core/styles';
@@ -47,7 +49,15 @@ const RoomDetails = (props) => {
 
   const {reservation, setReservation, handleChange, newRoom, index} = props
   const classes = useStyles();
+  const {data:RoomsData} = useGetRoomsTypeQuery({
+    "hotel_r_code":'12345'
+  })
 
+  useEffect(()=>{
+    if(RoomsData){
+      debugger
+    }
+  })
     const roomTypeList= [
         { title: "Tentative Reservation" },
         { title: "Confirmed Reservation" }
@@ -326,17 +336,16 @@ const RoomDetails = (props) => {
     
   const handleRoomTypeChange = (event) => {
     const selectedRoomTypeID = event.target.value;
-    console.log(selectedRoomTypeID)
-
+debugger
     // Find the corresponding room type data from your roomInfo
     const roomTypeData = roomInfo.RoomInfo.RoomTypes.RoomType.find(
       (roomType) => roomType.ID === selectedRoomTypeID
     );
+    // const roomTypeData = RoomsData?.RoomInfo?.RateTypes.find(
+    //   (roomType) => roomType.ID === selectedRoomTypeID
+    // );
       
-    console.log(roomTypeData)
-
     const updatedRoomTypes = [...reservation.roomTypes];
-
     // If room type data is found, set the room type ID and filter rate plans
     if (roomTypeData) {
       
@@ -365,6 +374,7 @@ const RoomDetails = (props) => {
         roomTypes: updatedRoomTypes,
     });
   };
+  console.log(reservation)
 
   useEffect(() => {
     // Filter rate plans based on the selected room type
@@ -674,18 +684,25 @@ const RoomDetails = (props) => {
 
             <InputLabel>Select Room Type</InputLabel>
             <FormControl fullWidth>
-              <Select
+             {RoomsData ? <Select
                 label="Select Room"
                 value={reservation.roomTypes[index].room_type_id}
                 onChange={handleRoomTypeChange}
               >
                 {/* Populate available room options */}
-                {availableRoom.Success.RoomList.map((roomType) => (
+                {/* {availableRoom.Success.RoomList.map((roomType) => (
                   <MenuItem key={roomType.RoomtypeID} value={roomType.RoomtypeID}>
                     {roomType.RoomtypeName}
                   </MenuItem>
-                ))}
-              </Select>
+                ))} */}
+                { RoomsData['RoomInfo'].RoomTypes.RoomType.map((roomType) => {
+                  debugger
+                  return(
+                  <MenuItem key={roomType.ID} value={roomType.ID}>
+                    {roomType.Name}
+                  </MenuItem>
+                )})}
+              </Select>:""}
             </FormControl>
 
           </Grid>

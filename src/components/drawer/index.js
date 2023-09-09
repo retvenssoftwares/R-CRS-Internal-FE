@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import clsx from 'clsx';
 import { useHistory } from 'react-router-dom';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
@@ -16,7 +16,7 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import DashboardIcon from '@material-ui/icons/Dashboard';
-import { Divider, Collapse } from '@material-ui/core';
+import { Divider, Collapse, FormControl, InputLabel, Select, MenuItem, FormHelperText, Grid } from '@material-ui/core';
 import WorkIcon from '@material-ui/icons/Work';
 import ContactsIcon from '@material-ui/icons/Contacts';
 import GroupWorkIcon from '@material-ui/icons/GroupWork';
@@ -43,8 +43,11 @@ import DescriptionIcon from '@material-ui/icons/Description';
 import { signout } from '../../actions/auth';
 import { useSelector } from 'react-redux';
 import { actions } from '../../actionTypes';
+import SwitchBtn from '../switch';
+import CRM_Image from '../../assets/crm_logo.jpeg'
+import CRS_Image from '../../assets/crs_logo.jpeg'
 
-const drawerWidth = 240;
+const drawerWidth = 272;
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -118,7 +121,9 @@ const SideDrawer = ({ children }) => {
   const theme = useTheme();
   const [open, setOpen] = React.useState(true);
   const [openEmployeeCollapse, setOpenEmployeeCollapse] = React.useState(false);
-  const [openHotelCollapse, setOpenHotelCollapse] = React.useState(false);
+  const [openHotelCollapse, setOpenHotelCollapse] = React.useState(true);
+  const [openCRSCollapse, setOpenCRSCollapse] = React.useState(false);
+  const[openCRS_Settings,setOpenCRS_Settings] = React.useState(true)
 
   // const userDataFromServer = useSelector(state => state.userInfo)
   const storedUserContext = JSON.parse(window.localStorage.getItem('userContext'))
@@ -126,9 +131,19 @@ const SideDrawer = ({ children }) => {
   function handleOpenEmployee() {
     setOpenEmployeeCollapse(!openEmployeeCollapse);
   }
-
+  function handleOpenCRSSettings(){
+    setOpenCRS_Settings(!openCRS_Settings)
+  }
+  useEffect(() => {
+    if (storedUserContext) {
+    }
+  })
   function handleOpenHotel() {
     setOpenHotelCollapse(!openHotelCollapse);
+  }
+
+  function handleOpenCRS() {
+    setOpenCRSCollapse(!openCRSCollapse)
   }
 
 
@@ -148,6 +163,8 @@ const SideDrawer = ({ children }) => {
     return false;
   }
 
+  const isCrs = useSelector((state) => state.dashboardState.isBooleanValue);
+
   return (
     <div className={classes.root}>
       <CssBaseline />
@@ -157,22 +174,43 @@ const SideDrawer = ({ children }) => {
           [classes.appBarShift]: open,
         })}
       >
-        <Toolbar>
-          <IconButton
-            color="inherit"
-            aria-label="open drawer"
-            onClick={handleDrawerOpen}
-            edge="start"
-            className={clsx(classes.menuButton, {
-              [classes.hide]: open,
-            })}
-          >
-            <MenuIcon />
-          </IconButton>
-          <Typography variant="h6" noWrap>
-            {storedUserContext?.firstName}
-          </Typography>
+        <Toolbar className=''>
+          <Grid container spacing={2}>
+            <Grid item xs={1}>
+           { open && <IconButton onClick={handleDrawerClose}>
+            {theme.direction === 'rtl'  ? <ChevronRightIcon /> : <ChevronLeftIcon />}
+          </IconButton>}
+              <IconButton
+                color="inherit"
+                aria-label="open drawer"
+                onClick={handleDrawerOpen}
+                edge="start"
+                className={clsx(classes.menuButton, {
+                  [classes.hide]: open,
+                })}
+              >
+                <MenuIcon style={{color:'black'}} />
+              </IconButton>
+
+            </Grid>
+            <Grid item xs={4} style={{ display: 'flex', alignItems: 'center' }}>
+              <Typography variant="h6" noWrap style={{color:'black'}}>
+                {storedUserContext['employee'].first_name}
+              </Typography>
+            </Grid>
+
+            <Grid item xs={7} style={{ display: 'flex', alignItems: 'center' ,justifyContent:'flex-end'}}>
+              <SwitchBtn />
+
+            </Grid>
+          </Grid>
+
+
+
+
+
         </Toolbar>
+
       </AppBar>
       <Drawer
         variant="permanent"
@@ -187,85 +225,125 @@ const SideDrawer = ({ children }) => {
           }),
         }}
       >
+        <img src={isCrs ? CRS_Image : CRM_Image} height={200} width={270} />
         <div className={classes.toolbar}>
           {open && <Typography variant="h6" noWrap>
 
           </Typography>}
-          <IconButton onClick={handleDrawerClose}>
-            {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
-          </IconButton>
         </div>
         <Divider />
 
+{
+  isCrs ? <List>
+  <ListItem button key={1} selected={currentTab("/dashboard")} onClick={() => history.push("/dashboard")} aria-description='menuBar'>
+    <ListItemIcon><DashboardIcon /></ListItemIcon>
+    <ListItemText primary="Dashboard" />
+  </ListItem>
 
-        <List>
-          <ListItem button key={1} selected={currentTab("/dashboard")} onClick={() => history.push("/dashboard")}>
+  <ListItem button key={2} selected={currentTab("/hotelsettings")} onClick={() => history.push("/hotelsettings")} aria-description='menuBar'>
+    <ListItemIcon><DashboardIcon /></ListItemIcon>
+    <ListItemText primary="Hotel Settings"  />
+  </ListItem>
+
+  <ListItem button key={3} selected={currentTab("/emailbrochure")} onClick={() => history.push("/emailbrochure")} aria-description='menuBar'>
+    <ListItemIcon><DashboardIcon /></ListItemIcon>
+    <ListItemText primary="Email Brochure" />
+  </ListItem>
+
+  <ListItem button key={57} selected={currentTab("/bookingmanagement")} onClick={() => history.push("/bookingmanagement")} aria-description='menuBar'>
+    <ListItemIcon><DashboardIcon /></ListItemIcon>
+    <ListItemText primary="Booking Management" />
+  </ListItem>
+
+  <ListItem button key={87} selected={currentTab("/bookings")} onClick={() => history.push("/bookings")} aria-description='menuBar'>
+    <ListItemIcon><DashboardIcon /></ListItemIcon>
+    <ListItemText primary="Booking" />
+  </ListItem>
+
+  {/* <ListItem button onClick={handleOpenHotel} className='mt-3'>
+    <ListItemIcon>
+      <LocationCityIcon />
+    </ListItemIcon>
+    <ListItemText primary="Booking Management" />
+    {openHotelCollapse ? <ExpandLess /> : <ExpandMore />}
+  </ListItem> */}
+
+  {/* <Collapse in={openHotelCollapse} timeout="auto" unmountOnExit>
+    <List component="div" disablePadding className={classes.collapseList}>
+      <ListItem button key={23} selected={currentTab(`/reservation/${"hotel1"}`)} onClick={() => history.push(`/reservation/${"hotel1"}`)}>
+        <ListItemIcon>
+          <ApartmentIcon />
+        </ListItemIcon>
+        <ListItemText secondary='Hotel 1' />
+      </ListItem>
+
+      <ListItem button key={53} selected={currentTab(`/reservation/${"hotel2"}`)} onClick={() => history.push(`/reservation/${"hotel2"}`)}>
+        <ListItemIcon>
+          <ApartmentIcon />
+        </ListItemIcon>
+        <ListItemText secondary='Hotel 2' />
+      </ListItem>
+
+      <ListItem button key={86} selected={currentTab(`/reservation/${"hotel3"}`)} onClick={() => history.push(`/reservation/${"hotel3"}`)}>
+        <ListItemIcon>
+          <ApartmentIcon />
+        </ListItemIcon>
+        <ListItemText secondary='Hotel 3' />
+      </ListItem>
+    </List>
+  </Collapse> */}
+
+  <ListItem button key={76} selected={currentTab("/clientsinvoicing")} onClick={() => history.push("/clientsinvoicing")} aria-description='menuBar'>
+    <ListItemIcon><DashboardIcon /></ListItemIcon>
+    <ListItemText primary="Clients Invoicing" />
+  </ListItem>
+
+  <ListItem button onClick={handleOpenCRSSettings} className='mt-3' aria-description='menuBar'>
+            <ListItemIcon>
+              <SettingsIcon />
+            </ListItemIcon>
+            <ListItemText primary="Setting" aria-description='menuBar' />
+            {openCRS_Settings ? <ExpandLess /> : <ExpandMore />}
+          </ListItem>
+
+          <Collapse in={openCRS_Settings} timeout="auto" unmountOnExit>
+            <List component="div" disablePadding className={classes.collapseList}>
+            <ListItem button key={344} selected={currentTab("/all-hotels")} onClick={() => history.push("/all-hotels")} aria-description='menuBar'>
+                <ListItemIcon><VerticalSplitIcon /></ListItemIcon>
+                <ListItemText primary='Our Hotels'  />
+              </ListItem>
+
+            </List>
+          </Collapse>
+
+  <ListItem button key={423} onClick={() => signout(() => history.push("/"))} aria-description='menuBar'>
+    <ListItemIcon><ExitToAppIcon /></ListItemIcon>
+    <ListItemText primary="Signout" />
+  </ListItem>
+</List> : <List>
+          <ListItem button key={1} selected={currentTab("/dashboard")} onClick={() => history.push("/dashboard")} aria-description='menuBar'>
             <ListItemIcon><DashboardIcon /></ListItemIcon>
             <ListItemText primary="Dashboard" />
           </ListItem>
 
-          <ListItem button key={2} selected={currentTab("/clients")} onClick={() => history.push("/clients")}>
+          <ListItem button key={2} selected={currentTab("/clients")} onClick={() => history.push("/clients")} aria-description='menuBar'>
             <ListItemIcon><PeopleIcon /></ListItemIcon>
             <ListItemText primary="Clients" />
           </ListItem>
 
-          <ListItem button key={3} selected={currentTab("/accounts")} onClick={() => history.push("/accounts")}>
+          <ListItem button key={87} selected={currentTab("/accounts")} onClick={() => history.push("/accounts")} aria-description='menuBar'>
             <ListItemIcon><AccountCircleIcon /></ListItemIcon>
             <ListItemText primary="Accounts" />
           </ListItem>
 
-          <ListItem button key={4} selected={currentTab("/sales")} onClick={() => history.push("/sales")}>
+          <ListItem button key={4} selected={currentTab("/sales")} onClick={() => history.push("/sales")} aria-description='menuBar'>
             <ListItemIcon><InsertChartIcon /></ListItemIcon>
             <ListItemText primary="Sales" />
           </ListItem>
 
-          <ListItem button key={5} selected={currentTab("/reports")} onClick={() => history.push("/reports")}>
+          <ListItem button key={5} selected={currentTab("/reports")} onClick={() => history.push("/reports")} aria-description='menuBar'>
             <ListItemIcon><DescriptionIcon /></ListItemIcon>
-            <ListItemText primary="Reports" />
-          </ListItem>
-
-
-          <ListItem button onClick={handleOpenHotel} className='mt-3'>
-            <ListItemIcon>
-              <LocationCityIcon />
-            </ListItemIcon>
-            <ListItemText primary="Reservations" />
-            {openHotelCollapse ? <ExpandLess /> : <ExpandMore />}
-          </ListItem>
-          <Collapse in={openHotelCollapse} timeout="auto" unmountOnExit>
-            <List component="div" disablePadding className={classes.collapseList}>
-              <ListItem button key={120} selected={currentTab(`/reservation/${"hotel1"}`)} onClick={() => history.push(`/reservation/${"hotel1"}`)}>
-                <ListItemIcon>
-                  <ApartmentIcon />
-                </ListItemIcon>
-                <ListItemText secondary='Hotel 1' />
-              </ListItem>
-
-              <ListItem button key={543} selected={currentTab(`/reservation/${"hotel2"}`)} onClick={() => history.push(`/reservation/${"hotel2"}`)}>
-                <ListItemIcon>
-                  <ApartmentIcon />
-                </ListItemIcon>
-                <ListItemText secondary='Hotel 2' />
-              </ListItem>
-
-              <ListItem button key={31232} selected={currentTab(`/reservation/${"hotel3"}`)} onClick={() => history.push(`/reservation/${"hotel3"}`)}>
-                <ListItemIcon>
-                  <ApartmentIcon />
-                </ListItemIcon>
-                <ListItemText secondary='Hotel 3' />
-              </ListItem>
-            </List>
-          </Collapse>
-
-
-          <ListItem button key={6} selected={currentTab("/bookings")} onClick={() => history.push("/bookings")}>
-            <ListItemIcon><BookingIcon /></ListItemIcon>
-            <ListItemText primary="Bookings" />
-          </ListItem>
-
-          <ListItem button key={7} selected={currentTab("/leadsManagement")} onClick={() => history.push("/leadsManagement")}>
-            <ListItemIcon><AssessmentIcon /></ListItemIcon>
-            <ListItemText primary="Leads Management" />
+            <ListItemText primary="Reports"  />
           </ListItem>
 
           <ListItem button onClick={handleOpenEmployee} className='mt-3'>
@@ -278,14 +356,14 @@ const SideDrawer = ({ children }) => {
 
           <Collapse in={openEmployeeCollapse} timeout="auto" unmountOnExit>
             <List component="div" disablePadding className={classes.collapseList}>
-              <ListItem button key={120} selected={currentTab("/all-employees")} onClick={() => history.push("/all-employees")}>
+              <ListItem button key={120} selected={currentTab("/all-employees")} onClick={() => history.push("/all-employees")} aria-description='menuBar'>
                 <ListItemIcon>
                   <PeopleAltIcon />
                 </ListItemIcon>
                 <ListItemText secondary='All Employees' />
               </ListItem>
 
-              <ListItem button key={987} selected={currentTab("/all-hotels")} onClick={() => history.push("/all-hotels")}>
+              <ListItem button key={987} selected={currentTab("/all-hotels")} onClick={() => history.push("/all-hotels")} aria-description='menuBar'>
                 <ListItemIcon><VerticalSplitIcon /></ListItemIcon>
                 <ListItemText secondary='Our Hotels' />
               </ListItem>
@@ -293,12 +371,14 @@ const SideDrawer = ({ children }) => {
             </List>
           </Collapse>
 
-          
-          <ListItem button key={423} onClick={() => signout(() => history.push("/"))}>
+
+          <ListItem button key={423} onClick={() => signout(() => history.push("/"))} aria-description='menuBar'>
             <ListItemIcon><ExitToAppIcon /></ListItemIcon>
             <ListItemText primary="Signout" />
           </ListItem>
         </List>
+}
+        
 
       </Drawer>
       <main className={classes.content}>

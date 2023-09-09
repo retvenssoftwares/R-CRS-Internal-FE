@@ -13,6 +13,10 @@ import Accounts from '../pages/accounts';
 import Sales from '../pages/sales';
 import Reports from '../pages/reports';
 import LeadsManagement from '../pages/leadsManagement';
+import HotelSettings from '../pages/hotelSettings';
+import EmailBrochure from '../pages/emailBrochure';
+import ClientInvoicing from '../pages/clientInvoicing';
+import BookingManagement from '../pages/bookingManagement';
 
 const Router = () => {
    return <>
@@ -27,6 +31,10 @@ const Router = () => {
            <Private path="/reports" exact component={Reports} />
            <Private path="/leadsManagement" exact component={LeadsManagement} />
            <Private path="/reservation/:hotelCode" exact component={Reservation} />
+           <Private path="/hotelsettings" exact component={HotelSettings} />
+           <Private path="/emailbrochure" exact component={EmailBrochure} />
+           <Private path="/clientsinvoicing" exact component={ClientInvoicing} />
+           <Private path="/bookingmanagement" exact component={BookingManagement} />
            <Route path="/reset" exact component={Reset} />
           </>
 }

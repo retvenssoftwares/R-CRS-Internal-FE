@@ -148,7 +148,7 @@ const AddEmployee = () => {
 
 if(!openForm){
    return <>
-        <Grid container spacing={3} justify="flex-end">
+        <Grid container spacing={3} justifyContent="flex-end">
            <Grid item  md={4} sm={4} xs={12}>
              <Button
               variant="contained"
@@ -184,7 +184,7 @@ if(!openForm){
 } else{
 return <>
 
-  <Grid container spacing={3} justify="flex-end">
+  <Grid container spacing={3} justifyContent="flex-end">
         <Grid item  md={4} sm={4} xs={12}>
           <Button
            variant="contained"
@@ -196,7 +196,7 @@ return <>
         </Grid>
   </Grid>
   <br /><br /><br />
-  <Grid container spacing={3} justify="center">
+  <Grid container spacing={3} justifyContent="center">
     <Grid item xs={12} md={10}>
        <Card className={classes.cardRoot} variant="outlined">
        {employee.success && <Alert severity="success">{employee.success}</Alert>}
@@ -313,7 +313,7 @@ return <>
             </FormControl>
           </Grid>
 
-          <Grid container justify="center" spacing={3}>
+          <Grid container justifyContent="center" spacing={3}>
             <Grid item xs={12} md={6}>
               <br />
               <Button variant="contained" color="primary" type="submit" fullWidth>Add Employee</Button>
