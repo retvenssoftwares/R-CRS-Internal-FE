@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import DashboardLayout from "../../components/layout/dashboardLayout";
 import Cards from "../../components/cards/hotelSetting";
 import HotelImage from "../../assets/hotel.jpeg";
@@ -12,10 +12,18 @@ import { Stack } from "@mui/material";
 import { getHotelDB } from "../../actions/hotel";
 import HorizontalCards from "../../components/cards/hotelSetting/horizontalCards";
 import HotelOnBoard from "../hotelOnboard";
+import {
+  useNewlyAddedHotelsQuery,
+  useTopHotelsQuery,
+} from "../../redux/slices/hotels";
 
 const HotelSettings = () => {
+  const { data: hotelApiData } = useNewlyAddedHotelsQuery();
+  const { data: topHotels } = useTopHotelsQuery();
   const [hotelData, setHotelDate] = useState(null);
   const [addNewHotel, setAddNewHotel] = useState(false);
+  const [filterValue, setFilterValue] = useState("");
+  const [filteredData, setFilteredData] = useState(null);
   React.useEffect(() => {
     getHotelDB()
       .then((value) => {
@@ -26,6 +34,25 @@ const HotelSettings = () => {
         console.log(err);
       });
   }, []);
+  useEffect(() => {
+    if (hotelApiData && filterValue && filterValue.length > 0) {
+      const filterData = hotelApiData.filter((hotel) => {
+        const apiData = hotel.hotel_name.toLowerCase();
+        const stateData = filterValue && filterValue.toLowerCase();
+        return apiData.includes(stateData);
+      });
+      console.log(filterData);
+      setFilteredData(filterData || null);
+    } else if (filterValue.length === 0) {
+      setFilteredData(hotelApiData);
+    }
+    if (filterValue === null && hotelApiData) {
+      setFilterValue(hotelApiData);
+    }
+  }, [filterValue]);
+
+  console.log(filteredData);
+  console.log(filterValue && filterValue.length);
   return (
     <DashboardLayout>
       {addNewHotel && (
@@ -42,7 +69,7 @@ const HotelSettings = () => {
           Go Back
         </Button>
       )}
-      <div style={{marginTop:`${addNewHotel ? '-80px':'0'}`}}>
+      <div style={{ marginTop: `${addNewHotel ? "-80px" : "0"}` }}>
         <Typography
           variant="h4"
           style={{
@@ -67,7 +94,7 @@ const HotelSettings = () => {
           There is over 120 hotels are available
         </Typography>
       </div>
-
+     
       {!addNewHotel ? (
         <Box sx={{ flexGrow: 1 }}>
           <Grid container spacing={2}>
@@ -88,7 +115,11 @@ const HotelSettings = () => {
                     hotelData && hotelData.map((option) => option.hotel_name)
                   }
                   renderInput={(params) => (
-                    <TextField {...params} label="Select Hotel" />
+                    <TextField
+                      {...params}
+                      label="Select Hotel"
+                      onChange={(e) => setFilterValue(e.target.value || "")}
+                    />
                   )}
                   style={{
                     background: "white",
@@ -110,9 +141,51 @@ const HotelSettings = () => {
                 Add New Hotel
               </Button>
             </Grid>
+            <Typography
+          variant="h6"
+          style={{
+            fontWeight: "600",
+            textAlign: "center",
+            color: "black",
+            marginTop: "40px",
+            marginBottom:'20px',
+            marginLeft:'35px'
+          }}
+        >
+          Recently Added
+        </Typography>
           </Grid>
           <Grid container spacing={0}>
-            <Cards
+            {!filteredData && hotelApiData
+              ? hotelApiData.map((hotel) => {
+                  return (
+                    <Cards
+                      location={`${hotel.hotel_address_line_1} ${hotel.hotel_address_line_2}`}
+                      image={hotel?.["hotel_images"][0]?.image || HotelImage}
+                      pricing={"1,500"}
+                      title={hotel.hotel_name}
+                      rating={4}
+                    />
+                  );
+                })
+              : filteredData && filteredData.length > 0
+              ? filteredData.map((hotel) => {
+                  return (
+                    <Cards
+                      location={hotel.hotel_country}
+                      image={hotel?.["hotel_images"][0]?.image || HotelImage}
+                      pricing={"1,500"}
+                      title={hotel.hotel_name}
+                      rating={4}
+                    />
+                  );
+                })
+              : filterValue &&
+                filteredData &&
+                filteredData.length === 0 &&
+                "no data found"}
+
+            {/* <Cards
               location={"South West, New Delhi"}
               image={HotelImage}
               pricing={"1,500"}
@@ -146,7 +219,7 @@ const HotelSettings = () => {
               pricing={"1,278"}
               title={"Delhi Star Plaza"}
               rating={5}
-            />
+            /> */}
           </Grid>
           <Grid container spacing={0}>
             <Grid xs={12}>

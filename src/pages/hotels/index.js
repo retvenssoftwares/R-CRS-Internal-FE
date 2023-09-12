@@ -25,6 +25,7 @@ import { addHotel, getHotelDB } from "../../actions/hotel";
 import Alert from "@material-ui/lab/Alert";
 import CancelIcon from "@material-ui/icons/Cancel";
 import Table from "../../components/table";
+import { useGetAllHotelsQuery } from "../../redux/slices/hotels";
 
 // import { Space, Table } from "antd";
 
@@ -58,7 +59,6 @@ const AddHotel = () => {
     hotel_ezee_code: "",
     hotel_name: "",
   });
-
   const [allHotels, setAllHotels] = React.useState(null);
   const [openForm, setOpenForm] = React.useState(false);
 

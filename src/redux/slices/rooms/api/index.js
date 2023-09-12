@@ -6,7 +6,7 @@ export const roomsApi = emptySplitApi.injectEndpoints({
     endpoints: (builder) => ({
         getRoomsType: builder.query({
           query: (data) => ({
-            url: "roomInfo",
+            url: "/get/roomInfo",
             params: data,
             method: "GET",
           }),

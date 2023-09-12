@@ -2,8 +2,9 @@ import { FormControlLabel, FormGroup, Switch, Typography, styled } from '@materi
 import React from 'react'
 import CRM from '../../assets/crm_1548182.png'
 import CRS from '../../assets/crs-512.png'
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { setBooleanValue, setDashboardBooleanValue } from '../../redux/slices/dashboard';
+import {useHistory} from 'react-router-dom'
 
 
 const MaterialUISwitch = styled(Switch)(({ theme }) => ({
@@ -53,12 +54,18 @@ const MaterialUISwitch = styled(Switch)(({ theme }) => ({
 
 const SwitchBtn = () => {
     const dispatch = useDispatch()
+    const isCrs = useSelector((state) => state.dashboardState.isBooleanValue);
+    const history = useHistory()
 
     const handleState = (e) => {
         if (e.target.checked) {
             dispatch(setDashboardBooleanValue(true))
+            history.push('/dashboard')
+            
+
         }else{
             dispatch(setDashboardBooleanValue(false))
+            history.push('/crm_dashboard')
         }
     }
     return (
@@ -67,9 +74,11 @@ const SwitchBtn = () => {
                 <Typography variant='h6' style={{ marginRight: "25px",color:'black' }}>
                     CRM
                 </Typography>
-                <FormControlLabel
+                {isCrs ? <FormControlLabel
                     control={<MaterialUISwitch defaultChecked onChange={handleState} />}
-                />
+                /> : <FormControlLabel
+                control={<MaterialUISwitch  onChange={handleState} />}
+            />}
                 <Typography variant='h6' style={{color:"black"}}> 
                     CRS
                 </Typography>

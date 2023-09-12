@@ -5,7 +5,7 @@ import BookingInfo from './bookingInfo';
 import GuestInfo from './guestInfo';
 import OtherInfo from './otherInfo';
 import RoomDetails from './roomDetails';
-import { Grid } from '@material-ui/core';
+import { Grid, Typography } from '@material-ui/core';
 import Button from '@material-ui/core/Button'
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
@@ -78,11 +78,12 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Reservation = () => {
+const Reservation = ({hotelData}) => {
   
   const { hotelCode } = useParams();
   
   const classes = useStyles();
+  console.log(hotelData)
 
 const handleChange = (type) => e => {
   switch (type) {
@@ -352,7 +353,7 @@ const [bookingFormStage, setBookingFormStage] = React.useState( "bookingInfo")
 
     if (bookingFormStage == "bookingInfo") {
         return <>
-
+            {hotelData && <Typography variant='h5' style={{fontWeight:'600',marginBottom:'20px'}}>Booking For {hotelData.name}</Typography>}
             <BookingInfo reservation = {reservation} setReservation = {setReservation} handleChange={handleChange}/>
 
         </>

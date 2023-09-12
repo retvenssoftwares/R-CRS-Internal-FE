@@ -14,7 +14,8 @@ import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import IconButton from '@material-ui/core/IconButton';
 import OutlinedInput from '@material-ui/core/OutlinedInput';
 import Table from '../../components/table';
-const { Column, ColumnGroup } = Table;
+import { useAllBookingsQuery } from '../../redux/slices/booking';
+// const { Column, ColumnGroup } = Table;
 
 const useStyles = makeStyles((theme) => ({
     cardRoot:{
@@ -37,7 +38,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const AllBookingDisplay = () => {
-
+const {data:allBookingsData} = useAllBookingsQuery()
     const classes = useStyles();
     const [allBookings, setAllBookings] = useState(null);
     const [openForm, setOpenForm] = React.useState(false);
@@ -176,10 +177,10 @@ const AllBookingDisplay = () => {
             roomNights: 2,
         },
       ];
-      const guestNamesList = [...new Set(demoBookings.map((booking) => booking.guestName))];
-      const bookingIDList = [...new Set(demoBookings.map((booking) => booking.bookingID))];
-      const employNameList = [...new Set(demoBookings.map((booking) => booking.employName))];
-      const hotelNamesList = [...new Set(demoBookings.map((booking) => booking.hotelName))];
+    //   const guestNamesList = [...new Set(demoBookings.map((booking) => booking.guestName))];
+    //   const bookingIDList = [...new Set(demoBookings.map((booking) => booking.bookingID))];
+    //   const employNameList = [...new Set(demoBookings.map((booking) => booking.employName))];
+    //   const hotelNamesList = [...new Set(demoBookings.map((booking) => booking.hotelName))];
 
     const columns = [
       {
@@ -271,7 +272,7 @@ const AllBookingDisplay = () => {
         <Grid item xs={12} md={10} style={{marginTop:'20px',marginBottom:"40px"}}>
             <Card className={classes.cardRoot} variant="outlined">
             <br />
-            <Grid container spacing={3}>
+            {/* <Grid container spacing={3}>
                 <Grid item xs={12} md={6}>
                     <Autocomplete
                     options={guestNamesList}
@@ -328,7 +329,7 @@ const AllBookingDisplay = () => {
                     renderInput={(params) => <TextField {...params} label="Filter Booking ID" variant="outlined"  value={filterBookingID}/>}
                     />
                 </Grid>
-            </Grid>
+            </Grid> */}
             </Card>
         </Grid>
         </Grid>

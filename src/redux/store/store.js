@@ -7,6 +7,8 @@ import logger from "redux-logger";
 import { roomsApi } from "../slices/rooms/api";
 import { crs_dashboard_api } from "../slices/dashboard/api";
 import { Location } from "../slices/location";
+import { Bookings } from "../slices/booking";
+import { hotelAPIs } from "../slices/hotels";
 
 export const store = configureStore({
   reducer: {
@@ -14,12 +16,16 @@ export const store = configureStore({
     dashboardState: dashboardBooleanReducer,
     [crs_dashboard_api.reducerPath]: crs_dashboard_api.reducer,
     [roomsApi.reducerPath]: roomsApi.reducer,
-    [Location.reducerPath] : Location.reducer
+    [Location.reducerPath]: Location.reducer,
+    [Bookings.reducerPath]: Bookings.reducer,
+    [hotelAPIs.reducerPath] : hotelAPIs.reducer
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat([
       crs_dashboard_api.middleware,
       roomsApi.middleware,
-      Location.middleware
+      Location.middleware,
+      Bookings.middleware,
+      hotelAPIs.middleware
     ]),
 });

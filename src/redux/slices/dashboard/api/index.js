@@ -4,7 +4,7 @@ import { emptySplitApi } from "../../../injectEndpoints";
  export const crs_dashboard_api = emptySplitApi.injectEndpoints({
   endpoints: (builder) => ({
     fetchData: builder.query({
-      query: () => "booking_statistics", // Replace with your actual endpoint
+      query: () => "/get/booking_statistics", // Replace with your actual endpoint
       providesTags:['Booking']
     }),
   }),

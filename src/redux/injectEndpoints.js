@@ -6,5 +6,5 @@ import { BASE_URL } from '../api'
 export const emptySplitApi = createApi({
   baseQuery: fetchBaseQuery({ baseUrl: BASE_URL }),
   endpoints: () => ({}),
-  tagTypes:['Room','Booking','cities','state','countries']
+  tagTypes:['Room','Booking','cities','state','countries','TopEmp','hotels','allBookings','newHotel','gethotel']
 })

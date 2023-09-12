@@ -17,6 +17,10 @@ import HotelSettings from '../pages/hotelSettings';
 import EmailBrochure from '../pages/emailBrochure';
 import ClientInvoicing from '../pages/clientInvoicing';
 import BookingManagement from '../pages/bookingManagement';
+import OnboardBasicDetails from '../pages/hotelOnboard/onBoardForm';
+import CRM_Dashboard from '../pages/crm_dashboard';
+import CRM_CLIENTS from '../pages/crm_clients';
+import CRM_Accounts from '../pages/crm_accounts';
 
 const Router = () => {
    return <>
@@ -34,7 +38,11 @@ const Router = () => {
            <Private path="/hotelsettings" exact component={HotelSettings} />
            <Private path="/emailbrochure" exact component={EmailBrochure} />
            <Private path="/clientsinvoicing" exact component={ClientInvoicing} />
-           <Private path="/bookingmanagement" exact component={BookingManagement} />
+           <Private path="/reservation" exact component={BookingManagement} />
+           <Private path="/hotelsettings:hotelonboard" exact component={OnboardBasicDetails} />
+           <Private path="/crm_dashboard" exact component={CRM_Dashboard} />
+           <Private path="/crm_clients" exact component={CRM_CLIENTS} />
+           <Private path="/crm_accounts" exact component={CRM_Accounts} />
            <Route path="/reset" exact component={Reset} />
           </>
 }

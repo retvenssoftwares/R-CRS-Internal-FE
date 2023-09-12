@@ -120,7 +120,7 @@ const SideDrawer = ({ children }) => {
   const history = useHistory();
   const theme = useTheme();
   const [open, setOpen] = React.useState(true);
-  const [openEmployeeCollapse, setOpenEmployeeCollapse] = React.useState(false);
+  const [openEmployeeCollapse, setOpenEmployeeCollapse] = React.useState(true);
   const [openHotelCollapse, setOpenHotelCollapse] = React.useState(true);
   const [openCRSCollapse, setOpenCRSCollapse] = React.useState(false);
   const[openCRS_Settings,setOpenCRS_Settings] = React.useState(true)
@@ -204,11 +204,6 @@ const SideDrawer = ({ children }) => {
 
             </Grid>
           </Grid>
-
-
-
-
-
         </Toolbar>
 
       </AppBar>
@@ -235,27 +230,27 @@ const SideDrawer = ({ children }) => {
 
 {
   isCrs ? <List>
-  <ListItem button key={1} selected={currentTab("/dashboard")} onClick={() => history.push("/dashboard")} aria-description='menuBar'>
+  <ListItem button key={2468} selected={currentTab("/dashboard")} onClick={() => history.push("/dashboard")} aria-description='menuBar'>
     <ListItemIcon><DashboardIcon /></ListItemIcon>
     <ListItemText primary="Dashboard" />
   </ListItem>
 
-  <ListItem button key={2} selected={currentTab("/hotelsettings")} onClick={() => history.push("/hotelsettings")} aria-description='menuBar'>
+  <ListItem button key={508} selected={currentTab("/hotelsettings")} onClick={() => history.push("/hotelsettings")} aria-description='menuBar'>
     <ListItemIcon><DashboardIcon /></ListItemIcon>
     <ListItemText primary="Hotel Settings"  />
   </ListItem>
 
-  <ListItem button key={3} selected={currentTab("/emailbrochure")} onClick={() => history.push("/emailbrochure")} aria-description='menuBar'>
+  <ListItem button key={235237} selected={currentTab("/emailbrochure")} onClick={() => history.push("/emailbrochure")} aria-description='menuBar'>
     <ListItemIcon><DashboardIcon /></ListItemIcon>
     <ListItemText primary="Email Brochure" />
   </ListItem>
 
-  <ListItem button key={57} selected={currentTab("/bookingmanagement")} onClick={() => history.push("/bookingmanagement")} aria-description='menuBar'>
+  <ListItem button key={9464} selected={currentTab("/reservation")} onClick={() => history.push("/reservation")} aria-description='menuBar'>
     <ListItemIcon><DashboardIcon /></ListItemIcon>
-    <ListItemText primary="Booking Management" />
+    <ListItemText primary="Reservation" />
   </ListItem>
 
-  <ListItem button key={87} selected={currentTab("/bookings")} onClick={() => history.push("/bookings")} aria-description='menuBar'>
+  <ListItem button key={653634} selected={currentTab("/bookings")} onClick={() => history.push("/bookings")} aria-description='menuBar'>
     <ListItemIcon><DashboardIcon /></ListItemIcon>
     <ListItemText primary="Booking" />
   </ListItem>
@@ -293,7 +288,7 @@ const SideDrawer = ({ children }) => {
     </List>
   </Collapse> */}
 
-  <ListItem button key={76} selected={currentTab("/clientsinvoicing")} onClick={() => history.push("/clientsinvoicing")} aria-description='menuBar'>
+  <ListItem button key={98734} selected={currentTab("/clientsinvoicing")} onClick={() => history.push("/clientsinvoicing")} aria-description='menuBar'>
     <ListItemIcon><DashboardIcon /></ListItemIcon>
     <ListItemText primary="Clients Invoicing" />
   </ListItem>
@@ -308,7 +303,7 @@ const SideDrawer = ({ children }) => {
 
           <Collapse in={openCRS_Settings} timeout="auto" unmountOnExit>
             <List component="div" disablePadding className={classes.collapseList}>
-            <ListItem button key={344} selected={currentTab("/all-hotels")} onClick={() => history.push("/all-hotels")} aria-description='menuBar'>
+            <ListItem button key={36453} selected={currentTab("/all-hotels")} onClick={() => history.push("/all-hotels")} aria-description='menuBar'>
                 <ListItemIcon><VerticalSplitIcon /></ListItemIcon>
                 <ListItemText primary='Our Hotels'  />
               </ListItem>
@@ -320,59 +315,60 @@ const SideDrawer = ({ children }) => {
     <ListItemIcon><ExitToAppIcon /></ListItemIcon>
     <ListItemText primary="Signout" />
   </ListItem>
-</List> : <List>
-          <ListItem button key={1} selected={currentTab("/dashboard")} onClick={() => history.push("/dashboard")} aria-description='menuBar'>
+</List> : 
+<List>
+          <ListItem button key={4321} selected={currentTab("/crm_dashboard")} onClick={() => history.push("/crm_dashboard")} aria-description='menuBar'>
             <ListItemIcon><DashboardIcon /></ListItemIcon>
             <ListItemText primary="Dashboard" />
           </ListItem>
 
-          <ListItem button key={2} selected={currentTab("/clients")} onClick={() => history.push("/clients")} aria-description='menuBar'>
+          <ListItem button key={908} selected={currentTab("/crm_clients")} onClick={() => history.push("/crm_clients")} aria-description='menuBar'>
             <ListItemIcon><PeopleIcon /></ListItemIcon>
             <ListItemText primary="Clients" />
           </ListItem>
 
-          <ListItem button key={87} selected={currentTab("/accounts")} onClick={() => history.push("/accounts")} aria-description='menuBar'>
+          <ListItem button key={343} selected={currentTab("/crm_accounts")} onClick={() => history.push("/crm_accounts")} aria-description='menuBar'>
             <ListItemIcon><AccountCircleIcon /></ListItemIcon>
             <ListItemText primary="Accounts" />
           </ListItem>
 
-          <ListItem button key={4} selected={currentTab("/sales")} onClick={() => history.push("/sales")} aria-description='menuBar'>
+          <ListItem button key={827} selected={currentTab("/sales")} onClick={() => history.push("/sales")} aria-description='menuBar'>
             <ListItemIcon><InsertChartIcon /></ListItemIcon>
             <ListItemText primary="Sales" />
           </ListItem>
 
-          <ListItem button key={5} selected={currentTab("/reports")} onClick={() => history.push("/reports")} aria-description='menuBar'>
+          <ListItem button key={9876} selected={currentTab("/reports")} onClick={() => history.push("/reports")} aria-description='menuBar'>
             <ListItemIcon><DescriptionIcon /></ListItemIcon>
             <ListItemText primary="Reports"  />
           </ListItem>
 
-          <ListItem button onClick={handleOpenEmployee} className='mt-3'>
+          <ListItem button onClick={handleOpenEmployee} className='mt-3' aria-description='menuBar' > 
             <ListItemIcon>
               <SettingsIcon />
             </ListItemIcon>
-            <ListItemText primary="Setting" />
+            <ListItemText primary="Setting" aria-description='menuBar' />
             {openEmployeeCollapse ? <ExpandLess /> : <ExpandMore />}
           </ListItem>
 
           <Collapse in={openEmployeeCollapse} timeout="auto" unmountOnExit>
             <List component="div" disablePadding className={classes.collapseList}>
-              <ListItem button key={120} selected={currentTab("/all-employees")} onClick={() => history.push("/all-employees")} aria-description='menuBar'>
+              <ListItem button key={243} selected={currentTab("/all-employees")} onClick={() => history.push("/all-employees")} aria-description='menuBar'>
                 <ListItemIcon>
                   <PeopleAltIcon />
                 </ListItemIcon>
-                <ListItemText secondary='All Employees' />
+                <ListItemText primary='All Employees' />
               </ListItem>
 
-              <ListItem button key={987} selected={currentTab("/all-hotels")} onClick={() => history.push("/all-hotels")} aria-description='menuBar'>
+              <ListItem button key={654} selected={currentTab("/all-hotels")} onClick={() => history.push("/all-hotels")} aria-description='menuBar'>
                 <ListItemIcon><VerticalSplitIcon /></ListItemIcon>
-                <ListItemText secondary='Our Hotels' />
+                <ListItemText primary='Our Hotels' />
               </ListItem>
 
             </List>
           </Collapse>
 
 
-          <ListItem button key={423} onClick={() => signout(() => history.push("/"))} aria-description='menuBar'>
+          <ListItem button key={5589} onClick={() => signout(() => history.push("/"))} aria-description='menuBar'>
             <ListItemIcon><ExitToAppIcon /></ListItemIcon>
             <ListItemText primary="Signout" />
           </ListItem>
