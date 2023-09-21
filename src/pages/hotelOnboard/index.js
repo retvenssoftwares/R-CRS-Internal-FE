@@ -727,11 +727,10 @@ const RoomData = () => {
     },
   ]);
 
-  
   return (
     <>
       <Box sx={{ flexGrow: 1 }}>
-        <Grid container spacing={2} justifyContent="center">
+        {/* <Grid container spacing={2} justifyContent="center">
           <Grid item xs={12}>
             <Typography
               variant="h5"
@@ -851,6 +850,375 @@ const RoomData = () => {
                       +
                     </Button>
             </Grid>
+          </Grid>
+        </Grid> */}
+        <Grid container spacing={2}>
+          <Grid item xs={8}>
+            <Typography variant="h5" style={{ fontWeight: "600" }}>
+              Create New Room Type
+            </Typography>
+          </Grid>
+          <Grid item xs={4} style={{ textAlign: "end" }}>
+            <Button
+              variant="outlined"
+              style={{ background: "rgb(24, 83, 177)", color: "white" }}
+            >
+              Add & Save
+            </Button>
+          </Grid>
+        </Grid>
+        <Grid
+          container
+          spacing={1}
+          style={{
+            display: "flex",
+            justifyContent: "space-evenly",
+            marginTop: "40px",
+          }}
+        >
+          <Grid
+            item
+            xs={4}
+            style={{
+              background: "white",
+              padding: "10px",
+              borderRadius: "10px",
+            }}
+          >
+            <TextField fullWidth variant="outlined" label="Room Type Name" />
+          </Grid>
+          <Grid
+            item
+            xs={2}
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+              background: "white",
+              borderRadius: "10px",
+              padding: "10px",
+              position: "relative",
+            }}
+          >
+            <legend
+              style={{
+                position: "absolute",
+                left: "28%",
+                top: "-10px",
+                fontSize: "1em",
+              }}
+            >
+              Max Adults
+            </legend>
+
+            <div
+              style={{
+                background: "#F0F0F0",
+                padding: "8px 15px",
+                borderRadius: "10px",
+                border: "1px solid black",
+                color: "black",
+                fontSize: "16px",
+                cursor: "pointer",
+              }}
+            >
+              +
+            </div>
+            <div>1</div>
+            <div
+              style={{
+                background: "#F0F0F0",
+                padding: "8px 16px",
+                borderRadius: "10px",
+                border: "1px solid black",
+                color: "black",
+                fontSize: "16px",
+                cursor: "pointer",
+              }}
+            >
+              -
+            </div>
+          </Grid>
+          <Grid
+            item
+            xs={2}
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+              background: "white",
+              borderRadius: "10px",
+              padding: "10px",
+              position: "relative",
+            }}
+          >
+            <legend
+              style={{
+                position: "absolute",
+                left: "16%",
+                top: "-10px",
+                fontSize: "0.9vw",
+                width: "100%",
+              }}
+            >
+              Default Web Inventor
+            </legend>
+
+            <div
+              style={{
+                background: "#F0F0F0",
+                padding: "8px 15px",
+                borderRadius: "10px",
+                border: "1px solid black",
+                color: "black",
+                fontSize: "16px",
+                cursor: "pointer",
+              }}
+            >
+              +
+            </div>
+            <div>1</div>
+            <div
+              style={{
+                background: "#F0F0F0",
+                padding: "8px 16px",
+                borderRadius: "10px",
+                border: "1px solid black",
+                color: "black",
+                fontSize: "16px",
+                cursor: "pointer",
+              }}
+            >
+              -
+            </div>
+          </Grid>
+          <Grid
+            item
+            xs={2}
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+              background: "white",
+              borderRadius: "10px",
+              padding: "10px",
+              position: "relative",
+            }}
+          >
+            <legend
+              style={{
+                position: "absolute",
+                left: "28%",
+                top: "-10px",
+                fontSize: "1em",
+              }}
+            >
+              Minimum Rate
+            </legend>
+
+            <div
+              style={{
+                background: "#F0F0F0",
+                padding: "8px 15px",
+                borderRadius: "10px",
+                border: "1px solid black",
+                color: "black",
+                fontSize: "16px",
+                cursor: "pointer",
+              }}
+            >
+              +
+            </div>
+            <div>1</div>
+            <div
+              style={{
+                background: "#F0F0F0",
+                padding: "8px 16px",
+                borderRadius: "10px",
+                border: "1px solid black",
+                color: "black",
+                fontSize: "16px",
+                cursor: "pointer",
+              }}
+            >
+              -
+            </div>
+          </Grid>
+          <Grid
+            item
+            xs={4}
+            style={{
+              background: "white",
+              padding: "10px",
+              borderRadius: "10px",
+              marginTop: "20px",
+            }}
+          >
+            <TextField fullWidth variant="outlined" label="Short Code" />
+          </Grid>
+          <Grid
+            item
+            xs={2}
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+              background: "white",
+              borderRadius: "10px",
+              padding: "10px",
+              marginTop: "20px",
+              position: "relative",
+            }}
+          >
+            <legend
+              style={{
+                position: "absolute",
+                left: "28%",
+                top: "-10px",
+                fontSize: "1em",
+              }}
+            >
+              Max Child
+            </legend>
+
+            <div
+              style={{
+                background: "#F0F0F0",
+                padding: "8px 15px",
+                borderRadius: "10px",
+                border: "1px solid black",
+                color: "black",
+                fontSize: "16px",
+                cursor: "pointer",
+              }}
+            >
+              +
+            </div>
+            <div>1</div>
+            <div
+              style={{
+                background: "#F0F0F0",
+                padding: "8px 16px",
+                borderRadius: "10px",
+                border: "1px solid black",
+                color: "black",
+                fontSize: "16px",
+                cursor: "pointer",
+              }}
+            >
+              -
+            </div>
+          </Grid>
+          <Grid
+            item
+            xs={2}
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+              background: "white",
+              borderRadius: "10px",
+              padding: "10px",
+              marginTop: "20px",
+              position: "relative",
+            }}
+          >
+            <legend
+              style={{
+                position: "absolute",
+                left: "4%",
+                top: "-10px",
+                fontSize: "0.8vw",
+                width: "100%",
+              }}
+            >
+              Default Booking Engine Inventor
+            </legend>
+
+            <div
+              style={{
+                background: "#F0F0F0",
+                padding: "8px 15px",
+                borderRadius: "10px",
+                border: "1px solid black",
+                color: "black",
+                fontSize: "16px",
+                cursor: "pointer",
+              }}
+            >
+              +
+            </div>
+            <div>1</div>
+            <div
+              style={{
+                background: "#F0F0F0",
+                padding: "8px 16px",
+                borderRadius: "10px",
+                border: "1px solid black",
+                color: "black",
+                fontSize: "16px",
+                cursor: "pointer",
+              }}
+            >
+              -
+            </div>
+          </Grid>
+          <Grid
+            item
+            xs={2}
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+              background: "white",
+              borderRadius: "10px",
+              padding: "10px",
+              marginTop: "20px",
+              position: "relative",
+            }}
+          >
+            <legend
+              style={{
+                position: "absolute",
+                left: "28%",
+                top: "-10px",
+                fontSize: "1em",
+              }}
+            >
+              Maximum Rate
+            </legend>
+            <div
+              style={{
+                background: "#F0F0F0",
+                padding: "8px 15px",
+                borderRadius: "10px",
+                border: "1px solid black",
+                color: "black",
+                fontSize: "16px",
+                cursor: "pointer",
+              }}
+            >
+              +
+            </div>
+            <div>1</div>
+            <div
+              style={{
+                background: "#F0F0F0",
+                padding: "8px 16px",
+                borderRadius: "10px",
+                border: "1px solid black",
+                color: "black",
+                fontSize: "16px",
+                cursor: "pointer",
+              }}
+            >
+              -
+            </div>
+          </Grid>
+          <Grid item xs={12}>
+              <Typography variant="h5" style={{fontWeight:'600',margin:'20px 0px'}}>
+              Amenities
+              </Typography>
           </Grid>
         </Grid>
       </Box>

@@ -1,10 +1,28 @@
 // Or from '@reduxjs/toolkit/query' if not using the auto-generated hooks
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
-import { BASE_URL } from '../api'
+import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { BASE_URL } from "../api";
 
 // initialize an empty api service that we'll inject endpoints into later as needed
 export const emptySplitApi = createApi({
   baseQuery: fetchBaseQuery({ baseUrl: BASE_URL }),
   endpoints: () => ({}),
-  tagTypes:['Room','Booking','cities','state','countries','TopEmp','hotels','allBookings','newHotel','gethotel']
-})
+  tagTypes: [
+    "Room",
+    "Booking",
+    "cities",
+    "state",
+    "countries",
+    "TopEmp",
+    "hotels",
+    "allBookings",
+    "newHotel",
+    "gethotels",
+    "getCustomerByNumber",
+    "addCustomer",
+    "inbound",
+    "outbound",
+    "AllGuest",
+    "EmpDashboard",
+    "EmpLeads"
+  ],
+});

@@ -26,6 +26,8 @@ import Alert from "@material-ui/lab/Alert";
 import CancelIcon from "@material-ui/icons/Cancel";
 import Table from "../../components/table";
 import { useGetAllHotelsQuery } from "../../redux/slices/hotels";
+import swal from 'sweetalert';
+
 
 // import { Space, Table } from "antd";
 
@@ -62,6 +64,25 @@ const AddHotel = () => {
   const [allHotels, setAllHotels] = React.useState(null);
   const [openForm, setOpenForm] = React.useState(false);
 
+  const handleDelete = () =>{
+    swal({
+      title: "Are you sure?",
+      text: "Once deleted, you will not be able to recover this hotel!",
+      icon: "warning",
+      buttons: true,
+      dangerMode: true,
+    })
+    .then((willDelete) => {
+      if (willDelete) {
+        swal("Poof! Your hotel has been deleted!", {
+          icon: "success",
+        });
+      } else {
+        swal("Your hotel is not deleted!");
+      }
+    });
+  }
+
   const column = [
     {
       name:'Hotel Name',
@@ -78,7 +99,7 @@ const AddHotel = () => {
       name:'Action',
       cell:(row)=>{
         return(
-          <div style={{padding:'8px',background:'#f5383b',cursor:'pointer',color:'white',borderRadius:'5px'}}>
+          <div style={{padding:'8px',background:'#f5383b',cursor:'pointer',color:'white',borderRadius:'5px'}} onClick={handleDelete}>
             Delete
           </div>
         )

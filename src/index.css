@@ -22,6 +22,7 @@
 
 body{
   background-color: #8080801f !important;
+  margin: 0 !important;
 }
 
 .MuiInput-underline:before {
@@ -98,7 +99,16 @@ padding: 10px 0 !important;
   background-color: rgb(69, 66, 66) !important;
 border-radius: 0 !important;
 } */
-
+.makeStyles-content-10{
+  overflow: hidden !important;
+}
+.css-1ps6pg7-MuiPaper-root{
+  border-radius: 10px  !important;
+}
+.rdt_Pagination{
+  border-bottom-left-radius: 10px !important;
+  border-bottom-right-radius: 10px !important;
+}
 
 
 
@@ -120,6 +130,13 @@ border-radius: 0 !important;
   .MuiListItem-button:hover{
     background-color: rgb(69, 66, 66) !important;
   border-radius: 0 !important;
+  }
+  .ant-picker-focused{
+    border-color: black !important;
+  }
+
+  .ant-picker-focused:focus{
+    border-color: black !important;
   }
   
   

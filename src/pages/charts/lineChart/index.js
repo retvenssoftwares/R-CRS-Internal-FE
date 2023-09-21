@@ -31,7 +31,7 @@ ChartJS.register(ArcElement, Tooltip, Legend);
 //   ],
 // };
 
-export function App() {
+export function App({type}) {
   const { data: topFiveEmp } = useTopEmpQuery();
   const [header, setHeader] = useState(null);
   const [empData, setEmpData] = useState(null);
