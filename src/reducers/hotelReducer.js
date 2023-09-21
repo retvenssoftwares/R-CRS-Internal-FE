@@ -4,7 +4,6 @@ const initialState = {
 };
   
   const hotelReducer = (state = initialState, action) => {
-    console.log("hotelreducer")
     if (action.type ==='hotel/allHotelFromDB') {
         return action.payload
     } else {

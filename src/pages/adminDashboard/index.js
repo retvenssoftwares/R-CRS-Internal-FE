@@ -39,7 +39,6 @@ const Admin_Dashboard = () => {
     inputDate: currentDate,
   });
 
-  console.log(weekendCallDetails && weekendCallDetails["results"]);
   return (
     <>
       <DashboardLayout>

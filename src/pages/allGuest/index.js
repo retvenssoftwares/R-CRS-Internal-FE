@@ -81,11 +81,6 @@ const AllGuest = () => {
     }
   ];
     const columnHeaders = column.map((head)=>{return head.name })
-
-
-    console.log(columnHeaders)
-  console.log(guestData)
-  console.log(guestData && guestData.length)
   return (
     <DashboardLayout>
       <Typography

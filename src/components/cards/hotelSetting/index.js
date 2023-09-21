@@ -18,7 +18,6 @@ const Cards = ({ image, title, location, pricing,rating }) => {
        borderRadius:'20px' 
         
     }));
-    console.log(image)
 
     const ratingChanged = (newRating) => {
         console.log(newRating)

@@ -43,7 +43,6 @@ const Outbound = () => {
     
   }, []);
 
-  console.log(outboundData);
 
   // {data,column}
   const column = [

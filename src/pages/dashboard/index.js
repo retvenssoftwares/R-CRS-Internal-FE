@@ -24,8 +24,6 @@ const Dashboard = () => {
   }));
   const {data,refetch,isError} = useFetchDataQuery()
 
-
-  console.log(data)
   return (
     <>
       <DashboardLayout>

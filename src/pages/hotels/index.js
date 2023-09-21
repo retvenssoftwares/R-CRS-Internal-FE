@@ -111,7 +111,6 @@ const AddHotel = () => {
     getHotelDB()
       .then((value) => {
         setAllHotels(value);
-        console.log(value);
       })
       .catch((err) => {
         console.log(err);
@@ -138,10 +137,8 @@ const AddHotel = () => {
   };
 
   const handleSubmit = (e) => {
-    console.log("adding hotel");
     e.preventDefault();
     setAllHotels({ ...hotel, isLoading: true });
-    console.log(hotel);
     addHotel(hotel)
       .then((response) => {
         setHotel({

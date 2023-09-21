@@ -188,7 +188,6 @@ const SideDrawer = ({ children }) => {
   });
   const isCrs = useSelector((state) => state.dashboardState.isBooleanValue);
 
-  console.log(roles);
 
   return (
     <div className={classes.root}>

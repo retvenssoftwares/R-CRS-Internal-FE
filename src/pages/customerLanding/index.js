@@ -88,7 +88,6 @@ const Customer_Form = () => {
     formState: { errors },
   } = useForm();
   const onFormSubmit = (data) => {
-    console.log(data);
     const marketing = data.marketing === false ? '' : `${data.marketing}, `;
     const reservation = data.reservation === false ? '' : `${data.reservation}, `;
     const sales = data.sales === false ? '' : `${data.sales}, `
@@ -138,7 +137,6 @@ const Customer_Form = () => {
   },[formData])
 
   const onErrors = (errors) => console.error(errors);
-console.log(formData)
   return (
     <Box flex={1} style={{ padding: "0px 20px", background: "white" }}>
       <Typography
@@ -665,7 +663,6 @@ const Customer_Form_With_Data = ({data}) => {
   },[data])
 
   const onErrors = (errors) => console.error(errors);
-console.log(apiData)
   return (
     <Box flex={1} style={{ padding: "0px 20px", background: "white" }}>
       <Typography

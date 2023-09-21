@@ -27,7 +27,6 @@ const HotelSettings = () => {
   React.useEffect(() => {
     getHotelDB()
       .then((value) => {
-        console.log(value);
         setHotelDate(value);
       })
       .catch((err) => {
@@ -41,7 +40,6 @@ const HotelSettings = () => {
         const stateData = filterValue && filterValue.toLowerCase();
         return apiData.includes(stateData);
       });
-      console.log(filterData);
       setFilteredData(filterData || null);
     } else if (filterValue.length === 0) {
       setFilteredData(hotelApiData);
@@ -50,9 +48,6 @@ const HotelSettings = () => {
       setFilterValue(hotelApiData);
     }
   }, [filterValue]);
-
-  console.log(filteredData);
-  console.log(filterValue && filterValue.length);
   return (
     <DashboardLayout>
       {addNewHotel && (

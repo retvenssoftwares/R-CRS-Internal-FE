@@ -174,7 +174,6 @@ const OnboardBasicDetails = () => {
     setPms((preState) => ({ ...preState, [e.target.name]: e.target.value }));
   };
 
-  console.log(hotel_Name);
   const onSubmit = (data) => {
     console.log(JSON.stringify(data, null, 2));
   };
@@ -221,10 +220,8 @@ const OnboardBasicDetails = () => {
     });
   };
 
-  console.log(pms);
 
   const onErrors = (errors) => console.error(errors);
-  console.log(basicDetails);
   return (
     <>
       {
@@ -601,7 +598,6 @@ const HotelImages = () => {
     setCover(URL.createObjectURL(file));
   };
 
-  console.log(logo);
   return (
     <>
       <Box sx={{ flexGrow: 1 }}>
