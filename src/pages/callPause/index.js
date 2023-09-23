@@ -53,7 +53,7 @@ const CallPause = () => {
   };
 
   return (
-    <DashboardLayout>
+    <>
       <Typography
         variant="h4"
         style={{ fontWeight: "600", marginBottom: "20px" }}
@@ -72,6 +72,7 @@ const CallPause = () => {
               // value={age}
               label="Select Pause Reason"
               variant="filled"
+              disabled={resume && true}
               // onChange={handleChange}
             >
               <MenuItem value={"Lunch Time"}>Lunch Time</MenuItem>
@@ -110,7 +111,7 @@ const CallPause = () => {
         </Grid>
       </Grid>
       <Table columns={column} data={data} />
-    </DashboardLayout>
+    </>
   );
 };
 

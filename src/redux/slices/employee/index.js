@@ -8,8 +8,16 @@ export const Employee = emptySplitApi.injectEndpoints({
                 params:params
             }),
             providesTags:"Employee"
+        }),
+        addEmployee:builder.mutation({
+            query:(params)=>({
+                url:"/create/user",
+                body:params,
+                method:'POST'
+            }),
+            invalidatesTags:"addEmployee"
         })
     })
 })
 
-export const {useGetAllEmployeeQuery} = Employee
+export const {useGetAllEmployeeQuery,useAddEmployeeMutation} = Employee

@@ -64,7 +64,8 @@ export  function signIn(credentials) {
 
 export const signout = (next) => {
   removeCookie("token");
-  removeLocalStorage("user");
+  removeLocalStorage("user")
+  window.localStorage.clear('userContext')
   next();
 };
 

@@ -3,9 +3,9 @@ import DashboardLayout from '../../components/layout/dashboardLayout'
 
 const Clients = () => {
     return (
-        <DashboardLayout>
+        <>
             Clients
-        </DashboardLayout>
+        </>
     )
 }
 

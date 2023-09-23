@@ -284,7 +284,7 @@ const AddHotel = () => {
 const AllHotel = () => {
   return (
     <>
-      <DashboardLayout>{AddHotel()}</DashboardLayout>
+      <>{AddHotel()}</>
     </>
   );
 };

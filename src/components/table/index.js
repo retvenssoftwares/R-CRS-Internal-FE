@@ -50,6 +50,7 @@ const Table = ({columns,data,titles,contextActions,handleRowSelected,toggleClear
                         contextActions={contextActions && contextActions}
                         onSelectedRowsChange={handleRowSelected && handleRowSelected}
                         clearSelectedRows={toggleCleared && toggleCleared}
+                        
                     />
                 </Paper>
             </div>

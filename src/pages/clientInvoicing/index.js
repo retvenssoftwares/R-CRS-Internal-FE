@@ -5,12 +5,12 @@ import { Button, Typography } from "@material-ui/core";
 
 const ClientInvoicing = () => {
   return (
-    <DashboardLayout>
+    <>
       <Typography variant="h4" style={{fontWeight:700,textAlign:'center',color:'#9ccf2a'}}>
         Download Invoices
       </Typography>
       <JsonToPdfDownload />
-    </DashboardLayout>
+    </>
   );
 };
 

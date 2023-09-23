@@ -21,7 +21,7 @@ const Inbound = () => {
   });
 
   useEffect(() => {
-    if (role === "Admin") {
+    if (role === "Admin" || role === "SuperAdmin") {
       getInbound({
         role: "Admin",
       })
@@ -142,14 +142,14 @@ const Inbound = () => {
   ];
   console.log();
   return (
-    <DashboardLayout>
-      <Typography style={{ fontWeight: "600" }} variant="h4">
+    <>
+      <Typography style={{ fontWeight: "600" }} variant="h5">
         Inbound Details
       </Typography>
 
       {inboundData && <Table columns={column} data={inboundData} />}
       {!inboundData && isError.status === "rejected" && "No data found!"}
-    </DashboardLayout>
+    </>
   );
 };
 

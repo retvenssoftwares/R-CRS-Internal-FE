@@ -17,6 +17,7 @@ import { actions } from "../../actionTypes";
 import PersonIcon from "@material-ui/icons/Person";
 import LockIcon from "@material-ui/icons/Lock";
 import logo from "../../assets/logo.webp";
+import { setLoggedIn } from "../../redux/slices/isLogin";
 
 const useStyles = makeStyles({
   form: {
@@ -121,6 +122,7 @@ const LoginForm = () => {
             "employee_id",
             JSON.stringify(value.details.employee_id)
           );
+          dispatch(setLoggedIn(true))
           if (value.details.department[0].role === "Admin") {
             history.push("/admin/dashboard");
           } else if (value.details.department[0].role === "Agent") {

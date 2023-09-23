@@ -11,7 +11,7 @@ import { CheckBox } from "@material-ui/icons";
 
 const EmailBrochure = () => {
   return (
-    <DashboardLayout>
+    <>
       <Box flex={1}>
         <Grid container spacing={1}>
           <Typography
@@ -53,7 +53,7 @@ const EmailBrochure = () => {
           />
         </Grid>
       </Box>
-    </DashboardLayout>
+    </>
   );
 };
 

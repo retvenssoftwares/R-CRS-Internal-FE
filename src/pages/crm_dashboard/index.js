@@ -28,7 +28,6 @@ const CRM_Dashboard = () => {
   console.log(data)
   return (
     <>
-      <DashboardLayout>
         <Box sx={{ flexGrow: 1 }}>
           <Grid container spacing={2}>
             <Grid item xs={4}>
@@ -133,7 +132,6 @@ const CRM_Dashboard = () => {
             </Grid>
           </Grid>
         </Box>
-      </DashboardLayout>
     </>
   );
 };

@@ -82,7 +82,7 @@ const AllGuest = () => {
   ];
     const columnHeaders = column.map((head)=>{return head.name })
   return (
-    <DashboardLayout>
+    <>
       <Typography
         variant="h5"
         style={{ fontWeight: "600", marginBottom: "40px" }}
@@ -99,7 +99,7 @@ const AllGuest = () => {
       <TextField label={'Search'} variant="outlined" style={{width:'300px'}} value={Search} onChange={(e)=>setSearch(e.target.value)} placeholder="Search by guest name or disposition" />
       <br />
      {guestData && guestData['guest_data'].length > 0 || Search && filteredData ? <Table data={filteredData === null ? guestData['guest_data']:filteredData} columns={column} /> : "Loading..."}
-    </DashboardLayout>
+    </>
   );
 };
 

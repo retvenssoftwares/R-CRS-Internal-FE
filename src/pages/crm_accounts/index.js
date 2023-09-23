@@ -24,7 +24,7 @@ const CRM_Accounts = () => {
     doj:'07-02-2022'
   }];
   return (
-    <DashboardLayout>
+    <>
       <Typography
         variant="h4"
         style={{ fontWeight: "600", textAlign: "center", color: "#9acf2c" }}
@@ -32,7 +32,7 @@ const CRM_Accounts = () => {
         All Accounts
       </Typography>
       <Table columns={column} data={data} />
-    </DashboardLayout>
+    </>
   );
 };
 

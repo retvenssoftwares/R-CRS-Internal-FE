@@ -23,6 +23,7 @@ export const emptySplitApi = createApi({
     "outbound",
     "AllGuest",
     "EmpDashboard",
-    "EmpLeads"
+    "EmpLeads",
+    'addEmployee'
   ],
 });

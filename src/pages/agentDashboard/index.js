@@ -44,10 +44,9 @@ const Agent_Dashboard = () => {
     employeeId : employeeID,
     inputDate:currentDate
   })
-console.log(employeeID)
+console.log(agentInboundOutbound)
   return (
     <>
-      <DashboardLayout>
         <Box sx={{ flexGrow: 1 }}>
           <Grid container spacing={2}>
             <Grid item xs={4}>
@@ -62,7 +61,7 @@ console.log(employeeID)
                   Total Calls
                 </Typography>
                 <CountUp
-                  end={data?.Booking_count}
+                  end={agentInboundOutbound?.totalCalls}
                   duration={5}
                   style={{
                     fontSize: "40px",
@@ -81,10 +80,10 @@ console.log(employeeID)
                   component="h5"
                   marginTop={1}
                 >
-                  Total Calls Today
+                  Total Calls Today 
                 </Typography>
                 <CountUp
-                  end={data?.Cancelled_bookings_count}
+                  end={ agentInboundOutbound?.totalTodayCalls}
                   duration={5}
                   style={{
                     fontSize: "40px",
@@ -103,12 +102,12 @@ console.log(employeeID)
                   component="h5"
                   marginTop={1}
                 >
-                  Total Inbound Calls
+                  Total Inbound Calls {new Date().getMonth}
                 </Typography>
                 <p style={{ margin: 0, fontWeight: "600" }}>
                   {" "}
                   <CountUp
-                    end={data?.total_revenue}
+                    end={agentInboundOutbound?.totalInboundCalls}
                     duration={5}
                     style={{
                       fontSize: "40px",
@@ -154,7 +153,6 @@ console.log(employeeID)
             <Grid item xs={4}></Grid>
           </Grid>
         </Box>
-      </DashboardLayout>
     </>
   );
 };

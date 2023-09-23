@@ -29,17 +29,20 @@ import { DatePicker } from "antd";
 import { useForm } from "react-hook-form";
 import dayjs from "dayjs";
 import { Space } from "antd";
-import { useAddNewCustomerMutation, useGetCustomerByNumberQuery } from "../../redux/slices/customers";
-import swal from 'sweetalert'
+import {
+  useAddNewCustomerMutation,
+  useGetCustomerByNumberQuery,
+} from "../../redux/slices/customers";
+import swal from "sweetalert";
 
 const { RangePicker } = DatePicker;
 
 const CustomerLanding = () => {
   const [phoneNumber, setPhoneNumber] = useState(null);
-  const{data:CustomerDetails} = useGetCustomerByNumberQuery({
-    guest_mobile:'8818860231'
-  })
-  const[data,setData] = useState(false)
+  const { data: CustomerDetails } = useGetCustomerByNumberQuery({
+    guest_mobile: "8818860231",
+  });
+  const [data, setData] = useState(false);
 
   return (
     <Box flex={1} style={{ margin: "0", padding: "0" }}>
@@ -58,15 +61,16 @@ const CustomerLanding = () => {
           <img src={logo} height={60} />
         </Grid>
       </Grid>
-      
-      <Grid container>
 
+      <Grid container>
         <Grid item xs={12}>
-        <Grid item xs={12} style={{background:'white'}}>
-</Grid>
-        {
-          CustomerDetails && CustomerDetails['guest'] === null || CustomerDetails && CustomerDetails['msg'] ?  <Customer_Form />  : <Customer_Form_With_Data data={CustomerDetails} />
-        }
+          <Grid item xs={12} style={{ background: "white" }}></Grid>
+          {(CustomerDetails && CustomerDetails["guest"] === null) ||
+          (CustomerDetails && CustomerDetails["msg"]) ? (
+            <Customer_Form />
+          ) : (
+            <Customer_Form_With_Data data={CustomerDetails} />
+          )}
         </Grid>
         {/* <Grid item xs={6}>
           <GetCustomerData />
@@ -80,7 +84,7 @@ export default CustomerLanding;
 
 const Customer_Form = () => {
   const { data: HotelData } = useGetAllHotelsQuery();
-  const [addNewCustomer] =  useAddNewCustomerMutation()
+  const [addNewCustomer] = useAddNewCustomerMutation();
   const [formData, setFormData] = useState(null);
   const {
     register,
@@ -88,9 +92,10 @@ const Customer_Form = () => {
     formState: { errors },
   } = useForm();
   const onFormSubmit = (data) => {
-    const marketing = data.marketing === false ? '' : `${data.marketing}, `;
-    const reservation = data.reservation === false ? '' : `${data.reservation}, `;
-    const sales = data.sales === false ? '' : `${data.sales}, `
+    const marketing = data.marketing === false ? "" : `${data.marketing}, `;
+    const reservation =
+      data.reservation === false ? "" : `${data.reservation}, `;
+    const sales = data.sales === false ? "" : `${data.sales}, `;
     setFormData({
       salutation: data.salutation,
       guest_first_name: data.guest_first_name,
@@ -116,25 +121,28 @@ const Customer_Form = () => {
     });
   };
 
-  useEffect(()=>{
-    if(formData){
-      addNewCustomer(formData).unwrap().then(res=>{
-        swal({
-          icon: 'success',
-          title: 'Customer Added Successfully',
-          showConfirmButton: false,
-          timer: 2500
+  useEffect(() => {
+    if (formData) {
+      addNewCustomer(formData)
+        .unwrap()
+        .then((res) => {
+          swal({
+            icon: "success",
+            title: "Customer Added Successfully",
+            showConfirmButton: false,
+            timer: 2500,
+          });
         })
-      }).catch(err=>{
-        swal({
-          icon: 'error',
-          title: `${err}`,
-          showConfirmButton: false,
-          timer: 2500
-        })
-      })
+        .catch((err) => {
+          swal({
+            icon: "error",
+            title: `${err}`,
+            showConfirmButton: false,
+            timer: 2500,
+          });
+        });
     }
-  },[formData])
+  }, [formData]);
 
   const onErrors = (errors) => console.error(errors);
   return (
@@ -246,7 +254,7 @@ const Customer_Form = () => {
               })}
               error={errors?.guest_mobile_number ? true : false}
             />
-             {errors?.guest_mobile_number && (
+            {errors?.guest_mobile_number && (
               <Typography
                 style={{ color: "red", fontSize: "14px" }}
                 variant="subtitle1"
@@ -273,13 +281,12 @@ const Customer_Form = () => {
               variant="outlined"
               label={"Email"}
               name="guest_email"
-              {...register("guest_email",{
+              {...register("guest_email", {
                 required: "Email  is required",
               })}
               error={errors?.guest_email ? true : false}
-              
             />
-             {errors?.guest_email && (
+            {errors?.guest_email && (
               <Typography
                 style={{ color: "red", fontSize: "14px" }}
                 variant="subtitle1"
@@ -316,13 +323,12 @@ const Customer_Form = () => {
               variant="outlined"
               label={"City"}
               name="guest_city"
-              {...register("guest_city",{
+              {...register("guest_city", {
                 required: "City  is required",
               })}
               error={errors?.guest_city ? true : false}
-
             />
-             {errors?.guest_city && (
+            {errors?.guest_city && (
               <Typography
                 style={{ color: "red", fontSize: "14px" }}
                 variant="subtitle1"
@@ -374,8 +380,8 @@ const Customer_Form = () => {
               variant="outlined"
               label={"Hotel Name"}
               name="hotel_name"
-              error={errors?.hotel_name ? true:false}
-              {...register("hotel_name",{
+              error={errors?.hotel_name ? true : false}
+              {...register("hotel_name", {
                 required: "Hotel name  is required",
               })}
             />
@@ -397,10 +403,10 @@ const Customer_Form = () => {
                 id="caller_type_id"
                 label="Caller Type"
                 name="caller_type"
-                {...register("caller_type",{
+                {...register("caller_type", {
                   required: "Caller type  is required",
                 })}
-                error={errors?.caller_type ? true:false}
+                error={errors?.caller_type ? true : false}
                 // onChange={handleChange}
               >
                 <MenuItem value={"Internal Transfer"}>
@@ -426,11 +432,11 @@ const Customer_Form = () => {
               fullWidth
               type="text"
               name="purpose_of_travel"
-              {...register("purpose_of_travel",{
+              {...register("purpose_of_travel", {
                 required: "Purpose of travel  is required",
               })}
               variant="outlined"
-              error={errors?.purpose_of_travel?true:false}
+              error={errors?.purpose_of_travel ? true : false}
             />
             {errors?.purpose_of_travel && (
               <Typography
@@ -537,10 +543,10 @@ const Customer_Form = () => {
                 id="disposition_id"
                 label="Disposition"
                 name="disposition"
-                {...register("disposition",{
+                {...register("disposition", {
                   required: "Disposition  is required",
                 })}
-                error={errors?.disposition ? true :false}
+                error={errors?.disposition ? true : false}
 
                 // onChange={handleChange}
               >
@@ -621,10 +627,11 @@ const Customer_Form = () => {
   );
 };
 
-const Customer_Form_With_Data = ({data}) => {
+const Customer_Form_With_Data = ({ data }) => {
   const { data: HotelData } = useGetAllHotelsQuery();
-  const[apiData,setApiData] = useState(null)
+  const [apiData, setApiData] = useState(null);
   const [formData, setFormData] = useState(null);
+  const history = useHistory()
   const {
     register,
     handleSubmit,
@@ -655,397 +662,405 @@ const Customer_Form_With_Data = ({data}) => {
     //   department: `${marketing}, ${sales}, ${reservation}}`,
     // });
   };
-  
-  useEffect(()=>{
-    if(data){
-      setApiData(data.guest)
+
+  useEffect(() => {
+    if (data) {
+      setApiData(data.guest);
     }
-  },[data])
+  }, [data]);
 
   const onErrors = (errors) => console.error(errors);
   return (
     <Box flex={1} style={{ padding: "0px 20px", background: "white" }}>
-      <Typography
-        variant="h5"
-        style={{ padding: "10px 20px", fontWeight: "600", color: "#96cb13" }}
-      >
-         Leads Information
-      </Typography>
-    {apiData ?  <form onSubmit={handleSubmit(onFormSubmit, onErrors)}>
-        <Grid container spacing={2} style={{ padding: "20px" }}>
-          <Grid item xs={12}>
-            <Typography
-              variant="h6"
-              style={{ padding: "10px 10px", fontWeight: "600" }}
-            >
-              Profile
-            </Typography>
-          </Grid>
-          <Grid item xs={2}>
-            <FormControl fullWidth variant="outlined">
-              <InputLabel id="Salutation">Salutation</InputLabel>
-              <Select
-                labelId="Salutation"
-                id="Salutation"
-                name="salutation"
-                label="Salutation"
-               defaultValue={apiData.salutation}
-                // onChange={handleChange}
-              >
-                <MenuItem value={"Mr."}>Mr.</MenuItem>
-                <MenuItem value={"Mrs."}>Mrs.</MenuItem>
-              </Select>
-            </FormControl>
-            {errors?.salutation && (
-              <Typography
-                style={{ color: "red", fontSize: "14px" }}
-                variant="subtitle1"
-              >
-                {" "}
-                {errors.salutation.message}{" "}
-              </Typography>
-            )}
-          </Grid>
-          <Grid item xs={5}>
-            <TextField
-              fullWidth
-              variant="outlined"
-              name="guest_first_name"
-             defaultValue={apiData.guest_first_name}
-              label={"Firstname"}
-            />
-            {errors?.guest_first_name && (
-              <Typography
-                style={{ color: "red", fontSize: "14px" }}
-                variant="subtitle1"
-              >
-                {" "}
-                {errors.guest_first_name.message}{" "}
-              </Typography>
-            )}
-          </Grid>
-          <Grid item xs={5}>
-            <TextField
-              fullWidth
-              variant="outlined"
-              name="guest_last_name"
-             defaultValue={apiData.guest_last_name}
-              label={"Lastname"}
-            />
-            {errors?.guest_last_name && (
-              <Typography
-                style={{ color: "red", fontSize: "14px" }}
-                variant="subtitle1"
-              >
-                {" "}
-                {errors.guest_last_name.message}{" "}
-              </Typography>
-            )}
-          </Grid>
-
-          <Grid item xs={12}>
-            <Typography
-              variant="h6"
-              style={{ padding: "10px 10px", fontWeight: "600" }}
-            >
-              Contact
-            </Typography>
-          </Grid>
-          <Grid item xs={4}>
-            <TextField
-              fullWidth
-              type="tel"
-              variant="outlined"
-              label={"Contact"}
-              name="guest_mobile_number"
-              defaultValue={apiData.guest_mobile_number}
-            />
-          </Grid>
-          <Grid item xs={4}>
-            <TextField
-              fullWidth
-              type="tel"
-              variant="outlined"
-              label={"Alternate Contact"}
-              name="alternate_contact"
-              defaultValue={apiData.alternate_contact}
-            />
-          </Grid>
-          <Grid item xs={4}>
-            <TextField
-              fullWidth
-              type="email"
-              variant="outlined"
-              label={"Email"}
-              name="guest_email"
-             defaultValue={apiData.guest_email}
-            />
-          </Grid>
-          <Grid item xs={6}>
-            <TextField
-              fullWidth
-              type="text"
-              variant="outlined"
-              label={"Address line 1"}
-              name="guest_address_1"
-              defaultValue={apiData.guest_address_1}
-            />
-          </Grid>
-          <Grid item xs={6}>
-            <TextField
-              fullWidth
-              type="text"
-              variant="outlined"
-              label={"Address line 2"}
-              name="guest_address_2"
-              defaultValue={apiData.guest_address_2}
-            />
-          </Grid>
-          <Grid item xs={6}>
-            <TextField
-              fullWidth
-              type="text"
-              variant="outlined"
-              label={"City"}
-              name="guest_city"
-              defaultValue={apiData.guest_city}
-            />
-          </Grid>
-          <Grid item xs={6}>
-            <TextField
-              fullWidth
-              type="text"
-              variant="outlined"
-              label={"State"}
-              name="guest_state"
-              defaultValue={apiData.guest_state}
-            />
-          </Grid>
-          <Grid item xs={6}>
-            <TextField
-              fullWidth
-              type="text"
-              variant="outlined"
-              label={"Country"}
-              name="guest_country"
-              defaultValue={apiData.guest_country}
-            />
-          </Grid>
-          <Grid item xs={6}>
-            <FormControl fullWidth variant="outlined">
-              <InputLabel id="hotel_name">Hotel Name</InputLabel>
-              <Select
-                labelId="hotel_name"
-                id="hotel_name_id"
-                label="Hotel Name"
-                name="hotel_name"
-                // onChange={handleChange}
-                defaultValue={apiData.hotel_name}
-              >
-                <MenuItem value={"sayaji"}>Sayaji</MenuItem>
-                <MenuItem value={"raddison blu"}>Raddison BLU</MenuItem>
-                <MenuItem value={"shahpura"}>Shahpura</MenuItem>
-              </Select>
-            </FormControl>
-          </Grid>
-          <Grid item xs={6}>
-            <FormControl fullWidth variant="outlined">
-              <InputLabel id="caller_type">Caller type</InputLabel>
-              <Select
-                labelId="caller_type"
-                id="caller_type_id"
-                label="Caller Type"
-                name="caller_type"
-              defaultValue={apiData.caller_type}
-
-                // onChange={handleChange}
-              >
-                <MenuItem value={"Internal Transfer"}>
-                  Internal Transfer
-                </MenuItem>
-                <MenuItem value={"Hotel"}>Hotel</MenuItem>
-                <MenuItem value={"Guest"}>Guest</MenuItem>
-              </Select>
-            </FormControl>
-          </Grid>
-          <Grid item xs={6}>
-            <TextField
-              label={"Purpose of travel"}
-              fullWidth
-              type="text"
-              name="purpose_of_travel"
-              defaultValue={apiData.purpose_of_travel}
-              variant="outlined"
-            />
-          </Grid>
-          <Grid item xs={6}>
-            <Typography
-              variant="h6"
-              style={{
-                fontSize: "14px",
-                marginBottom: "2px",
-                color: "#757575",
-              }}
-            >
-              Arrival Date
-            </Typography>
-            <Typography
-              variant="h6"
-              style={{
-                fontSize: "18px",
-                marginBottom: "2px",
-                color: "black",
-              }}
-            >
-                          {apiData.arrival_date}
-
-            </Typography>
-          </Grid>
-          <Grid item xs={6}>
-            <Typography
-              variant="h6"
-              style={{
-                fontSize: "14px",
-                marginBottom: "2px",
-                color: "#757575",
-              }}
-            >
-              Departure Date
-            </Typography>
-            <Typography
-              variant="h6"
-              style={{
-                fontSize: "18px",
-                marginBottom: "2px",
-                color: "black",
-              }}
-            >
-                          {apiData.departure_date}
-
-            </Typography>
-          </Grid>
-          <Grid item xs={6}>
-            <Typography
-              variant="h6"
-              style={{
-                fontSize: "14px",
-                marginBottom: "2px",
-                color: "#757575",
-              }}
-            >
-             Special Occasion
-            </Typography>
-            <Typography
-              variant="h6"
-              style={{
-                fontSize: "18px",
-                marginBottom: "2px",
-                color: "black",
-              }}
-            >
-                          {apiData?.special_occasion}
-
-            </Typography>
-          </Grid>
-          <Grid item xs={6}>
-            <Typography
-              variant="h6"
-              style={{
-                fontSize: "14px",
-                marginBottom: "2px",
-                color: "#757575",
-              }}
-            >
-              Call back Date & Time
-            </Typography>
-            <Typography
-              variant="h6"
-              style={{
-                fontSize: "18px",
-                marginBottom: "2px",
-                color: "black",
-              }}
-            >
-                          23-11-2023 : 12:00 P.M
-
-            </Typography>
-          </Grid>
-          <Grid item xs={6}>
-            <TextField
-              variant="outlined"
-              label="Remark"
-              multiline
-              minRows={5}
-              fullWidth
-              name="remark"
-              defaultValue={"Testing"}
-            />
-          </Grid>
-          <Grid item xs={6}>
-            <FormControl fullWidth variant="outlined">
-              <InputLabel id="disposition">Disposition</InputLabel>
-              <Select
-                labelId="disposition"
-                id="disposition_id"
-                label="Disposition"
-                name="disposition"
-                defaultValue={apiData.disposition}
-
-                // onChange={handleChange}
-              >
-                <MenuItem value={"Information"}>Information</MenuItem>
-                <MenuItem value={"Reservation"}>Reservation</MenuItem>
-                <MenuItem value={"Shopping Follow Up"}>
-                  Shopping Follow Up
-                </MenuItem>
-                <MenuItem value={"Shopping No Follow Up"}>
-                  Shopping No Follow Up
-                </MenuItem>
-                <MenuItem value={"Follow Up - Reservation"}>
-                  Follow Up - Reservation
-                </MenuItem>
-                <MenuItem value={"Follow Up - No Reservation"}>
-                  Follow Up - No Reservation
-                </MenuItem>
-                <MenuItem value={"Canellation"}>Canellation</MenuItem>
-                <MenuItem value={"Amendment"}>Amendment</MenuItem>
-                <MenuItem value={"Spam"}>Spam</MenuItem>
-              </Select>
-            </FormControl>
-          </Grid>
-
-          <Grid item xs={6}>
-            <Typography variant="h6">Departments</Typography>
-            <FormGroup style={{ flexDirection: "row" }}>
-              <FormControlLabel
-                control={<Checkbox />}
-                name="marketing"
-                value={"marketing"}
-                label="Marketing"
-                {...register("marketing")}
-              />
-              <FormControlLabel
-                control={<Checkbox />}
-                name="sales"
-                value={"sales"}
-             
-                label="Sales"
-              />
-              <FormControlLabel
-                control={<Checkbox />}
-                name="reservation"
-                value={"reservation"}
-                label="Reservation"
-                checked
-              />
-            </FormGroup>
-          </Grid>
-
-          <Grid item xs={6}>
-            
-          </Grid>
+      <Grid container>
+        <Grid item xs={8}>
+          <Typography
+            variant="h5"
+            style={{
+              padding: "10px 20px",
+              fontWeight: "600",
+              color: "#96cb13",
+            }}
+          >
+            Leads Information
+          </Typography>
         </Grid>
-      </form>:<Typography variant="h5" style={{fontWeight:'600'}} />}
+        <Grid item xs={4} style={{display:'flex',justifyContent:'end',paddingRight:'20px',alignItems:'center'}}>
+          <Button variant="outlined" style={{background:'#318ab9',color:"white"}} onClick={()=>history.push('/agent/dashboard')}>Dashboard</Button>
+        </Grid>
+      </Grid>
+
+      {apiData ? (
+        <form onSubmit={handleSubmit(onFormSubmit, onErrors)}>
+          <Grid container spacing={2} style={{ padding: "20px" }}>
+            <Grid item xs={12}>
+              <Typography
+                variant="h6"
+                style={{ padding: "10px 10px", fontWeight: "600" }}
+              >
+                Profile
+              </Typography>
+            </Grid>
+            <Grid item xs={2}>
+              <FormControl fullWidth variant="outlined">
+                <InputLabel id="Salutation">Salutation</InputLabel>
+                <Select
+                  labelId="Salutation"
+                  id="Salutation"
+                  name="salutation"
+                  label="Salutation"
+                  defaultValue={apiData.salutation}
+                  // onChange={handleChange}
+                >
+                  <MenuItem value={"Mr."}>Mr.</MenuItem>
+                  <MenuItem value={"Mrs."}>Mrs.</MenuItem>
+                </Select>
+              </FormControl>
+              {errors?.salutation && (
+                <Typography
+                  style={{ color: "red", fontSize: "14px" }}
+                  variant="subtitle1"
+                >
+                  {" "}
+                  {errors.salutation.message}{" "}
+                </Typography>
+              )}
+            </Grid>
+            <Grid item xs={5}>
+              <TextField
+                fullWidth
+                variant="outlined"
+                name="guest_first_name"
+                defaultValue={apiData.guest_first_name}
+                label={"Firstname"}
+              />
+              {errors?.guest_first_name && (
+                <Typography
+                  style={{ color: "red", fontSize: "14px" }}
+                  variant="subtitle1"
+                >
+                  {" "}
+                  {errors.guest_first_name.message}{" "}
+                </Typography>
+              )}
+            </Grid>
+            <Grid item xs={5}>
+              <TextField
+                fullWidth
+                variant="outlined"
+                name="guest_last_name"
+                defaultValue={apiData.guest_last_name}
+                label={"Lastname"}
+              />
+              {errors?.guest_last_name && (
+                <Typography
+                  style={{ color: "red", fontSize: "14px" }}
+                  variant="subtitle1"
+                >
+                  {" "}
+                  {errors.guest_last_name.message}{" "}
+                </Typography>
+              )}
+            </Grid>
+
+            <Grid item xs={12}>
+              <Typography
+                variant="h6"
+                style={{ padding: "10px 10px", fontWeight: "600" }}
+              >
+                Contact
+              </Typography>
+            </Grid>
+            <Grid item xs={4}>
+              <TextField
+                fullWidth
+                type="tel"
+                variant="outlined"
+                label={"Contact"}
+                name="guest_mobile_number"
+                defaultValue={apiData.guest_mobile_number}
+              />
+            </Grid>
+            <Grid item xs={4}>
+              <TextField
+                fullWidth
+                type="tel"
+                variant="outlined"
+                label={"Alternate Contact"}
+                name="alternate_contact"
+                defaultValue={apiData.alternate_contact}
+              />
+            </Grid>
+            <Grid item xs={4}>
+              <TextField
+                fullWidth
+                type="email"
+                variant="outlined"
+                label={"Email"}
+                name="guest_email"
+                defaultValue={apiData.guest_email}
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <TextField
+                fullWidth
+                type="text"
+                variant="outlined"
+                label={"Address line 1"}
+                name="guest_address_1"
+                defaultValue={apiData.guest_address_1}
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <TextField
+                fullWidth
+                type="text"
+                variant="outlined"
+                label={"Address line 2"}
+                name="guest_address_2"
+                defaultValue={apiData.guest_address_2}
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <TextField
+                fullWidth
+                type="text"
+                variant="outlined"
+                label={"City"}
+                name="guest_city"
+                defaultValue={apiData.guest_city}
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <TextField
+                fullWidth
+                type="text"
+                variant="outlined"
+                label={"State"}
+                name="guest_state"
+                defaultValue={apiData.guest_state}
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <TextField
+                fullWidth
+                type="text"
+                variant="outlined"
+                label={"Country"}
+                name="guest_country"
+                defaultValue={apiData.guest_country}
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <FormControl fullWidth variant="outlined">
+                <InputLabel id="hotel_name">Hotel Name</InputLabel>
+                <Select
+                  labelId="hotel_name"
+                  id="hotel_name_id"
+                  label="Hotel Name"
+                  name="hotel_name"
+                  // onChange={handleChange}
+                  defaultValue={apiData.hotel_name}
+                >
+                  <MenuItem value={"sayaji"}>Sayaji</MenuItem>
+                  <MenuItem value={"raddison blu"}>Raddison BLU</MenuItem>
+                  <MenuItem value={"shahpura"}>Shahpura</MenuItem>
+                </Select>
+              </FormControl>
+            </Grid>
+            <Grid item xs={6}>
+              <FormControl fullWidth variant="outlined">
+                <InputLabel id="caller_type">Caller type</InputLabel>
+                <Select
+                  labelId="caller_type"
+                  id="caller_type_id"
+                  label="Caller Type"
+                  name="caller_type"
+                  defaultValue={apiData.caller_type}
+
+                  // onChange={handleChange}
+                >
+                  <MenuItem value={"Internal Transfer"}>
+                    Internal Transfer
+                  </MenuItem>
+                  <MenuItem value={"Hotel"}>Hotel</MenuItem>
+                  <MenuItem value={"Guest"}>Guest</MenuItem>
+                </Select>
+              </FormControl>
+            </Grid>
+            <Grid item xs={6}>
+              <TextField
+                label={"Purpose of travel"}
+                fullWidth
+                type="text"
+                name="purpose_of_travel"
+                defaultValue={apiData.purpose_of_travel}
+                variant="outlined"
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <Typography
+                variant="h6"
+                style={{
+                  fontSize: "14px",
+                  marginBottom: "2px",
+                  color: "#757575",
+                }}
+              >
+                Arrival Date
+              </Typography>
+              <Typography
+                variant="h6"
+                style={{
+                  fontSize: "18px",
+                  marginBottom: "2px",
+                  color: "black",
+                }}
+              >
+                {apiData.arrival_date}
+              </Typography>
+            </Grid>
+            <Grid item xs={6}>
+              <Typography
+                variant="h6"
+                style={{
+                  fontSize: "14px",
+                  marginBottom: "2px",
+                  color: "#757575",
+                }}
+              >
+                Departure Date
+              </Typography>
+              <Typography
+                variant="h6"
+                style={{
+                  fontSize: "18px",
+                  marginBottom: "2px",
+                  color: "black",
+                }}
+              >
+                {apiData.departure_date}
+              </Typography>
+            </Grid>
+            <Grid item xs={6}>
+              <Typography
+                variant="h6"
+                style={{
+                  fontSize: "14px",
+                  marginBottom: "2px",
+                  color: "#757575",
+                }}
+              >
+                Special Occasion
+              </Typography>
+              <Typography
+                variant="h6"
+                style={{
+                  fontSize: "18px",
+                  marginBottom: "2px",
+                  color: "black",
+                }}
+              >
+                {apiData?.special_occasion}
+              </Typography>
+            </Grid>
+            <Grid item xs={6}>
+              <Typography
+                variant="h6"
+                style={{
+                  fontSize: "14px",
+                  marginBottom: "2px",
+                  color: "#757575",
+                }}
+              >
+                Call back Date & Time
+              </Typography>
+              <Typography
+                variant="h6"
+                style={{
+                  fontSize: "18px",
+                  marginBottom: "2px",
+                  color: "black",
+                }}
+              >
+                23-11-2023 : 12:00 P.M
+              </Typography>
+            </Grid>
+            <Grid item xs={6}>
+              <TextField
+                variant="outlined"
+                label="Remark"
+                multiline
+                minRows={5}
+                fullWidth
+                name="remark"
+                defaultValue={"Testing"}
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <Typography variant="h6">Departments</Typography>
+              <FormGroup style={{ flexDirection: "row" }}>
+                <FormControlLabel
+                  control={<Checkbox />}
+                  name="marketing"
+                  value={"marketing"}
+                  label="Marketing"
+                  {...register("marketing")}
+                />
+                <FormControlLabel
+                  control={<Checkbox />}
+                  name="sales"
+                  value={"sales"}
+                  label="Sales"
+                />
+                <FormControlLabel
+                  control={<Checkbox />}
+                  name="reservation"
+                  value={"reservation"}
+                  label="Reservation"
+                  checked
+                />
+              </FormGroup>
+            </Grid>
+            <Grid item xs={6}>
+              <FormControl fullWidth variant="outlined">
+                <InputLabel id="disposition">Disposition</InputLabel>
+                <Select
+                  labelId="disposition"
+                  id="disposition_id"
+                  label="Disposition"
+                  name="disposition"
+                  defaultValue={apiData.disposition}
+
+                  // onChange={handleChange}
+                >
+                  <MenuItem value={"Information"}>Information</MenuItem>
+                  <MenuItem value={"Reservation"}>Reservation</MenuItem>
+                  <MenuItem value={"Shopping Follow Up"}>
+                    Shopping Follow Up
+                  </MenuItem>
+                  <MenuItem value={"Shopping No Follow Up"}>
+                    Shopping No Follow Up
+                  </MenuItem>
+                  <MenuItem value={"Follow Up - Reservation"}>
+                    Follow Up - Reservation
+                  </MenuItem>
+                  <MenuItem value={"Follow Up - No Reservation"}>
+                    Follow Up - No Reservation
+                  </MenuItem>
+                  <MenuItem value={"Canellation"}>Canellation</MenuItem>
+                  <MenuItem value={"Amendment"}>Amendment</MenuItem>
+                  <MenuItem value={"Spam"}>Spam</MenuItem>
+                </Select>
+              </FormControl>
+            </Grid>
+
+            <Grid item xs={6}></Grid>
+          </Grid>
+        </form>
+      ) : (
+        <Typography variant="h5" style={{ fontWeight: "600" }} />
+      )}
     </Box>
   );
 };

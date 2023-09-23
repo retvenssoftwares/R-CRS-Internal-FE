@@ -65,7 +65,7 @@ const Leads = () => {
   ];
 
   return (
-    <DashboardLayout>
+    <>
       <Typography
         variant="h5"
         style={{ fontWeight: "600", marginBottom: "20px" }}
@@ -73,7 +73,7 @@ const Leads = () => {
         My Leads
       </Typography>
      {allLeads ? <Table selectableRows={false} columns={column} data={allLeads['guest_info']} /> : "Loading..."}
-    </DashboardLayout>
+    </>
   );
 };
 

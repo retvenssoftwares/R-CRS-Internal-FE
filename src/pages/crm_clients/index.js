@@ -43,12 +43,12 @@ const CRM_CLIENTS = () => {
     }
   ]
   return (
-    <DashboardLayout>
+    <>
         <Typography variant="h4" style={{fontWeight:'600',textAlign:'center',color:'#9ccc39'}}>
             Our Clients
         </Typography>
       <Table columns={column} data={data} />
-    </DashboardLayout>
+    </>
   );
 };
 

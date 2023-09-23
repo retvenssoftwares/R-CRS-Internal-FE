@@ -49,7 +49,7 @@ const HotelSettings = () => {
     }
   }, [filterValue]);
   return (
-    <DashboardLayout>
+    <>
       {addNewHotel && (
         <Button
           variant="contained"
@@ -273,7 +273,7 @@ const HotelSettings = () => {
       ) : (
         <HotelOnBoard />
       )}
-    </DashboardLayout>
+    </>
   );
 };
 

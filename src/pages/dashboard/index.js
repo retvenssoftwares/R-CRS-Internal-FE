@@ -26,7 +26,6 @@ const Dashboard = () => {
 
   return (
     <>
-      <DashboardLayout>
         <Box sx={{ flexGrow: 1 }}>
           <Grid container spacing={2}>
             <Grid item xs={4}>
@@ -132,7 +131,6 @@ const Dashboard = () => {
             </Grid>
           </Grid>
         </Box>
-      </DashboardLayout>
     </>
   );
 };

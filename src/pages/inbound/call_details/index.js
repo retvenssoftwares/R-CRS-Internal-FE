@@ -70,7 +70,7 @@ const CallDetails = () => {
   ];
   console.log(stateData)
   return (
-    <DashboardLayout>
+    <>
         <Box flex={1}>
         <Grid container spacing={0}>
             <Grid item xs={12}>
@@ -78,7 +78,7 @@ const CallDetails = () => {
             </Grid>
         </Grid>
         </Box>
-    </DashboardLayout>
+    </>
   );
 };
 

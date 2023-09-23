@@ -11,7 +11,8 @@ import { MultiTypeChart } from "../charts/multiTypeChart";
 import CountUp from "react-countup/";
 import { Typography } from "@mui/material";
 import { useFetchDataQuery } from "../../redux/slices/dashboard/api";
-import { useGetWeekendCallDetailsQuery } from "../../redux/slices/call";
+import { useGetAllCallsDetails_adminQuery, useGetWeekendCallDetailsQuery } from "../../redux/slices/call";
+import { useAgentInboundOutboundQuery } from "../../redux/slices/agent";
 // import {useFetchDataQuery} from '../../redux/slices/Dashboard/api'
 
 const Admin_Dashboard = () => {
@@ -23,6 +24,7 @@ const Admin_Dashboard = () => {
     borderRadius: "20px",
     color: theme.palette.text.secondary,
   }));
+  const{data:adminInboundOutbound} = useGetAllCallsDetails_adminQuery()
   const { data, refetch, isError } = useFetchDataQuery();
 
   const date = new Date();
@@ -41,7 +43,6 @@ const Admin_Dashboard = () => {
 
   return (
     <>
-      <DashboardLayout>
         <Box sx={{ flexGrow: 1 }}>
           <Grid container spacing={2}>
             <Grid item xs={4}>
@@ -56,7 +57,7 @@ const Admin_Dashboard = () => {
                   Total Calls
                 </Typography>
                 <CountUp
-                  end={data?.Booking_count}
+                  end={adminInboundOutbound?.totalCalls}
                   duration={5}
                   style={{
                     fontSize: "40px",
@@ -78,7 +79,7 @@ const Admin_Dashboard = () => {
                   Total Calls Today
                 </Typography>
                 <CountUp
-                  end={data?.Cancelled_bookings_count}
+                  end={adminInboundOutbound?.totalTodayCalls}
                   duration={5}
                   style={{
                     fontSize: "40px",
@@ -102,7 +103,7 @@ const Admin_Dashboard = () => {
                 <p style={{ margin: 0, fontWeight: "600" }}>
                   {" "}
                   <CountUp
-                    end={data?.total_revenue}
+                    end={adminInboundOutbound?.totalInboundCalls}
                     duration={5}
                     style={{
                       fontSize: "40px",
@@ -155,7 +156,6 @@ const Admin_Dashboard = () => {
             <Grid item xs={4}></Grid>
           </Grid>
         </Box>
-      </DashboardLayout>
     </>
   );
 };

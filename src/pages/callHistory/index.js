@@ -8,8 +8,8 @@ const CallHistory = () => {
   const {data:callHistory} = useGetCallHistoryQuery()
   const column = [
     {
-      name:'Agent Name',
-      selector: row => row['agent_name']
+      name:'Caller Name',
+      selector:row => row['caller_name']
     },
     {
       name:'Caller ID',
@@ -18,6 +18,12 @@ const CallHistory = () => {
     {
       name:'Call Duration',
       selector:row => row['call_duration']
+    },{
+      name:'Call Date',
+      selector:row=>row['call_date']
+    },{
+      name:'Call Time',
+      selector:row=>row['call_time']
     },
     {
       name:'Call Type',
@@ -25,15 +31,22 @@ const CallHistory = () => {
     },{
       name:'Disposition',
       selector:row => row['disposition']
+    },{
+      name:'Remark',
+      selector:row=>row['remark']
     }
   ]
   const data = [
     {
       agent_name:'Saumitra Shukla',
-      caller_id:'Rameet kaur',
+      caller_name:'Rameet kaur',
+      caller_id:'7828267513',
       call_duration:'00:55:41',
+      call_date:'03-09-2023',
+      call_time:'12:30 P.M',
       call_type:'Inbound',
-      disposition:'Reservation'
+      disposition:'Reservation',
+      remark:'Birthday'
     }
   ]
 
@@ -47,12 +60,12 @@ const CallHistory = () => {
   })
 
   return (
-   <DashboardLayout>
+   <>
       <Typography variant='h5' style={{fontWeight:'600',marginBottom:'20px'}}>
         Call History
       </Typography>
       <Table columns={column} data={data} selectableRows={false} />
-   </DashboardLayout>
+   </>
   )
 }
 

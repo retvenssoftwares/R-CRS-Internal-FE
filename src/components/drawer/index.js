@@ -15,12 +15,12 @@ import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
-import FiberManualRecordIcon from '@material-ui/icons/FiberManualRecord';
-import PauseIcon from '@material-ui/icons/Pause';
+import FiberManualRecordIcon from "@material-ui/icons/FiberManualRecord";
+import PauseIcon from "@material-ui/icons/Pause";
 import DashboardIcon from "@material-ui/icons/Dashboard";
-import CallMadeIcon from '@material-ui/icons/CallMade';
-import CallReceivedIcon from '@material-ui/icons/CallReceived';
-import HistoryIcon from '@material-ui/icons/History';
+import CallMadeIcon from "@material-ui/icons/CallMade";
+import CallReceivedIcon from "@material-ui/icons/CallReceived";
+import HistoryIcon from "@material-ui/icons/History";
 import {
   Divider,
   Collapse,
@@ -55,12 +55,14 @@ import InsertChartIcon from "@material-ui/icons/InsertChart";
 import AssessmentIcon from "@material-ui/icons/Assessment";
 import DescriptionIcon from "@material-ui/icons/Description";
 import { signout } from "../../actions/auth";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { actions } from "../../actionTypes";
 import SwitchBtn from "../switch";
 import CRM_Image from "../../assets/crm_logo.jpeg";
 import CRS_Image from "../../assets/crs_logo.jpeg";
-import TableChartIcon from '@material-ui/icons/TableChart';
+import TableChartIcon from "@material-ui/icons/TableChart";
+import LoggedInTimer from "../timer";
+import { setLoggedOut } from "../../redux/slices/isLogin";
 
 const drawerWidth = 272;
 
@@ -140,7 +142,7 @@ const SideDrawer = ({ children }) => {
   const [openCRSCollapse, setOpenCRSCollapse] = React.useState(false);
   const [openCRS_Settings, setOpenCRS_Settings] = React.useState(true);
   const [roles, setRole] = React.useState(null);
-
+  const dispatch = useDispatch();
   const isOnline = useSelector((state) => state.isOnline.isOnline);
 
   // const userDataFromServer = useSelector(state => state.userInfo)
@@ -188,7 +190,6 @@ const SideDrawer = ({ children }) => {
   });
   const isCrs = useSelector((state) => state.dashboardState.isBooleanValue);
 
-
   return (
     <div className={classes.root}>
       <CssBaseline />
@@ -200,7 +201,7 @@ const SideDrawer = ({ children }) => {
       >
         <Toolbar className="">
           <Grid container spacing={2}>
-            <Grid item xs={1}>
+            <Grid item xs={1} style={{ display: "flex", alignItems: "center" }}>
               {open && (
                 <IconButton onClick={handleDrawerClose}>
                   {theme.direction === "rtl" ? (
@@ -225,7 +226,7 @@ const SideDrawer = ({ children }) => {
             <Grid item xs={4} style={{ display: "flex", alignItems: "center" }}>
               <Typography variant="h6" noWrap style={{ color: "black" }}>
                 {/* {storedUserContext['employee'].first_name} */}
-                {isCrs ? "Welcome to CRS" : "Welcome to CRM"}
+                <span style={{fontSize:'16px'}}> Name :</span>  {storedUserContext && storedUserContext?.details?.first_name &&  `${storedUserContext?.details?.first_name} ${storedUserContext?.details?.last_name}`}  <span style={{fontSize:'14px',color:'#1853b1'}}> ${storedUserContext?.details?.employee_id} </span>
               </Typography>
             </Grid>
 
@@ -240,21 +241,44 @@ const SideDrawer = ({ children }) => {
                 fontSize: "20px",
               }}
             >
+              {roles === "Agent" && <LoggedInTimer />}
+
               {roles === "Agent" && (
                 <>
                   {" "}
                   {isOnline ? (
-                    <div style={{ color: "#4B8A08", background:'#D0F5A9',padding:'10px 40px',borderRadius:'20px', fontWeight: "600",display:'flex',alignItems:'center' }}>
-                     <FiberManualRecordIcon /> Online
+                    <div
+                      style={{
+                        color: "#4B8A08",
+                        background: "#D0F5A9",
+                        padding: "10px 40px",
+                        borderRadius: "20px",
+                        fontWeight: "600",
+                        display: "flex",
+                        alignItems: "center",
+                        marginLeft: "10px",
+                      }}
+                    >
+                      <FiberManualRecordIcon /> Online
                     </div>
                   ) : (
-                    <div style={{ color: "#FE2E2E",background:'#F6CECE',padding:'10px 40px',borderRadius:'20px', fontWeight: "600",display:'flex',alignItems:'center' }}>
-                     <FiberManualRecordIcon /> Offline
+                    <div
+                      style={{
+                        color: "#FE2E2E",
+                        background: "#F6CECE",
+                        padding: "10px 40px",
+                        borderRadius: "20px",
+                        fontWeight: "600",
+                        display: "flex",
+                        alignItems: "center",
+                        marginLeft: "10px",
+                      }}
+                    >
+                      <FiberManualRecordIcon /> Offline
                     </div>
                   )}{" "}
                 </>
               )}
-
               {/* <SwitchBtn /> */}
               {/* Press (Alt+Tab) to switch between CRM & CRS */}
             </Grid>
@@ -360,7 +384,11 @@ const SideDrawer = ({ children }) => {
             <ListItem
               button
               key={423}
-              onClick={() => signout(() => history.push("/"))}
+              onClick={() =>
+                signout(() => {
+                  dispatch(setLoggedOut(false)); history.push("/");
+                })
+              }
               aria-description="menuBar"
             >
               <ListItemIcon>
@@ -673,7 +701,6 @@ const SideDrawer = ({ children }) => {
               <ListItemText primary="Admins" />
             </ListItem>
 
-
             <ListItem
               button
               key={6564}
@@ -716,7 +743,11 @@ const SideDrawer = ({ children }) => {
             <ListItem
               button
               key={423}
-              onClick={() => signout(() => history.push("/"))}
+              onClick={() =>
+                signout(() => {
+                  dispatch(setLoggedOut(false)); history.push("/");
+                })
+              }
               aria-description="menuBar"
             >
               <ListItemIcon>
@@ -808,7 +839,11 @@ const SideDrawer = ({ children }) => {
               <ListItem
                 button
                 key={423}
-                onClick={() => signout(() => history.push("/"))}
+                onClick={() =>
+                  signout(() => {
+                    dispatch(setLoggedOut(false)); history.push("/");
+                  })
+                }
                 aria-description="menuBar"
               >
                 <ListItemIcon>

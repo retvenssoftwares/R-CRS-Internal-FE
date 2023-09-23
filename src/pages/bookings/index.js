@@ -344,9 +344,9 @@ const {data:allBookingsData} = useAllBookingsQuery()
 
 const Bookings = () => {
     return  <>
-                <DashboardLayout>
+                <>
                     <AllBookingDisplay/>
-                </DashboardLayout>
+                </>
             </>
 }
 export default Bookings;

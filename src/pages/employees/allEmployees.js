@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import DashboardLayout from "../../components/layout/dashboardLayout";
 import { Grid, MenuItem, Select, Typography } from "@material-ui/core";
 import Button from "@material-ui/core/Button";
@@ -21,8 +21,13 @@ import OutlinedInput from "@material-ui/core/OutlinedInput";
 // import { Space, Table } from "antd";
 import Paper from "@material-ui/core/Paper";
 import Table from "../../components/table";
-import { useGetAllEmployeeQuery } from "../../redux/slices/employee";
+import {
+  useAddEmployeeMutation,
+  useGetAllEmployeeQuery,
+} from "../../redux/slices/employee";
 import { useForm } from "react-hook-form";
+import swal from "sweetalert";
+import { Delete, Edit } from "@material-ui/icons";
 // const { Column, ColumnGroup } = Table;
 
 const useStyles = makeStyles((theme) => ({
@@ -334,7 +339,10 @@ const useStyles = makeStyles((theme) => ({
 // }
 
 const AllEmployees = () => {
-  const [addEmployee, setAddEmployee] = useState(false);
+  const [addEmployeeState, setAddEmployeeState] = useState(false);
+  const [role, setRole] = useState("");
+  const [edit, setEdit] = useState(false);
+  const [editData, setEditData] = useState(null);
   const Item = styled(Paper)(({ theme }) => ({
     backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
     ...theme.typography.body2,
@@ -345,19 +353,67 @@ const AllEmployees = () => {
     color: theme.palette.text.secondary,
     width: "100%",
   }));
-  const { data: AllEmployees,refetch } = useGetAllEmployeeQuery({
-    "role": "Admin",
+  const { data: AllEmployees, refetch } = useGetAllEmployeeQuery({
+    role: "Admin",
   });
+  const [addEmployee] = useAddEmployeeMutation();
 
-  const { register, handleSubmit } = useForm({
-    shouldUseNativeValidation: true,
-  });
-  const onSubmit = async (data) => {
-    console.log(data);
-    refetch()
+  const { register, handleSubmit, formState: errors } = useForm();
+  const handleDelete = () => {
+    swal({
+      title: "Are you sure?",
+      text: "Once deleted, you will not be able to recover this Employee!",
+      icon: "warning",
+      buttons: true,
+      dangerMode: true,
+    }).then((willDelete) => {
+      if (willDelete) {
+        swal("Employee has been deleted!", {
+          icon: "success",
+        });
+      } else {
+        swal("Employee is not deleted!");
+      }
+    });
   };
 
+  const handleEdit = (row) => {
+    setEditData(row);
+    setEdit(true);
+    console.log(row);
+  };
 
+  const onSubmit = async (data) => {
+    console.log(data);
+    if (data.confirm_password === data.password) {
+      addEmployee({
+        userName: data.userName,
+        First_name: data.First_name,
+        joining_date: data.joining_date,
+        email: data.email,
+        agent_id: data.agent_id,
+        mobile_number: data.mobile_number,
+        designation: data.designation,
+        Last_name: data.Last_name,
+        password: data.password,
+        confirm_password: data.confirm_password,
+        department: [
+          {
+            department_name: data.department_name,
+            role: role,
+          },
+        ],
+        role: "Admin",
+      })
+        .unwrap()
+        .then((res) => console.log(res))
+        .catch((err) => console.log(err));
+    } else {
+      alert("Password not matched");
+    }
+
+    refetch();
+  };
 
   const column = [
     {
@@ -391,6 +447,47 @@ const AllEmployees = () => {
       name: "Mobile",
       selector: (row) => row["phone_number"],
     },
+    {
+      name: "Status",
+      selector: (row) => row["status"],
+    },
+    {
+      name: "Action",
+      cell: (row) => {
+        return (
+          <div style={{ display: "flex" }}>
+            <Button
+              variant="outlined"
+              style={{
+                background: "rgb(255 152 51)",
+                color: "white",
+                marginRight: "20px",
+              }}
+              onClick={() => handleEdit(row)}
+            >
+              <Edit />
+            </Button>
+            <Button
+              variant="outlined"
+              style={{
+                background: "#FA5858",
+                color: "white",
+                marginRight: "20px",
+              }}
+              onClick={handleDelete}
+            >
+              <Delete />
+            </Button>
+          </div>
+        );
+      },
+    },
+    // {
+    //   name:'Actions',
+    //   cell:()=>{
+
+    //   }
+    // }
   ];
 
   const Data = [
@@ -403,11 +500,11 @@ const AllEmployees = () => {
       mobile: "8818860231",
     },
   ];
-  console.log(AllEmployees);
+  console.log(editData);
 
   return (
     <>
-      <DashboardLayout>
+      {!edit && (
         <Button
           variant="outlined"
           type="submit"
@@ -417,206 +514,456 @@ const AllEmployees = () => {
             marginBottom: "40px",
           }}
           onClick={
-            addEmployee
-              ? () => setAddEmployee(false)
-              : () => setAddEmployee(true)
+            addEmployeeState
+              ? () => setAddEmployeeState(false)
+              : () => setAddEmployeeState(true)
           }
         >
-          {addEmployee ? "X" : "Add Empolyee"}
+          {addEmployeeState ? "X" : "Add New Empolyee"}
         </Button>
-        {addEmployee && (
-          <>
-            <Typography
-              variant="h5"
-              style={{ fontWeight: "600", marginBottom: "40px" }}
-            >
-              Add New Employee
-            </Typography>
-            {/* {AddEmployee()} */}
-            <Item>
-              <form onSubmit={handleSubmit(onSubmit)}>
-                <Grid container spacing={2} justifyContent="center">
+      )}
+
+
+      {edit && (
+        <Button
+          variant="outlined"
+          type="submit"
+          style={{
+            background: "#1853b1",
+            color: "white",
+            marginBottom: "40px",
+          }}
+          onClick={edit ? () => setEdit(false) : () => setEdit(true)}
+        >
+          {edit ? "X" : "Edit Empolyee"}
+        </Button>
+      )}
+
+      
+      {addEmployeeState && (
+        <>
+          <Typography
+            variant="h5"
+            style={{ fontWeight: "600", marginBottom: "40px" }}
+          >
+            Add New Employee
+          </Typography>
+          {/* {AddEmployee()} */}
+          <Item>
+            <form onSubmit={handleSubmit(onSubmit)}>
+              <Grid container spacing={2} justifyContent="center">
+                {role === "Agent" && (
                   <Grid item xs={4}>
                     <TextField
                       variant="outlined"
                       fullWidth
                       label="Agent ID"
-                      name="employee_id"
-                      {...register("employee_id")}
+                      name="agent_id"
+                      {...register("agent_id")}
                     />
                   </Grid>
-                  <Grid item xs={4}>
-                    <TextField
-                      variant="outlined"
-                      fullWidth
-                      label="Username"
-                      name="userName"
-                      {...register("userName")}
-                    />
-                  </Grid>
-                  <Grid item xs={4}>
-                    <TextField
-                      variant="outlined"
-                      fullWidth
-                      label="Firstname"
-                      name="First_name"
-                      {...register("First_name")}
-                    />
-                  </Grid>
-                  <Grid item xs={4}>
-                    <TextField
-                      variant="outlined"
-                      fullWidth
-                      label="Lastname"
-                      name={"Last_name"}
-                      {...register("Last_name")}
-                    />
-                  </Grid>
-                  <Grid item xs={4}>
-                    <TextField
-                      variant="outlined"
-                      fullWidth
-                      label="Designation"
-                      {...register("Designation")}
-                    />
-                  </Grid>
-                  <Grid item xs={4}>
-                    <FormControl fullWidth>
-                      <InputLabel
-                        id="role"
-                        style={{ padding: "0px 15px", marginTop: "-6px" }}
-                      >
-                        Role
-                      </InputLabel>
-                      <Select
-                        labelId="role"
-                        id="role-select"
-                        // value={age}
-                        variant="outlined"
-                        label="Role"
-                        {...register("role")}
-
-                        // onChange={handleChange}
-                      >
-                        <MenuItem value={"Admin"}>Admin</MenuItem>
-                        <MenuItem value={"Agent"}>Agent</MenuItem>
-                      </Select>
-                    </FormControl>
-                  </Grid>
-                  <Grid item xs={4}>
-                    <TextField
-                      variant="outlined"
-                      type="email"
-                      fullWidth
-                      label="Email"
-                      name="email"
-                      {...register("email")}
-                    />
-                  </Grid>
-                  <Grid item xs={4}>
-                    <FormControl fullWidth>
-                      <InputLabel
-                        id="gender"
-                        style={{ padding: "0px 15px", marginTop: "-6px" }}
-                      >
-                        Gender
-                      </InputLabel>
-                      <Select
-                        labelId="gender"
-                        id="gender-select"
-                        // value={age}
-                        variant="outlined"
-                        name="gender"
-                        {...register("gender")}
-                        label="Gender"
-                        // onChange={handleChange}
-                      >
-                        <MenuItem value={"male"}>Male</MenuItem>
-                        <MenuItem value={"Female"}>Female</MenuItem>
-                      </Select>
-                    </FormControl>
-                  </Grid>
-                  <Grid item xs={4} style={{ margin: "-16px 0px" }}>
+                )}
+                <Grid item xs={4}>
+                  <TextField
+                    variant="outlined"
+                    fullWidth
+                    label="Username"
+                    name="userName"
+                    {...register("userName")}
+                  />
+                </Grid>
+                <Grid item xs={4}>
+                  <TextField
+                    variant="outlined"
+                    fullWidth
+                    label="Firstname"
+                    name="First_name"
+                    {...register("First_name")}
+                  />
+                </Grid>
+                <Grid item xs={4}>
+                  <TextField
+                    variant="outlined"
+                    fullWidth
+                    label="Lastname"
+                    name={"Last_name"}
+                    {...register("Last_name")}
+                  />
+                </Grid>
+                <Grid item xs={4}>
+                  <TextField
+                    variant="outlined"
+                    fullWidth
+                    label="Designation"
+                    name="designation"
+                    {...register("designation")}
+                  />
+                </Grid>
+                <Grid item xs={4}>
+                  <FormControl fullWidth>
                     <InputLabel
-                      style={{
-                        padding: "0px 0x",
-                        position: "relative",
-                        top: "35px",
-                        left: "80px",
-                        margin: "0px",
-                      }}
+                      id="department"
+                      style={{ padding: "0px 15px", marginTop: "-6px" }}
                     >
-                      Joining Date
+                      Department
                     </InputLabel>
-                    <TextField
+                    <Select
+                      labelId="department"
+                      id="department-select"
+                      // value={age}
                       variant="outlined"
-                      type="date"
-                      name="joining_date"
-                      {...register("joining_date")}
-                      fullWidth
-                    />
-                  </Grid>
-                  <Grid item xs={4}>
-                    <TextField
+                      name="department_name"
+                      {...register("department_name")}
+                      label="Department"
+                      // onChange={handleChange}
+                    >
+                      <MenuItem value={"Marketing"}>Marketing</MenuItem>
+                      <MenuItem value={"Revenue"}>Revenue</MenuItem>
+                      <MenuItem value={"Reservation"}>Reservation</MenuItem>
+                    </Select>
+                  </FormControl>
+                </Grid>
+                <Grid item xs={4}>
+                  <FormControl fullWidth>
+                    <InputLabel
+                      id="role"
+                      style={{ padding: "0px 15px", marginTop: "-6px" }}
+                    >
+                      Role
+                    </InputLabel>
+                    <Select
+                      labelId="role"
+                      id="role-select"
+                      value={role}
                       variant="outlined"
-                      type="tel"
-                      fullWidth
-                      label="Mobile Number"
-                      name="mobile_number"
-                      {...register("mobile_number")}
-                    />
-                  </Grid>
-                  <Grid item xs={4}>
-                    <TextField
+                      label="Role"
+                      {...register("role")}
+                      onChange={(e) => setRole(e.target.value)}
+                    >
+                      <MenuItem value={"Admin"}>Admin</MenuItem>
+                      <MenuItem value={"Agent"}>Agent</MenuItem>
+                    </Select>
+                  </FormControl>
+                </Grid>
+                <Grid item xs={4}>
+                  <TextField
+                    variant="outlined"
+                    type="email"
+                    fullWidth
+                    label="Email"
+                    name="email"
+                    {...register("email")}
+                  />
+                </Grid>
+                <Grid item xs={4}>
+                  <FormControl fullWidth>
+                    <InputLabel
+                      id="gender"
+                      style={{ padding: "0px 15px", marginTop: "-6px" }}
+                    >
+                      Gender
+                    </InputLabel>
+                    <Select
+                      labelId="gender"
+                      id="gender-select"
+                      // value={age}
                       variant="outlined"
-                      type="password"
-                      fullWidth
-                      label="Password"
-                      name="password"
-                      {...register("password")}
-                    />
-                  </Grid>
-                  <Grid item xs={4}>
-                    <TextField
-                      variant="outlined"
-                      type="password"
-                      fullWidth
-                      label="Confirm Password"
-                      name="confirm_password"
-                      {...register("confirm_password")}
-                    />
-                  </Grid>
-                  <Grid item xs={4}></Grid>
-                  <Grid item xs={4}></Grid>
-                  <Grid
-                    item
-                    xs={4}
+                      name="gender"
+                      {...register("gender")}
+                      label="Gender"
+                      // onChange={handleChange}
+                    >
+                      <MenuItem value={"male"}>Male</MenuItem>
+                      <MenuItem value={"Female"}>Female</MenuItem>
+                    </Select>
+                  </FormControl>
+                </Grid>
+                <Grid item xs={4} style={{ margin: "-16px 0px" }}>
+                  <InputLabel
                     style={{
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "end",
+                      padding: "0px 0x",
+                      position: "relative",
+                      top: "35px",
+                      left: "80px",
+                      margin: "0px",
                     }}
                   >
-                    <Button
-                      variant="outlined"
-                      type="submit"
-                      style={{ background: "#1853b1", color: "white" }}
-                    >
-                      Add Empolyee
-                    </Button>
-                  </Grid>
+                    Joining Date
+                  </InputLabel>
+                  <TextField
+                    variant="outlined"
+                    type="date"
+                    name="joining_date"
+                    {...register("joining_date")}
+                    fullWidth
+                  />
                 </Grid>
-              </form>
-            </Item>
-          </>
-        )}
+                <Grid item xs={4}>
+                  <TextField
+                    variant="outlined"
+                    type="tel"
+                    fullWidth
+                    label="Mobile Number"
+                    name="mobile_number"
+                    {...register("mobile_number")}
+                  />
+                </Grid>
+                <Grid item xs={4}>
+                  <TextField
+                    variant="outlined"
+                    type="password"
+                    fullWidth
+                    label="Password"
+                    name="password"
+                    {...register("password")}
+                  />
+                </Grid>
+                <Grid item xs={4}>
+                  <TextField
+                    variant="outlined"
+                    type="password"
+                    fullWidth
+                    label="Confirm Password"
+                    name="confirm_password"
+                    {...register("confirm_password")}
+                  />
+                </Grid>
+                <Grid item xs={4}></Grid>
+                <Grid item xs={4}></Grid>
+                <Grid
+                  item
+                  xs={4}
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "end",
+                  }}
+                >
+                  <Button
+                    variant="outlined"
+                    type="submit"
+                    style={{ background: "#1853b1", color: "white" }}
+                  >
+                    Add Empolyee
+                  </Button>
+                </Grid>
+              </Grid>
+            </form>
+          </Item>
+        </>
+      )}
+      {edit && editData && (
+        <>
+          <Typography
+            variant="h5"
+            style={{ fontWeight: "600", marginBottom: "40px" }}
+          >
+            Edit Employee
+          </Typography>
+          {/* {AddEmployee()} */}
+          <Item>
+            <form onSubmit={handleSubmit(onSubmit)}>
+              <Grid container spacing={2} justifyContent="center">
+                {role === "Agent" && (
+                  <Grid item xs={4}>
+                    <TextField
+                      variant="outlined"
+                      fullWidth
+                      defaultValue={editData?.agent_id}
+                      label="Agent ID"
+                      name="agent_id"
+                      {...register("agent_id")}
+                    />
+                  </Grid>
+                )}
+                <Grid item xs={4}>
+                  <TextField
+                    variant="outlined"
+                    fullWidth
+                    defaultValue={editData?.userName}
+                    label="Username"
+                    name="userName"
+                    {...register("userName")}
+                  />
+                </Grid>
+                <Grid item xs={4}>
+                  <TextField
+                    variant="outlined"
+                    fullWidth
+                    label="Firstname"
+                    defaultValue={editData?.first_name}
+                    name="first_name"
+                    {...register("first_name")}
+                  />
+                </Grid>
+                <Grid item xs={4}>
+                  <TextField
+                    variant="outlined"
+                    fullWidth
+                    label="Lastname"
+                    name={"last_name"}
+                    defaultValue={editData?.last_name}
+                    {...register("last_name")}
+                  />
+                </Grid>
+                <Grid item xs={4}>
+                  <TextField
+                    variant="outlined"
+                    fullWidth
+                    label="Designation"
+                    name="designation"
+                    defaultValue={editData?.designation}
+                    {...register("designation")}
+                  />
+                </Grid>
+                <Grid item xs={4}>
+                  <FormControl fullWidth>
+                    <InputLabel
+                      id="department"
+                      style={{ padding: "0px 15px", marginTop: "-6px" }}
+                    >
+                      Department
+                    </InputLabel>
+                    <Select
+                      labelId="department"
+                      id="department-select"
+                      // value={age}
+                      defaultValue={editData?.department[0]?.department_name}
+                      variant="outlined"
+                      name="department_name"
+                      {...register("department_name")}
+                      label="Department"
+                      // onChange={handleChange}
+                    >
+                      <MenuItem value={"Marketing"}>Marketing</MenuItem>
+                      <MenuItem value={"Revenue"}>Revenue</MenuItem>
+                      <MenuItem value={"Reservation"}>Reservation</MenuItem>
+                    </Select>
+                  </FormControl>
+                </Grid>
+                <Grid item xs={4}>
+                  <FormControl fullWidth>
+                    <InputLabel
+                      id="role"
+                      style={{ padding: "0px 15px", marginTop: "-6px" }}
+                    >
+                      Role
+                    </InputLabel>
+                    <Select
+                      labelId="role"
+                      id="role-select"
+                      value={role}
+                      defaultValue={editData?.department[0]?.role}
+                      variant="outlined"
+                      label="Role"
+                      {...register("role")}
+                      onChange={(e) => setRole(e.target.value)}
+                    >
+                      <MenuItem value={"Admin"}>Admin</MenuItem>
+                      <MenuItem value={"Agent"}>Agent</MenuItem>
+                    </Select>
+                  </FormControl>
+                </Grid>
+                <Grid item xs={4}>
+                  <TextField
+                    variant="outlined"
+                    type="email"
+                    fullWidth
+                    label="Email"
+                    defaultValue={editData?.email}
+                    name="email"
+                    {...register("email")}
+                  />
+                </Grid>
+                <Grid item xs={4}>
+                  <FormControl fullWidth>
+                    <InputLabel
+                      id="gender"
+                      style={{ padding: "0px 15px", marginTop: "-6px" }}
+                    >
+                      Gender
+                    </InputLabel>
+                    <Select
+                      labelId="gender"
+                      id="gender-select"
+                      // value={age}
+                      variant="outlined"
+                      defaultValue={editData?.gender}
+                      name="gender"
+                      {...register("gender")}
+                      label="Gender"
+                      // onChange={handleChange}
+                    >
+                      <MenuItem value={"male"}>Male</MenuItem>
+                      <MenuItem value={"Female"}>Female</MenuItem>
+                    </Select>
+                  </FormControl>
+                </Grid>
+                <Grid item xs={4} style={{ margin: "-16px 0px" }}>
+                  <InputLabel
+                    style={{
+                      padding: "0px 0x",
+                      position: "relative",
+                      top: "35px",
+                      left: "80px",
+                      margin: "0px",
+                    }}
+                  >
+                    Joining Date
+                  </InputLabel>
+                  <TextField
+                    variant="outlined"
+                    type="date"
+                    name="joining_date"
+                    defaultValue={editData?.joining_date}
+                    {...register("joining_date")}
+                    fullWidth
+                  />
+                </Grid>
+                <Grid item xs={4}>
+                  <TextField
+                    variant="outlined"
+                    type="tel"
+                    fullWidth
+                    label="Mobile Number"
+                    name="mobile_number"
+                    defaultValue={editData?.mobile_number}
+                    {...register("mobile_number")}
+                  />
+                </Grid>
 
-        {!addEmployee && AllEmployees ? (
-          <Table columns={column} data={AllEmployees["get_all_employee"]} />
-        ) : (
-          "Loading..."
-        )}
-      </DashboardLayout>
+                <Grid item xs={4}></Grid>
+                <Grid item xs={4}></Grid>
+                <Grid item xs={4}></Grid>
+                <Grid item xs={4}></Grid>
+                <Grid
+                  item
+                  xs={4}
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "end",
+                  }}
+                >
+                  <Button
+                    variant="outlined"
+                    type="submit"
+                    style={{ background: "#1853b1", color: "white" }}
+                  >
+                    Edit Empolyee
+                  </Button>
+                </Grid>
+              </Grid>
+            </form>
+          </Item>
+        </>
+      )}
+
+      {!addEmployeeState && !edit && AllEmployees ? (
+        <Table columns={column} data={AllEmployees["get_all_employee"]} />
+      ) : (
+        ""
+      )}
     </>
   );
 };

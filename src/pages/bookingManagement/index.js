@@ -118,7 +118,7 @@ const BookingManagement = () => {
   }, [data, selectedRows, toggleCleared, booking]);
 
   return (
-    <DashboardLayout>
+    <>
       <Typography
         variant="h4"
         style={{ fontWeight: 600, marginBottom: "20px" }}
@@ -164,7 +164,7 @@ const BookingManagement = () => {
           {booking && <Reservation hotelData={bookingInfo} />}
         </Grid>
       </Grid>
-    </DashboardLayout>
+    </>
   );
 };
 

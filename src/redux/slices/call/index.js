@@ -31,9 +31,22 @@ export const Calls = emptySplitApi.injectEndpoints({
         method:'GET',
         params:params
       })
+    }),
+    getAllCallsDetails_admin:builder.query({
+      query:(params)=>({
+        url:'/getall_calls',
+        method:'GET',
+      })
+    }),
+    getCallsHistory:builder.query({
+      query:(params)=>({
+        url:'/call_history',
+        method:'GET',
+        params:params
+      })
     })
   }),
   overrideExisting: false,
 });
 
-export const { useGetInboundMutation, useGetOutboundMutation,useGetWeekendCallDetailsQuery,useGetCallHistoryQuery } = Calls;
+export const { useGetInboundMutation, useGetOutboundMutation,useGetWeekendCallDetailsQuery,useGetCallHistoryQuery,useGetAllCallsDetails_adminQuery,useGetCallsHistoryQuery } = Calls;

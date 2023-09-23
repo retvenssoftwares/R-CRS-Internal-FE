@@ -70,7 +70,7 @@ const Reports = () => {
   //   },
   // ];
   return (
-    <DashboardLayout>
+    <>
       <Typography
         variant="h4"
         style={{ fontWeight: "600", color: "rgb(156, 207, 42)" }}
@@ -125,7 +125,7 @@ const Reports = () => {
           </Grid>
         </Grid>
       </Box>
-    </DashboardLayout>
+    </>
   );
 };
 

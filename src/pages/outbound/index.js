@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Table from "../../components/table";
-import { Typography } from "@material-ui/core";
+import { Tooltip, Typography } from "@material-ui/core";
 import DashboardLayout from "../../components/layout/dashboardLayout";
 import {
   useGetOutboundMutation,
@@ -11,7 +11,7 @@ import { useHistory } from "react-router-dom";
 const Outbound = () => {
   const [getOutbound] = useGetOutboundMutation();
   const [outboundData, setOutboundData] = useState(null);
-  const employeeID = JSON.parse(window.localStorage.getItem('employee_id'))
+  const employeeID = JSON.parse(window.localStorage.getItem("employee_id"));
 
   const history = useHistory();
 
@@ -24,7 +24,7 @@ const Outbound = () => {
   });
 
   useEffect(() => {
-    if(role === "Agent"){
+    if (role === "Agent"|| role === "SuperAdmin") {
       getOutbound({
         employee_id: employeeID,
         guest_id: "6504234e0ea8a5a6034af87b",
@@ -32,17 +32,15 @@ const Outbound = () => {
         .unwrap()
         .then((res) => setOutboundData(res.outboundCalls))
         .catch((err) => console.log(err));
-    }else if(role === "Admin"){
+    } else if (role === "Admin") {
       getOutbound({
-        role:"Admin"
+        role: "Admin",
       })
         .unwrap()
         .then((res) => setOutboundData(res.outboundCalls))
         .catch((err) => console.log(err));
     }
-    
-  }, []);
-
+  }, [role]);
 
   // {data,column}
   const column = [
@@ -51,13 +49,14 @@ const Outbound = () => {
       selector: "guest_name",
       cell: (row) => {
         return (
+          <Tooltip title={`${row.guest_first_name} ${row.guest_last_name}`} arrow>
           <div
-            style={{ cursor: "pointer" }}
+            style={{textOverflow:'ellipsis',whiteSpace:'nowrap',overflow:'hidden', cursor: "pointer" }}
             onClick={() =>
               history.push({
                 pathname: `/agent/outbound/calldetails:${row.guest_first_name}${row.guest_last_name}`,
                 state: {
-                  rowData:row
+                  rowData: row,
                 },
               })
             }
@@ -65,6 +64,7 @@ const Outbound = () => {
             {" "}
             {row.guest_first_name} {row.guest_last_name}{" "}
           </div>
+          </Tooltip>
         );
       },
     },
@@ -123,6 +123,13 @@ const Outbound = () => {
     {
       name: "Comments",
       selector: "comments",
+      cell: (row) => {
+        return (
+          <Tooltip title={row.comments} arrow>
+            <span style={{textOverflow:'ellipsis',whiteSpace:'nowrap',overflow:'hidden'}}>{row.comments}</span>
+          </Tooltip>
+        );
+      },
     },
     {
       name: "Dial Status",
@@ -146,8 +153,8 @@ const Outbound = () => {
     },
   ];
   return (
-    <DashboardLayout>
-      <Typography style={{ fontWeight: "600" }} variant="h4">
+    <>
+      <Typography style={{ fontWeight: "600" }} variant="h5">
         Outbound Details
       </Typography>
       {outboundData ? (
@@ -155,7 +162,7 @@ const Outbound = () => {
       ) : (
         "Loading..."
       )}
-    </DashboardLayout>
+    </>
   );
 };
 
