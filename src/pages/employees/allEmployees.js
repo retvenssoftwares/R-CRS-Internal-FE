@@ -23,11 +23,14 @@ import Paper from "@material-ui/core/Paper";
 import Table from "../../components/table";
 import {
   useAddEmployeeMutation,
+  useDeleteEmployeeQuery,
+  useEditEmployeeMutation,
   useGetAllEmployeeQuery,
 } from "../../redux/slices/employee";
 import { useForm } from "react-hook-form";
 import swal from "sweetalert";
 import { Delete, Edit } from "@material-ui/icons";
+import { ThreeDots } from "react-loader-spinner";
 // const { Column, ColumnGroup } = Table;
 
 const useStyles = makeStyles((theme) => ({
@@ -343,6 +346,9 @@ const AllEmployees = () => {
   const [role, setRole] = useState("");
   const [edit, setEdit] = useState(false);
   const [editData, setEditData] = useState(null);
+  const[deleteEMP,setDeleteEmp] = useState(null)
+  const[editEmployee] = useEditEmployeeMutation()
+  const {data:deleteEmployee} = useDeleteEmployeeQuery(deleteEMP,{skip:deleteEMP ? false:true})
   const Item = styled(Paper)(({ theme }) => ({
     backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
     ...theme.typography.body2,
@@ -358,16 +364,26 @@ const AllEmployees = () => {
   });
   const [addEmployee] = useAddEmployeeMutation();
 
+
+  useEffect(()=>{
+    if(deleteEmployee){
+      refetch()
+    }
+  },[deleteEmployee])
+
   const { register, handleSubmit, formState: errors } = useForm();
-  const handleDelete = () => {
+  const handleDelete = (row) => {
     swal({
       title: "Are you sure?",
       text: "Once deleted, you will not be able to recover this Employee!",
       icon: "warning",
       buttons: true,
       dangerMode: true,
-    }).then((willDelete) => {
+    }).then(async(willDelete) => {
       if (willDelete) {
+        setDeleteEmp({
+          employee_id:row.employee_id
+        })
         swal("Employee has been deleted!", {
           icon: "success",
         });
@@ -406,14 +422,52 @@ const AllEmployees = () => {
         role: "Admin",
       })
         .unwrap()
-        .then((res) => console.log(res))
-        .catch((err) => console.log(err));
+        .then((res) => {
+          debugger
+          swal("Good job!", "User added successfully!", "success");
+          refetch();
+          setAddEmployeeState(false);
+        })
+        .catch((err) => {
+          swal("Oops!", `${err.data.message}`, "error");
+        });
     } else {
       alert("Password not matched");
     }
 
     refetch();
   };
+  const onSubmitEdit = async (data) =>{
+    editEmployee({
+      employee_id:editData.employee_id,
+      userName: data.userName,
+      First_name: data.First_name,
+      joining_date: data.joining_date,
+      email: data.email,
+      agent_id: data.agent_id,
+      mobile_number: data.mobile_number,
+      designation: data.designation,
+      Last_name: data.Last_name,
+      password: data.password,
+      confirm_password: data.confirm_password,
+      department: [
+        {
+          department_name: data.department_name,
+          role: role,
+        },
+      ],
+      role: "Admin",
+    })
+      .unwrap()
+      .then((res) => {
+        swal("Good job!", "User Edited successfully!", "success");
+        setEdit(false);
+        refetch();
+      })
+      .catch((err) => {
+        swal("Oops!", `${err.data.message}`, "error");
+      });
+  }
 
   const column = [
     {
@@ -459,7 +513,7 @@ const AllEmployees = () => {
             <Button
               variant="outlined"
               style={{
-                background: "rgb(255 152 51)",
+                background: "#9ccf2a",
                 color: "white",
                 marginRight: "20px",
               }}
@@ -474,7 +528,7 @@ const AllEmployees = () => {
                 color: "white",
                 marginRight: "20px",
               }}
-              onClick={handleDelete}
+              onClick={()=>handleDelete(row)}
             >
               <Delete />
             </Button>
@@ -502,6 +556,8 @@ const AllEmployees = () => {
   ];
   console.log(editData);
 
+
+
   return (
     <>
       {!edit && (
@@ -523,7 +579,6 @@ const AllEmployees = () => {
         </Button>
       )}
 
-
       {edit && (
         <Button
           variant="outlined"
@@ -539,7 +594,6 @@ const AllEmployees = () => {
         </Button>
       )}
 
-      
       {addEmployeeState && (
         <>
           <Typography
@@ -762,7 +816,7 @@ const AllEmployees = () => {
           </Typography>
           {/* {AddEmployee()} */}
           <Item>
-            <form onSubmit={handleSubmit(onSubmit)}>
+            <form onSubmit={handleSubmit(onSubmitEdit)}>
               <Grid container spacing={2} justifyContent="center">
                 {role === "Agent" && (
                   <Grid item xs={4}>
@@ -961,8 +1015,19 @@ const AllEmployees = () => {
 
       {!addEmployeeState && !edit && AllEmployees ? (
         <Table columns={column} data={AllEmployees["get_all_employee"]} />
-      ) : (
-        ""
+      ) : !edit || !addEmployee && (
+        <div style={{ display: "flex", justifyContent: "center" }}>
+          <ThreeDots
+            height="80"
+            width="80"
+            radius="9"
+            color="#4fa94d"
+            ariaLabel="three-dots-loading"
+            wrapperStyle={{}}
+            wrapperClassName=""
+            visible={true}
+          />
+        </div>
       )}
     </>
   );

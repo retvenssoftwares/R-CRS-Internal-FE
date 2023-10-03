@@ -7,6 +7,7 @@ import {
   useGetOutboundQuery,
 } from "../../redux/slices/call";
 import { useHistory } from "react-router-dom";
+import Loader from "../../components/Loader";
 
 const Outbound = () => {
   const [getOutbound] = useGetOutboundMutation();
@@ -30,14 +31,14 @@ const Outbound = () => {
         guest_id: "6504234e0ea8a5a6034af87b",
       })
         .unwrap()
-        .then((res) => setOutboundData(res.outboundCalls))
+        .then((res) => setOutboundData(res[0].outbound))
         .catch((err) => console.log(err));
     } else if (role === "Admin") {
       getOutbound({
         role: "Admin",
       })
         .unwrap()
-        .then((res) => setOutboundData(res.outboundCalls))
+        .then((res) => setOutboundData(res[0].outbound))
         .catch((err) => console.log(err));
     }
   }, [role]);
@@ -45,13 +46,13 @@ const Outbound = () => {
   // {data,column}
   const column = [
     {
-      name: "Customer Name",
+      name: "Guest Name",
       selector: "guest_name",
       cell: (row) => {
         return (
           <Tooltip title={`${row.guest_first_name} ${row.guest_last_name}`} arrow>
           <div
-            style={{textOverflow:'ellipsis',whiteSpace:'nowrap',overflow:'hidden', cursor: "pointer" }}
+            style={{textOverflow:'ellipsis',whiteSpace:'nowrap',overflow:'hidden', cursor: "pointer",fontWeight:'600' }}
             onClick={() =>
               history.push({
                 pathname: `/agent/outbound/calldetails:${row.guest_first_name}${row.guest_last_name}`,
@@ -74,7 +75,7 @@ const Outbound = () => {
     },
     {
       name: "Caller Id",
-      selector: "caller_id",
+      selector: "guest_mobile_number",
     },
     {
       name: "Call Date",
@@ -160,7 +161,7 @@ const Outbound = () => {
       {outboundData ? (
         <Table columns={column} data={outboundData} />
       ) : (
-        "Loading..."
+       <Loader />
       )}
     </>
   );

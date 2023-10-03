@@ -4,6 +4,7 @@ import DashboardLayout from "../../components/layout/dashboardLayout";
 import Table from "../../components/table";
 import { useGetAllGuestMutation } from "../../redux/slices/guest";
 import { useExcelDownloder } from 'react-xls';
+import Loader from "../../components/Loader";
 
 const AllGuest = () => {
     const { ExcelDownloder, Type } = useExcelDownloder();
@@ -98,7 +99,7 @@ const AllGuest = () => {
       </ExcelDownloder> */}
       <TextField label={'Search'} variant="outlined" style={{width:'300px'}} value={Search} onChange={(e)=>setSearch(e.target.value)} placeholder="Search by guest name or disposition" />
       <br />
-     {guestData && guestData['guest_data'].length > 0 || Search && filteredData ? <Table data={filteredData === null ? guestData['guest_data']:filteredData} columns={column} /> : "Loading..."}
+     {guestData && guestData['guest_data'].length > 0 || Search && filteredData ? <Table data={filteredData === null ? guestData['guest_data']:filteredData} columns={column} /> : <Loader />}
     </>
   );
 };

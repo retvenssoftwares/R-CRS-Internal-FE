@@ -38,15 +38,28 @@ export const Calls = emptySplitApi.injectEndpoints({
         method:'GET',
       })
     }),
-    getCallsHistory:builder.query({
+    getCallsHistory:builder.mutation({
       query:(params)=>({
         url:'/call_history',
-        method:'GET',
+        method:'post',
+        body:params
+      })
+    }),
+    getCallsSummary:builder.query({
+      query:(params)=>({
+        url:'/get_calls_summary',
+        method:'get',
         params:params
+      })
+    }),
+    getTopFiveAgentsCall:builder.query({
+      query:(params)=>({
+        url:'/get_top_five_employee_call',
+        method:'GET',
       })
     })
   }),
   overrideExisting: false,
 });
 
-export const { useGetInboundMutation, useGetOutboundMutation,useGetWeekendCallDetailsQuery,useGetCallHistoryQuery,useGetAllCallsDetails_adminQuery,useGetCallsHistoryQuery } = Calls;
+export const { useGetInboundMutation, useGetOutboundMutation,useGetWeekendCallDetailsQuery,useGetCallHistoryQuery,useGetAllCallsDetails_adminQuery,useGetCallsHistoryMutation,useGetTopFiveAgentsCallQuery,useGetCallsSummaryQuery } = Calls;

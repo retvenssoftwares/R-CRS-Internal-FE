@@ -4,6 +4,7 @@ import Table from "../../../components/table";
 import { useGetInboundMutation } from "../../../redux/slices/call";
 import { Box, Grid } from "@material-ui/core";
 import { useLocation } from "react-router-dom";
+import Loader from "../../../components/Loader";
 
 const CallDetails = () => {
 //   const [getInbound] = useGetInboundMutation();
@@ -14,7 +15,8 @@ const CallDetails = () => {
   
   useEffect(() => {
       if(location){
-        setStateData(location.state.rowData.call_details[0].calls_details)
+        debugger
+        setStateData(location.state.rowData.call_details)
       }
     
   }, []);
@@ -74,7 +76,7 @@ const CallDetails = () => {
         <Box flex={1}>
         <Grid container spacing={0}>
             <Grid item xs={12}>
-     {stateData ? <Table columns={column} data={stateData} /> : "Loading..."}
+     {stateData ? <Table columns={column} data={stateData} /> : <Loader />}
             </Grid>
         </Grid>
         </Box>

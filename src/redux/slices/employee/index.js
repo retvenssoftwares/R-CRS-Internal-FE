@@ -16,8 +16,23 @@ export const Employee = emptySplitApi.injectEndpoints({
                 method:'POST'
             }),
             invalidatesTags:"addEmployee"
+        }),
+    editEmployee:builder.mutation({
+            query:(params)=>({
+                url:`/update_employee/`,
+                body:params,
+                method:'PATCH'
+            }),
+            // invalidatesTags:"addEmployee"
+        }),
+        deleteEmployee:builder.query({
+            query:(params)=>({
+                url:"/delete_employee",
+                params:params,
+                method:'Delete'
+            }),
         })
     })
 })
 
-export const {useGetAllEmployeeQuery,useAddEmployeeMutation} = Employee
+export const {useGetAllEmployeeQuery,useAddEmployeeMutation,useDeleteEmployeeQuery,useEditEmployeeMutation} = Employee

@@ -13,6 +13,8 @@ import { Typography } from "@mui/material";
 import { useFetchDataQuery } from "../../redux/slices/dashboard/api";
 import { useGetAllCallsDetails_adminQuery, useGetWeekendCallDetailsQuery } from "../../redux/slices/call";
 import { useAgentInboundOutboundQuery } from "../../redux/slices/agent";
+import { RotatingLines } from "react-loader-spinner";
+import { TopFiveReservation } from "../charts/topFiveReservationChart";
 // import {useFetchDataQuery} from '../../redux/slices/Dashboard/api'
 
 const Admin_Dashboard = () => {
@@ -123,22 +125,43 @@ const Admin_Dashboard = () => {
                     type="Admin"
                     apiData={weekendCallDetails["results"]}
                   />
-                ) : (
-                  "Loading.."
-                )}
+                ) : <RotatingLines
+                strokeColor="grey"
+                strokeWidth="5"
+                animationDuration="0.75"
+                width="96"
+                visible={true}
+              />}
               </Item>
             </Grid>
             <Grid item xs={6}>
               <Item>
                 {weekendCallDetails && weekendCallDetails["results"] ? (
                   <BarChart apiData={weekendCallDetails["results"]} />
-                ) : (
-                  "Loading..."
-                )}
+                ) : <RotatingLines
+                strokeColor="grey"
+                strokeWidth="5"
+                animationDuration="0.75"
+                width="96"
+                visible={true}
+              />}
               </Item>
             </Grid>
 
-            <Grid item xs={4}></Grid>
+            <Grid item xs={4}>
+            <Item>
+            <Typography
+                  variant="h5"
+                  color={"black"}
+                  component="h5"
+                  marginTop={1}
+                  marginBottom={2}
+                >
+                  Top 5 Reservations
+                </Typography>
+              <TopFiveReservation />
+              </Item>
+            </Grid>
             <Grid item xs={4}>
               <Item>
                 <Typography

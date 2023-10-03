@@ -34,6 +34,7 @@ import AllGuest from "../pages/allGuest";
 import AddAdmin from "../pages/admin";
 import { useLocation } from "react-router-dom";
 import DashboardLayout from "../components/layout/dashboardLayout";
+import AgentReportDetails from "../pages/agentReportDetails";
 
 const Router = () => {
   const [role, setRole] = useState(null);
@@ -45,19 +46,19 @@ const Router = () => {
   });
   const location = useLocation();
 
-  console.log(location.pathname);
 
   return (
     <>
-      {location.pathname === "/" || location.pathname.includes('customer_details') ? (
+      {location.pathname === "/" ||
+      location.pathname.includes("customer_details") ? (
         <>
-        <Route path="/" exact component={Login} />
-        <Private
-        path="/customer_details:id"
-        exact
-        component={CustomerLanding}
-      />
-      </>
+          <Route path="/" exact component={Login} />
+          <Private
+            path="/customer_details:id"
+            exact
+            component={CustomerLanding}
+          />
+        </>
       ) : (
         <DashboardLayout>
           <Private path="/dashboard" exact component={Dashboard} />
@@ -86,7 +87,6 @@ const Router = () => {
           <Private path="/crm_dashboard" exact component={CRM_Dashboard} />
           <Private path="/crm_clients" exact component={CRM_CLIENTS} />
           <Private path="/crm_accounts" exact component={CRM_Accounts} />
-         
 
           {role === "Agent" && (
             <>
@@ -131,7 +131,17 @@ const Router = () => {
               />
               <Private path="/admin/inbound" exact component={Inbound} />
               <Private path="/admin/outbound" exact component={Outbound} />
+              <Private
+                path="/agent/inbound/calldetails:id"
+                exact
+                component={CallDetails}
+              />
               <Private path="/admin/reports" exact component={Reports} />
+              <Private
+                path="/admin/reports/agent/details:id"
+                exact
+                component={AgentReportDetails}
+              />
               <Private path="/admin/employee" exact component={AllEmployees} />
               <Private
                 path="/admin/all_guest"

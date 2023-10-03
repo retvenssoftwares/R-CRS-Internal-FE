@@ -7,6 +7,8 @@ import {
   useGetInboundQuery,
 } from "../../redux/slices/call";
 import { useHistory } from "react-router-dom";
+import { ThreeDots } from "react-loader-spinner";
+import Loader from "../../components/Loader";
 
 const Inbound = () => {
   const [getInbound, isError] = useGetInboundMutation();
@@ -26,7 +28,7 @@ const Inbound = () => {
         role: "Admin",
       })
         .unwrap()
-        .then((res) => setInboundData(res.inboundCalls))
+        .then((res) => setInboundData(res[0].inbound))
         .catch((err) => console.log(err));
     } else if (role === "Agent") {
       getInbound({
@@ -34,7 +36,10 @@ const Inbound = () => {
         guest_id: "6504234e0ea8a5a6034af87b",
       })
         .unwrap()
-        .then((res) => setInboundData(res.inboundCalls))
+        .then((res) => {
+          debugger
+          setInboundData(res[0].inbound);
+        })
         .catch((err) => console.log(err));
     }
   }, [role]);
@@ -42,12 +47,12 @@ const Inbound = () => {
   // {data,column}
   const column = [
     {
-      name: "Customer Name",
+      name: "Guest Name",
       selector: "guest_name",
       cell: (row) => {
         return (
           <div
-            style={{ cursor: "pointer" }}
+            style={{ cursor: "pointer",fontWeight:'600' }}
             onClick={() =>
               history.push({
                 pathname: `/agent/inbound/calldetails:${row.guest_first_name}${row.guest_last_name}`,
@@ -69,27 +74,7 @@ const Inbound = () => {
     },
     {
       name: "Caller Id",
-      selector: (row) => row["caller_id"],
-    },
-    {
-      name: "Call Date",
-      selector: (row) => row["call_date"],
-    },
-    {
-      name: "Start Time",
-      selector: (row) => row["start_time"],
-    },
-    {
-      name: "End Time",
-      selector: (row) => row["end_time"],
-    },
-    {
-      name: "Time to Answer",
-      selector: (row) => row["time_to_answer"],
-    },
-    {
-      name: "Talk Time",
-      selector: (row) => row["talktime"],
+      selector: (row) => row["guest_mobile_number"],
     },
     {
       name: "Type",
@@ -97,7 +82,7 @@ const Inbound = () => {
     },
     {
       name: "Agent",
-      selector: (row) => row["agent"],
+      selector: (row) => row["agent_name"],
     },
     {
       name: "Agent ID",
@@ -106,34 +91,6 @@ const Inbound = () => {
     {
       name: "Disposition",
       selector: (row) => row["disposition"],
-    },
-    {
-      name: "Status",
-      selector: (row) => row["status"],
-    },
-    {
-      name: "Hang Up By",
-      selector: (row) => row["hang_up_by"],
-    },
-    {
-      name: "Comments",
-      selector: (row) => row["comments"],
-    },
-    {
-      name: "Dial Status",
-      selector: (row) => row["dial_status"],
-    },
-    {
-      name: "Customer Status",
-      selector: (row) => row["customer_status"],
-    },
-    {
-      name: "Agent Status",
-      selector: (row) => row["agent_status"],
-    },
-    {
-      name: "Last Called",
-      selector: (row) => row["last_called"],
     },
     {
       name: "Last Support By",
@@ -147,7 +104,7 @@ const Inbound = () => {
         Inbound Details
       </Typography>
 
-      {inboundData && <Table columns={column} data={inboundData} />}
+      {inboundData ? <Table columns={column} data={inboundData} /> : <Loader />}
       {!inboundData && isError.status === "rejected" && "No data found!"}
     </>
   );

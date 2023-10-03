@@ -138,5 +138,10 @@ border-radius: 0 !important;
   .ant-picker-focused:focus{
     border-color: black !important;
   }
+  .Mui-selected svg{
+color: white !important;
+  }
   
-  
+  .MuiBox-root.MuiBox-root-13{
+    outline: none !important;
+  }

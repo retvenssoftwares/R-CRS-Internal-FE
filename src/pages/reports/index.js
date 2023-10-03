@@ -12,6 +12,10 @@ import {
   Typography,
 } from "@material-ui/core";
 import Table from "../../components/table";
+import { useHistory } from "react-router-dom";
+import { useGetCallsSummaryQuery } from "../../redux/slices/call";
+import { useAgentSummaryQuery } from "../../redux/slices/agent";
+import { ThreeDots } from "react-loader-spinner";
 
 const Reports = () => {
   const [callSummary, setCallSummary] = useState(true);
@@ -132,6 +136,50 @@ const Reports = () => {
 export default Reports;
 
 const CallSummary = () => {
+  function formatDateToDDMMYYYY(date) {
+    const day = String(date.getDate()).padStart(2, "0");
+    const month = String(date.getMonth() + 1).padStart(2, "0"); // Month is 0-based, so we add 1
+    const year = date.getFullYear();
+    return `${day}-${month}-${year}`;
+  }
+  const [disposition, setDisposition] = useState("");
+  const [from, setFrom] = useState(null);
+  const [to, setTo] = useState(null);
+  const [hotelName, setHotelName] = useState(null);
+  const { data: guestDetails ,isError,isFetching} = useGetCallsSummaryQuery({
+    disposition: disposition.length === 0 ? "null" : disposition,
+    from: from && to && formatDateToDDMMYYYY(new Date(from)),
+    to: to && from && formatDateToDDMMYYYY(new Date(to)),
+    hotel_name: hotelName && hotelName.length > 2 ? hotelName : null,
+  });
+
+  const columns = [
+    {
+      name: "Guest Name",
+      selector: "guest_name",
+    },
+    {
+      name: "Guest Mobile",
+      selector: "guest_mobile",
+    },
+    {
+      name: "Date",
+      selector: "date",
+    },
+    {
+      name: "Hotel Name",
+      selector: "hotel_name",
+    },
+    {
+      name: "Disposition",
+      selector: "disposition",
+    },
+    {
+      name: "Agent Name",
+      selector: "agent_name",
+    },
+  ];
+console.log(isError)
   return (
     <>
       <Typography
@@ -141,7 +189,7 @@ const CallSummary = () => {
         Call Summary
       </Typography>
       <Grid container spacing={2}>
-        <Grid item xs={4}>
+        <Grid item lg={4} md={12} xs={12}>
           <FormControl fullWidth>
             <InputLabel id="disposition" style={{ padding: "10px 20px" }}>
               Disposition
@@ -150,59 +198,170 @@ const CallSummary = () => {
               labelId="disposition"
               id="disposition"
               variant="filled"
-              // value={age}
+              value={disposition}
               label="Disposition"
               style={{ background: "white" }}
-              // onChange={handleChange}
+              onChange={(e) => setDisposition(e.target.value)}
             >
-                <MenuItem value={"Information"}>Information</MenuItem>
-                <MenuItem value={"Reservation"}>Reservation</MenuItem>
-                <MenuItem value={"Shopping Follow Up"}>
-                  Shopping Follow Up
-                </MenuItem>
-                <MenuItem value={"Shopping No Follow Up"}>
-                  Shopping No Follow Up
-                </MenuItem>
-                <MenuItem value={"Follow Up - Reservation"}>
-                  Follow Up - Reservation
-                </MenuItem>
-                <MenuItem value={"Follow Up - No Reservation"}>
-                  Follow Up - No Reservation
-                </MenuItem>
-                <MenuItem value={"Canellation"}>Canellation</MenuItem>
-                <MenuItem value={"Amendment"}>Amendment</MenuItem>
-                <MenuItem value={"Spam"}>Spam</MenuItem>
+              <MenuItem value={"Information"}>Information</MenuItem>
+              <MenuItem value={"Reservation"}>Reservation</MenuItem>
+              <MenuItem value={"Shopping Follow Up"}>
+                Shopping Follow Up
+              </MenuItem>
+              <MenuItem value={"Shopping No Follow Up"}>
+                Shopping No Follow Up
+              </MenuItem>
+              <MenuItem value={"Follow Up - Reservation"}>
+                Follow Up - Reservation
+              </MenuItem>
+              <MenuItem value={"Follow Up - No Reservation"}>
+                Follow Up - No Reservation
+              </MenuItem>
+              <MenuItem value={"Canellation"}>Canellation</MenuItem>
+              <MenuItem value={"Amendment"}>Amendment</MenuItem>
+              <MenuItem value={"Spam"}>Spam</MenuItem>
             </Select>
           </FormControl>
         </Grid>
-        <Grid xs={4} item>
-          <Grid container style={{marginTop:'-17px'}}>
+        <Grid lg={4} md={12} xs={12} item>
+          <Grid container style={{ marginTop: "-17px" }}>
             <Grid item xs={6}>
               <InputLabel id="from" variant="filled" style={{ padding: "" }}>
                 From
               </InputLabel>
-              <TextField type="date" variant="filled" id="from" />
+              <TextField
+                type="date"
+                variant="filled"
+                value={from}
+                onChange={(e) => setFrom(e.target.value)}
+                id="from"
+              />
             </Grid>
             <Grid item xs={6}>
               <InputLabel variant="filled" id="to" style={{ padding: "" }}>
                 To
               </InputLabel>
-              <TextField variant="filled" type="date" id="to" />
+              <TextField
+                variant="filled"
+                value={to}
+                onChange={(e) => setTo(e.target.value)}
+                type="date"
+                id="to"
+              />
             </Grid>
           </Grid>
         </Grid>
-        <Grid item xs={4}>
-          <TextField variant="filled" label="Hotel Name" fullWidth />
+        <Grid item lg={4} md={12} xs={12}>
+          <TextField
+            variant="filled"
+            value={hotelName}
+            onChange={(e) => setHotelName(e.target.value)}
+            label="Hotel Name"
+            fullWidth
+          />
         </Grid>
       </Grid>
 
-      <Table />
+      {guestDetails && !isError ? (
+        <Table data={guestDetails?.guest_details} columns={columns} />
+      ) : isFetching ? (
+        <div style={{ display: "flex", justifyContent: "center" }}>
+          {" "}
+          <ThreeDots
+            height="80"
+            width="80"
+            radius="9"
+            color="#4fa94d"
+            ariaLabel="three-dots-loading"
+            wrapperStyle={{}}
+            wrapperClassName=""
+            visible={true}
+          />{" "}
+        </div>
+      ):isError && <Table data={[]} columns={columns} />}
     </>
   );
 };
 
 const AgentSummary = () => {
-  return <>Agent Summary</>;
+  const history = useHistory();
+  const { data: agentSummaryData } = useAgentSummaryQuery();
+  const column = [
+    {
+      name: "Agent Name",
+      selector: "agent_name",
+      cell: (row) => {
+        return (
+          <div
+            style={{ fontWeight: "600", cursor: "pointer" }}
+            onClick={() =>
+              history.push({
+                pathname: `/admin/reports/agent/details:${row.agent_name}`,
+                state: {
+                  data: row,
+                },
+              })
+            }
+          >
+            {row.agent_name}
+          </div>
+        );
+      },
+    },
+    {
+      name: "Mobile",
+      selector: "mobile",
+    },
+    {
+      name: "Email",
+      selector: "agent_email",
+    },
+    {
+      name: "Average Call Time",
+      selector: "average_call_time",
+    },
+    {
+      name: "Total Calls",
+      selector: "total_calls",
+    },
+  ];
+  const data = [
+    {
+      agent_name: "Saumitra Shukla",
+      mobile: "8818860231",
+      email: "contactwithsaumitra@gmail.com",
+      average_call_time: "00:36:02",
+      total_calls: "55",
+    },
+  ];
+  return (
+    <>
+      {" "}
+      <Typography
+        variant="h5"
+        style={{ fontWeight: "600", marginBottom: "40px", marginTop: "40px" }}
+      >
+        Agent Summary
+      </Typography>
+      {agentSummaryData ? (
+        <Table columns={column} data={agentSummaryData?.agentSummaryArray} />
+      ) : (
+        <div style={{ display: "flex", justifyContent: "center" }}>
+          {" "}
+          <ThreeDots
+            height="80"
+            width="80"
+            radius="9"
+            color="#4fa94d"
+            ariaLabel="three-dots-loading"
+            wrapperStyle={{}}
+            wrapperClassName=""
+            visible={true}
+          />{" "}
+        </div>
+      )}
+    </>
+  );
 };
 
 const DispositionAnalysis = () => {

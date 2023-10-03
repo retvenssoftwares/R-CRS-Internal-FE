@@ -6,6 +6,7 @@ import { getHotelDB } from "../../actions/hotel";
 import Table from "../../components/table";
 import Reservation from "../reservation";
 import { useGetAllHotelsQuery } from "../../redux/slices/hotels";
+import Loader from "../../components/Loader";
 
 const data = [
   {
@@ -157,7 +158,7 @@ const BookingManagement = () => {
               toggleCleared={toggleCleared}
             />
           ) : (
-            "Loading..."
+            <Loader />
           )}
         </Grid>
         <Grid item xs={12} style={{ marginTop: "40px" }}>

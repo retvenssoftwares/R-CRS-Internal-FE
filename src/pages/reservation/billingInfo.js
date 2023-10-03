@@ -177,7 +177,6 @@ const BillingInfo = (props) => {
               success: value,
               error:"" })
 
-              console.log(value)
 
               setReservation({
                 ...reservation,
@@ -187,7 +186,6 @@ const BillingInfo = (props) => {
          })
      .catch((err) => {
       setPaymentModel({...paymentModel, isLoading:false, error: err.error, success:"" })
-       console.log(err)
        notify(err.error)
      })
  }

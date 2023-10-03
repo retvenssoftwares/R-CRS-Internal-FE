@@ -30,6 +30,9 @@ import {
   MenuItem,
   FormHelperText,
   Grid,
+  Modal,
+  Box,
+  Button,
 } from "@material-ui/core";
 import WorkIcon from "@material-ui/icons/Work";
 import ContactsIcon from "@material-ui/icons/Contacts";
@@ -63,6 +66,10 @@ import CRS_Image from "../../assets/crs_logo.jpeg";
 import TableChartIcon from "@material-ui/icons/TableChart";
 import LoggedInTimer from "../timer";
 import { setLoggedOut } from "../../redux/slices/isLogin";
+import { setOffline, setOnline } from "../../redux/slices/onlineOffline";
+import { useAgentPauseMutation } from "../../redux/slices/agent";
+import Cancel from "@material-ui/icons/Cancel";
+import { PlayArrow } from "@material-ui/icons";
 
 const drawerWidth = 272;
 
@@ -150,6 +157,25 @@ const SideDrawer = ({ children }) => {
     window.localStorage.getItem("userContext")
   );
 
+  function RefreshPrompt() {
+  useEffect(() => {
+    const confirmRefresh = (e) => {
+      e.preventDefault();
+      e.returnValue = 'Are you sure you want to refresh this page, As it reset the login timer.'; // This message will be displayed in the confirmation dialog
+    };
+
+    // Attach the event listener when the component mounts
+    window.addEventListener('beforeunload', confirmRefresh);
+
+    // Remove the event listener when the component unmounts
+    return () => {
+      window.removeEventListener('beforeunload', confirmRefresh);
+    };
+  }, []);
+}
+
+RefreshPrompt()
+
   function handleOpenEmployee() {
     setOpenEmployeeCollapse(!openEmployeeCollapse);
   }
@@ -189,9 +215,143 @@ const SideDrawer = ({ children }) => {
     }
   });
   const isCrs = useSelector((state) => state.dashboardState.isBooleanValue);
+  const style = {
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+    width: "50%",
+    bgcolor: "background.paper",
+    // border: "2px solid #000",
+    boxShadow: 24,
+    p: 4,
+    borderRadius: "20px",
+  };
+  const employeeID = JSON.parse(window.localStorage.getItem("employee_id"));
+
+  const [resume, setResume] = React.useState(false);
+  const [pause, setPause] = React.useState(true);
+  const [pauseTime, setPauseTime] = React.useState(null);
+  const [resumeTime, setResumeTime] = React.useState(null);
+  const [pauseReason, setPauseReason] = React.useState(null);
+  const [modal, setModal] = React.useState(false);
+  const [agentPause] = useAgentPauseMutation();
+  function getCurrentDateTime() {
+    const now = new Date();
+    return now.toLocaleString(); // Returns a string in the default date and time format
+  }
+
+  const handleResume = () => {
+    dispatch(setOnline(false));
+    agentPause({
+      employee_id: employeeID,
+      pause_reason: pauseReason,
+      resume_time: getCurrentDateTime(),
+    })
+      .unwrap()
+      .then()
+      .catch((err) => console.log(err));
+    setResume(false);
+    setPause(true);
+    setModal(false);
+  };
+  const handlePause = () => {
+    if (pauseReason === null) {
+      alert("Select pause reason");
+    } else {
+      dispatch(setOffline(true));
+      agentPause({
+        employee_id: employeeID,
+        pause_reason: pauseReason,
+        pause_time: getCurrentDateTime(),
+      })
+        .unwrap()
+        .then()
+        .catch((err) => console.log(err));
+      setPause(false);
+      setResume(true);
+      setModal(false);
+    }
+  };
+  
+
+  
 
   return (
     <div className={classes.root}>
+      <Modal
+        open={modal}
+        // onClose={handleClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box sx={style}>
+          <Cancel
+            style={{
+              position: "absolute",
+              right: "10px",
+              top: "5px",
+              cursor: "pointer",
+            }}
+            onClick={() => setModal(false)}
+          />
+          <Grid
+            container
+            spacing={2}
+            style={{ display: "flex", justifyContent: "center" }}
+          >
+            <Grid item xs={4}>
+              <FormControl fullWidth>
+                <InputLabel id="pause" style={{ padding: "10px 10px" }}>
+                  Select Pause Reason
+                </InputLabel>
+                <Select
+                  labelId="pause"
+                  id="pause"
+                  value={pauseReason}
+                  onChange={(e) => setPauseReason(e.target.value)}
+                  label="Select Pause Reason"
+                  variant="filled"
+                  disabled={resume && true}
+                  fullWidth
+                  // onChange={handleChange}
+                >
+                  <MenuItem value={"Lunch Time"}>Lunch Time</MenuItem>
+                  <MenuItem value={"Break"}>Break</MenuItem>
+                  <MenuItem value={"Team Meet"}>Team Meet</MenuItem>
+                </Select>
+              </FormControl>
+            </Grid>
+            <Grid item xs={4} style={{ display: "flex", alignItems: "center" }}>
+              <Button
+                variant="outlined"
+                disabled={pause ? false : true}
+                style={{
+                  background: pause ? "#FE2E2E" : "#F5A9A9",
+                  color: "white",
+                  marginRight: "20px",
+                  cursor: pause ? "pointer" : "not-allowed",
+                }}
+                onClick={handlePause}
+              >
+                Pause
+              </Button>
+              <Button
+                variant="outlined"
+                disabled={resume ? false : true}
+                style={{
+                  background: resume ? "#0080FF" : "#A9BCF5",
+                  color: "white",
+                  cursor: resume ? "pointer" : "not-allowed",
+                }}
+                onClick={handleResume}
+              >
+                Resume
+              </Button>
+            </Grid>
+          </Grid>
+        </Box>
+      </Modal>
       <CssBaseline />
       <AppBar
         position="fixed"
@@ -226,7 +386,14 @@ const SideDrawer = ({ children }) => {
             <Grid item xs={4} style={{ display: "flex", alignItems: "center" }}>
               <Typography variant="h6" noWrap style={{ color: "black" }}>
                 {/* {storedUserContext['employee'].first_name} */}
-                <span style={{fontSize:'16px'}}> Name :</span>  {storedUserContext && storedUserContext?.details?.first_name &&  `${storedUserContext?.details?.first_name} ${storedUserContext?.details?.last_name}`}  <span style={{fontSize:'14px',color:'#1853b1'}}> ${storedUserContext?.details?.employee_id} </span>
+                <span style={{ fontSize: "16px" }}> Name :</span>{" "}
+                {storedUserContext &&
+                  storedUserContext?.details?.first_name &&
+                  `${storedUserContext?.details?.first_name} ${storedUserContext?.details?.last_name}`}{" "}
+                <span style={{ fontSize: "14px", color: "#1853b1" }}>
+                  {" "}
+                  ${storedUserContext?.details?.employee_id}{" "}
+                </span>
               </Typography>
             </Grid>
 
@@ -279,6 +446,13 @@ const SideDrawer = ({ children }) => {
                   )}{" "}
                 </>
               )}
+           {roles === 'Agent' &&   <Button
+                variant="outlined"
+                style={{ marginLeft: "10px" }}
+                onClick={() => setModal(true)}
+              >
+                {!isOnline ? <PlayArrow /> : <PauseIcon />}
+              </Button>}
               {/* <SwitchBtn /> */}
               {/* Press (Alt+Tab) to switch between CRM & CRS */}
             </Grid>
@@ -298,7 +472,7 @@ const SideDrawer = ({ children }) => {
           }),
         }}
       >
-        <img src={isCrs ? CRS_Image : CRM_Image} height={200} width={270} />
+        <img src={isCrs ? CRM_Image : CRM_Image} height={200} width={270} />
         <div className={classes.toolbar}>
           {open && <Typography variant="h6" noWrap></Typography>}
         </div>
@@ -328,7 +502,7 @@ const SideDrawer = ({ children }) => {
               <ListItemIcon>
                 <PeopleIcon />
               </ListItemIcon>
-              <ListItemText primary="My Leads" />
+              <ListItemText primary="My Reservations" />
             </ListItem>
 
             <ListItem
@@ -386,7 +560,8 @@ const SideDrawer = ({ children }) => {
               key={423}
               onClick={() =>
                 signout(() => {
-                  dispatch(setLoggedOut(false)); history.push("/");
+                  dispatch(setLoggedOut(false));
+                  history.push("/");
                 })
               }
               aria-description="menuBar"
@@ -745,7 +920,8 @@ const SideDrawer = ({ children }) => {
               key={423}
               onClick={() =>
                 signout(() => {
-                  dispatch(setLoggedOut(false)); history.push("/");
+                  dispatch(setLoggedOut(false));
+                  history.push("/");
                 })
               }
               aria-description="menuBar"
@@ -841,7 +1017,8 @@ const SideDrawer = ({ children }) => {
                 key={423}
                 onClick={() =>
                   signout(() => {
-                    dispatch(setLoggedOut(false)); history.push("/");
+                    dispatch(setLoggedOut(false));
+                    history.push("/");
                   })
                 }
                 aria-description="menuBar"

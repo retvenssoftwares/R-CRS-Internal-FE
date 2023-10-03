@@ -306,8 +306,7 @@ const [reservation, setReservation] = React.useState({
 });
 // Function to update a specific field in the state
 const updateField = (fieldName, newValue) => {
-  console.log(fieldName)
-  console.log(newValue)
+  
   setReservation((reservation) => ({
     ...reservation,
     [fieldName]: newValue,

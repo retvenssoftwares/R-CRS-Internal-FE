@@ -33,8 +33,8 @@ ChartJS.register(ArcElement, Tooltip, Legend);
 //   ],
 // };
 
-export function App({type}) {
-  const { data: topFiveEmp } = useGetTopFiveAgentsCallQuery();
+export function TopFiveReservation({type}) {
+  const { data: topFiveEmp } = useTopEmpQuery();
   const [header, setHeader] = useState(null);
   const [empData, setEmpData] = useState(null);
   useEffect(() => {
@@ -43,7 +43,7 @@ export function App({type}) {
         return items.first_name;
       });
       const head = topFiveEmp?.topEmployeesWithDetails.map((items) => {
-        return items.totalCalls;
+        return items.totalBookings;
       });
       if (empAPI_Data) {
         setEmpData(empAPI_Data);
