@@ -34,13 +34,16 @@ import {
   useGetCustomerByNumberQuery,
 } from "../../redux/slices/customers";
 import swal from "sweetalert";
+import { useLocation } from "react-router-dom";
 
 const { RangePicker } = DatePicker;
 
 const CustomerLanding = () => {
   const [phoneNumber, setPhoneNumber] = useState(null);
+  const location = useLocation()
+  const locationMobileNumber = location.pathname.split(':')[1]
   const { data: CustomerDetails } = useGetCustomerByNumberQuery({
-    guest_mobile: "8818860231",
+    guest_mobile: locationMobileNumber
   });
   const [data, setData] = useState(false);
 

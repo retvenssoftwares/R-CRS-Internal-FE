@@ -16,6 +16,7 @@ import { useAgentInboundOutboundQuery } from "../../redux/slices/agent";
 import { RotatingLines } from "react-loader-spinner";
 import { TopFiveReservation } from "../charts/topFiveReservationChart";
 import { useGetWeekendBookingQuery } from "../../redux/slices/booking";
+import { WeekendBooking } from "../charts/weekend_booking";
 // import {useFetchDataQuery} from '../../redux/slices/Dashboard/api'
 
 const Agent_Dashboard = () => {
@@ -40,16 +41,19 @@ const Agent_Dashboard = () => {
   let year = date.getFullYear();
 
   // This arrangement can be altered based on how we want the date's format to appear.
-  let currentDate = `${day}-${month && month.toString.length === 1 ? `0${month}`:month}-${year}`;
-  // console.log(currentDate); // "17-6-2022"
+  let currentDate = `${day}-${month}-${year}`;
+  console.log(currentDate)
+
+const convertedDate = new Date(currentDate).toISOString().slice(0,10)
+console.log(convertedDate)
 
   const { data: apiWeekData } = useGetWeekendCallDetailsQuery({
     employeeId: employeeID,
-    inputDate: currentDate,
+    inputDate: convertedDate,
   });
   const{data:WeekendBookings} = useGetWeekendBookingQuery({
     employee_id:employeeID,
-    inputDate: currentDate,
+    inputDate: convertedDate,
   })
   console.log(WeekendBookings);
   return (
@@ -191,7 +195,9 @@ const Agent_Dashboard = () => {
               <App />
             </Item>
           </Grid>
-          <Grid item xs={4}></Grid>
+          <Grid item xs={4}>
+          {/* {WeekendBooking &&<WeekendBooking apiData={WeekendBookings} />} */}
+          </Grid>
         </Grid>
       </Box>
     </>

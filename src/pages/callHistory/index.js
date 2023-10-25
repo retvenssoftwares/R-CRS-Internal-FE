@@ -84,20 +84,26 @@ const CallHistory = () => {
           </div>
         );
       },
+      sortable:true
     },
     {
       name: "Caller ID",
       selector: (row) => row["caller_id"],
+      sortable:true
+
     },
+    
     {
       name: "Call Duration",
       cell: (row) => {
         return <div>{calculateCallDuration( convertTimeStringToTime(row.start_time),convertTimeStringToTime(row.end_time))}</div>;
       },
+      
     },
     {
       name: "Call Date",
       selector: (row) => row["date"],
+      sortable:true
     },
     {
       name: "Call Time",
@@ -176,7 +182,7 @@ const CallHistory = () => {
           </Grid>
         </Grid>
       {callsAPI_Data ? (
-        <Table columns={column} data={callsAPI_Data} selectableRows={false} />
+        <Table columns={column} data={callsAPI_Data}  selectableRows={false} />
       ):<Loader />}
     </>
   );
