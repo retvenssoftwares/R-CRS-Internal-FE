@@ -423,7 +423,6 @@ const AllEmployees = () => {
       })
         .unwrap()
         .then((res) => {
-          debugger
           swal("Good job!", "User added successfully!", "success");
           refetch();
           setAddEmployeeState(false);

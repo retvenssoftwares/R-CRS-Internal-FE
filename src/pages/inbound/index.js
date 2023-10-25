@@ -37,7 +37,6 @@ const Inbound = () => {
       })
         .unwrap()
         .then((res) => {
-          debugger
           setInboundData(res[0].inbound);
         })
         .catch((err) => console.log(err));

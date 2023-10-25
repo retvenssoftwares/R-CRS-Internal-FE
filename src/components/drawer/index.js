@@ -384,13 +384,13 @@ RefreshPrompt()
               </IconButton>
             </Grid>
             <Grid item xs={4} style={{ display: "flex", alignItems: "center" }}>
-              <Typography variant="h6" noWrap style={{ color: "black" }}>
+              <Typography variant="h6" noWrap style={{ color: "black",fontSize:'16px' }}>
                 {/* {storedUserContext['employee'].first_name} */}
                 <span style={{ fontSize: "16px" }}> Name :</span>{" "}
                 {storedUserContext &&
                   storedUserContext?.details?.first_name &&
                   `${storedUserContext?.details?.first_name} ${storedUserContext?.details?.last_name}`}{" "}
-                <span style={{ fontSize: "14px", color: "#1853b1" }}>
+                <span style={{ fontSize: "16px", color: "#1853b1" }}>
                   {" "}
                   ${storedUserContext?.details?.employee_id}{" "}
                 </span>
@@ -418,30 +418,33 @@ RefreshPrompt()
                       style={{
                         color: "#4B8A08",
                         background: "#D0F5A9",
-                        padding: "10px 40px",
+                        padding: "5px 20px",
                         borderRadius: "20px",
                         fontWeight: "600",
                         display: "flex",
                         alignItems: "center",
                         marginLeft: "10px",
+                        fontSize:'14px'
                       }}
                     >
-                      <FiberManualRecordIcon /> Online
+                      <FiberManualRecordIcon style={{fontSize:'16px'}} /> Online
                     </div>
                   ) : (
                     <div
                       style={{
                         color: "#FE2E2E",
                         background: "#F6CECE",
-                        padding: "10px 40px",
+                        padding: "5px 20px",
                         borderRadius: "20px",
                         fontWeight: "600",
                         display: "flex",
                         alignItems: "center",
                         marginLeft: "10px",
+                        fontSize:'14px'
+
                       }}
                     >
-                      <FiberManualRecordIcon /> Offline
+                      <FiberManualRecordIcon style={{fontSize:'16px'}} /> Offline
                     </div>
                   )}{" "}
                 </>

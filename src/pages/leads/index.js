@@ -74,7 +74,6 @@ const Leads = () => {
     const filter =
       allLeads &&
       allLeads["guest_info"].filter((item) => {
-        debugger
         const fullName = `${item.guest_first_name} ${item.guest_last_name}`.toLowerCase();
         return fullName.includes(search.toLowerCase()) 
       });

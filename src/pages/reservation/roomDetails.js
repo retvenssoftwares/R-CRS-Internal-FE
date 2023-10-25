@@ -60,7 +60,6 @@ const RoomDetails = (props) => {
 
   useEffect(() => {
     if (RoomsData) {
-      debugger;
     }
   });
   const roomTypeList = [
@@ -376,11 +375,9 @@ const RoomDetails = (props) => {
 
   const handleRoomTypeChange = (event) => {
     const selectedRoomTypeID = event.target.value;
-    debugger;
     // Find the corresponding room type data from your roomInfo
     const roomTypeData = roomInfo.RoomInfo.RoomTypes.RoomType.find(
       (roomType) => {
-        debugger
         return roomType.ID === selectedRoomTypeID;
       }
     );
@@ -747,7 +744,6 @@ const RoomDetails = (props) => {
                   </MenuItem>
                 ))} */}
                   {RoomsData["RoomInfo"].RoomTypes.RoomType.map((roomType) => {
-                    debugger;
                     return (
                       <MenuItem key={roomType.ID} value={roomType.ID}>
                         {roomType.Name}

@@ -15,7 +15,6 @@ const CallDetails = () => {
   
   useEffect(() => {
       if(location){
-        debugger
         setStateData(location.state.rowData.call_details)
       }
     

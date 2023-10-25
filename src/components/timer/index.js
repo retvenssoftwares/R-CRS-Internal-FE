@@ -53,7 +53,7 @@ function LoggedInTimer() {
       },[seconds])
 
     return (
-      <div>
+      <div style={{fontSize:'16px'}}>
         <p>Login Time : {secondsToHMS(seconds)}</p>
       </div>
     );
