@@ -48,7 +48,7 @@ const Router = () => {
 
   return (
     <>
-      {location.pathname === "/" ||
+      {location.pathname === "/" || location.pathname === "/login" ||
       location.pathname.includes("customer_details") ? (
         <>
           <Route path="/" exact component={Login} />
