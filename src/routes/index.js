@@ -46,13 +46,13 @@ const Router = () => {
   });
   const location = useLocation();
 
-
   return (
     <>
       {location.pathname === "/" ||
       location.pathname.includes("customer_details") ? (
         <>
           <Route path="/" exact component={Login} />
+          <Route path="/login" exact component={Login} />
           <Private
             path="/customer_details:id"
             exact
