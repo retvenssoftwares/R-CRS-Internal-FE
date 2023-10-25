@@ -4,8 +4,7 @@ import DashboardLayout from '../../components/layout/dashboardLayout';
 
 const Contact = () => {
   return <>
-          <DashboardLayout>
-          </DashboardLayout>
+         
          </>
 }
 

@@ -5,7 +5,7 @@ import BookingInfo from './bookingInfo';
 import GuestInfo from './guestInfo';
 import OtherInfo from './otherInfo';
 import RoomDetails from './roomDetails';
-import { Grid } from '@material-ui/core';
+import { Grid, Typography } from '@material-ui/core';
 import Button from '@material-ui/core/Button'
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
@@ -28,6 +28,7 @@ import {Divider} from '@material-ui/core';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
 import toast, { Toaster } from 'react-hot-toast';
+import {useGetRoomsTypeQuery} from '../../redux/slices/rooms/api'
 
 const TAX_RATE = 0.07;
 
@@ -66,20 +67,23 @@ const useStyles = makeStyles((theme) => ({
     position: 'sticky',
     top: 0,
     backgroundColor: 'white',
-    height: '100vh', // Set a specific height
+    height: 'auto', // Set a specific height
     overflowY: 'auto', // Enable scrolling if content overflows
   },
   swipeableSide: {
     backgroundColor: 'white',
     flex: '1', // Takes the remaining space
     overflowY: 'scroll', // Enable scrolling if content overflows
+  height:'auto'
   },
 }));
 
-const Reservation = () => {
+const Reservation = ({hotelData}) => {
+  
   const { hotelCode } = useParams();
   
   const classes = useStyles();
+  console.log(hotelData)
 
 const handleChange = (type) => e => {
   switch (type) {
@@ -235,6 +239,8 @@ const handleChange = (type) => e => {
   }
 }
 
+
+
 const [reservation, setReservation] = React.useState({
     hotel_r_code: "",
     employee_id: "",
@@ -300,8 +306,7 @@ const [reservation, setReservation] = React.useState({
 });
 // Function to update a specific field in the state
 const updateField = (fieldName, newValue) => {
-  console.log(fieldName)
-  console.log(newValue)
+  
   setReservation((reservation) => ({
     ...reservation,
     [fieldName]: newValue,
@@ -347,7 +352,7 @@ const [bookingFormStage, setBookingFormStage] = React.useState( "bookingInfo")
 
     if (bookingFormStage == "bookingInfo") {
         return <>
-
+            {hotelData && <Typography variant='h5' style={{fontWeight:'600',marginBottom:'20px'}}>Booking For {hotelData.name}</Typography>}
             <BookingInfo reservation = {reservation} setReservation = {setReservation} handleChange={handleChange}/>
 
         </>
@@ -364,7 +369,7 @@ const [bookingFormStage, setBookingFormStage] = React.useState( "bookingInfo")
             ))}
           </Grid>
           <Grid item>
-            <Button variant="contained" color="secondary" onClick={addMoreRoomType}>
+            <Button variant="contained" color="secondary" onClick={addMoreRoomType} style={{marginTop:'20px'}}>
               Add Room Type
             </Button>
           </Grid>
@@ -609,9 +614,8 @@ const [bookingFormStage, setBookingFormStage] = React.useState( "bookingInfo")
   
   return (
     <div className={classes.root}>
-      <DashboardLayout>
         <div className={classes.root}>
-          <Grid container  justifyContent="space-evenly" spacing= {10}>
+          <Grid container  justifyContent="space-evenly" spacing={4}>
             {/* Swipeable Side */}
             <Grid item xs={8} className={classes.swipeableSide}>
 
@@ -658,7 +662,7 @@ const [bookingFormStage, setBookingFormStage] = React.useState( "bookingInfo")
                 </Grid>
               </Grid>
             </Grid>
-            <Divider orientation="vertical" flexItem />
+            {/* <Divider orientation="vertical" flexItem /> */}
             {/* Fixed (Sticky) Side */}
             <Grid item xs={4} className={classes.fixedSide}>
               <Paper elevation={3}>
@@ -669,7 +673,6 @@ const [bookingFormStage, setBookingFormStage] = React.useState( "bookingInfo")
 
           </Grid>
         </div>
-      </DashboardLayout>
   </div>
   )
 }

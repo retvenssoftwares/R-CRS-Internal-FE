@@ -10,7 +10,6 @@ var userJson = {
 }
 
 const loginReducer = (state = userJson, action) => {
-    console.log("userReducer")
     if (action.type ==='user/getUserInfo') {
         return action.payload
     } else {

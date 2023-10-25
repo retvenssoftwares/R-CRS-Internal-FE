@@ -3,7 +3,7 @@ import DashboardLayout from '../../components/layout/dashboardLayout';
 import { makeStyles } from '@material-ui/core/styles';
 import { getAllBookingDB } from '../../actions/booking';
 import { Grid, Button, Card, TextField } from '@material-ui/core';
-import { Space, Table } from 'antd';
+// import { Space, Table } from 'antd';
 import Paper from '@material-ui/core/Paper';
 import Alert from '@material-ui/lab/Alert';
 import CancelIcon from '@material-ui/icons/Cancel';
@@ -13,7 +13,9 @@ import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import IconButton from '@material-ui/core/IconButton';
 import OutlinedInput from '@material-ui/core/OutlinedInput';
-const { Column, ColumnGroup } = Table;
+import Table from '../../components/table';
+import { useAllBookingsQuery } from '../../redux/slices/booking';
+// const { Column, ColumnGroup } = Table;
 
 const useStyles = makeStyles((theme) => ({
     cardRoot:{
@@ -36,7 +38,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const AllBookingDisplay = () => {
-
+const {data:allBookingsData} = useAllBookingsQuery()
     const classes = useStyles();
     const [allBookings, setAllBookings] = useState(null);
     const [openForm, setOpenForm] = React.useState(false);
@@ -175,39 +177,45 @@ const AllBookingDisplay = () => {
             roomNights: 2,
         },
       ];
-      const guestNamesList = [...new Set(demoBookings.map((booking) => booking.guestName))];
-      const bookingIDList = [...new Set(demoBookings.map((booking) => booking.bookingID))];
-      const employNameList = [...new Set(demoBookings.map((booking) => booking.employName))];
-      const hotelNamesList = [...new Set(demoBookings.map((booking) => booking.hotelName))];
+    //   const guestNamesList = [...new Set(demoBookings.map((booking) => booking.guestName))];
+    //   const bookingIDList = [...new Set(demoBookings.map((booking) => booking.bookingID))];
+    //   const employNameList = [...new Set(demoBookings.map((booking) => booking.employName))];
+    //   const hotelNamesList = [...new Set(demoBookings.map((booking) => booking.hotelName))];
 
     const columns = [
       {
-        title: 'Booking ID',
-        dataIndex: 'bookingID',
+        name: 'Booking ID',
+        selector: 'bookingID',
+        sortable:true,
         key: 'bookingID',
         render: (text) => <a>{text}</a>,
       },
       {
-        title: 'Made By',
-        dataIndex: 'employName',
+        name: 'Made By',
+        selector: 'employName',
+        sortable:true,
         key: 'employName',
       },
       {
-        title: 'Hotel Name',
-        dataIndex: 'hotelName',
+        name: 'Hotel Name',
+        selector: 'hotelName',
+        sortable:true,
         key: 'hotelName',
       },
       {
-        title: 'Guest Name',
-        dataIndex: 'guestName',
+        name: 'Guest Name',
+        selector: 'guestName',
+        sortable:true,
         key: 'guestName',
       },
       {
-        title: 'Room Nights',
-        dataIndex: 'roomNights',
+        name: 'Room Nights',
+        selector: 'roomNights',
+        sortable:true,
         key: 'roomNights',
       }
     ];
+
 
 
     React.useEffect(() => {
@@ -228,8 +236,8 @@ const AllBookingDisplay = () => {
     if(!openForm){
         return <>
 
-            <Grid container spacing={3} justify="flex-end">
-                <Grid item  md={4} sm={4} xs={12}>
+            <Grid container spacing={3} justifyContent="flex-end">
+                <Grid item  md={4} sm={4} xs={12} style={{marginTop:'10px'}}>
                     <Button
                     variant="contained"
                     onClick={() => setOpenForm(true)}
@@ -239,15 +247,16 @@ const AllBookingDisplay = () => {
                     </Button>
                 </Grid>
             </Grid>
-            <Paper>
-                    <Table columns={columns} dataSource={demoBookings} />
+            <Paper style={{marginTop:"20px"}}>
+                    {/* <Table columns={columns} dataSource={demoBookings} /> */}
+                    <Table columns={columns} data={demoBookings} />
             </Paper>
         </>
     } else {
 
         return <>
 
-        <Grid container spacing={3} justify="flex-end">
+        <Grid container spacing={3} justifyContent="flex-end">
             <Grid item  md={4} sm={4} xs={12}>
                 <Button
                 variant="contained"
@@ -259,11 +268,11 @@ const AllBookingDisplay = () => {
             </Grid>
         </Grid>
         <br /><br /><br />
-        <Grid container spacing={3} justify="center">
-        <Grid item xs={12} md={10}>
+        <Grid container spacing={3} justifyContent="center">
+        <Grid item xs={12} md={10} style={{marginTop:'20px',marginBottom:"40px"}}>
             <Card className={classes.cardRoot} variant="outlined">
             <br />
-            <Grid container spacing={3}>
+            {/* <Grid container spacing={3}>
                 <Grid item xs={12} md={6}>
                     <Autocomplete
                     options={guestNamesList}
@@ -320,13 +329,13 @@ const AllBookingDisplay = () => {
                     renderInput={(params) => <TextField {...params} label="Filter Booking ID" variant="outlined"  value={filterBookingID}/>}
                     />
                 </Grid>
-            </Grid>
+            </Grid> */}
             </Card>
         </Grid>
         </Grid>
 
         <Paper>
-            <Table columns={columns} dataSource={demoBookings} />
+            {/* <Table columns={columns} dataSource={demoBookings} /> */}
         </Paper>
 
         </>
@@ -335,9 +344,9 @@ const AllBookingDisplay = () => {
 
 const Bookings = () => {
     return  <>
-                <DashboardLayout>
+                <>
                     <AllBookingDisplay/>
-                </DashboardLayout>
+                </>
             </>
 }
 export default Bookings;

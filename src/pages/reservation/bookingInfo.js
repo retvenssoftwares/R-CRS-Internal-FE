@@ -105,10 +105,7 @@ const BookingInfo = (props) => {
   
     // Calculate the total room nights by dividing the time difference by milliseconds in a day
     const totalRoomNights = Math.round(timeDifference / millisecondsInADay);
-  console.log(totalRoomNights)
-    // setRoomNights(numberOfNights)
-    console.log('Formatted Start Date:', startDate);
-    console.log('Formatted End Date:', endDate);
+ 
     setReservation({
         ...reservation,
         arrival_date: formattDate(startDate),
