@@ -36,15 +36,24 @@ const Agent_Dashboard = () => {
   // useGetWeekendBookingQuery
   const date = new Date();
 
-  let day = date.getDate();
-  let month = date.getMonth() + 1;
-  let year = date.getFullYear();
+  // let day = date.getDate();
+  // let month = date.getMonth() + 1;
+  // let year = date.getFullYear();
+
+  function formatDate(date) {
+    const day = String(date.getDate()).padStart(2, '0');
+    const month = String(date.getMonth() + 1).padStart(2, '0'); // Months are zero-based
+    const year = date.getFullYear();
+    return `${day}-${month}-${year}`;
+  }
+  
 
   // This arrangement can be altered based on how we want the date's format to appear.
-  let currentDate = `${day}-${month}-${year}`;
-  console.log(currentDate)
+  // let currentDate = `${day}-${month}-${year}`;
+  // let currentDate = `${day}-${month}-${year}`;
 
-const convertedDate = new Date(currentDate).toISOString().slice(0,10)
+// const convertedDate = currentDate ? new Date(currentDate).toISOString().slice(0,10) : new Date().toISOString().slice(0,10) 
+const convertedDate = formatDate(date)
 console.log(convertedDate)
 
   const { data: apiWeekData } = useGetWeekendCallDetailsQuery({
