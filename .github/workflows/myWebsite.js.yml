@@ -37,7 +37,7 @@ jobs:
       - name: Install dependencies
         run: |
           ls
-          npm i
+          npm i --legacy-peer-deps
 
       # - name: Create env file
       #   run: |
