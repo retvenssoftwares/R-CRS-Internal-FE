@@ -3,12 +3,18 @@ import { useSelector } from "react-redux";
 
 function LoggedInTimer() {
   const isOnline = useSelector((state) => state.isOnline.isOnline);
+  const getLoginTime = window.localStorage.getItem('loginTime')
 
+  const hms = getLoginTime
+  const [hours, minutes, secondss] = hms.split(':');
+  const totalSeconds = (+hours) * 60 * 60 + (+minutes) * 60 + (+secondss);
     // State variable to store the timer value
     // const [timer, setTimer] = useState(0);
-    const[seconds,setSeconds] = useState(0)
-  
+    const[seconds,setSeconds] = useState(totalSeconds ? totalSeconds :0)
+    
+ 
 
+console.log(totalSeconds)
     useEffect(() => {
         let interval;
     
