@@ -1,6 +1,6 @@
 import axios from "axios";
 
 export default axios.create({
-  baseURL:"http://localhost:8000/api",
+  baseURL:"https://admin.retvenscrm.com/api",
   validateStatus: (status) => status < 500,
 });
