@@ -1,13 +1,10 @@
 import React, { useEffect, useState } from "react";
 import Table from "../../components/table";
 import { Grid, Typography } from "@material-ui/core";
-import DashboardLayout from "../../components/layout/dashboardLayout";
 import {
   useGetInboundMutation,
-  useGetInboundQuery,
 } from "../../redux/slices/call";
 import { useHistory } from "react-router-dom";
-import { ThreeDots } from "react-loader-spinner";
 import Loader from "../../components/Loader";
 
 const Inbound = () => {

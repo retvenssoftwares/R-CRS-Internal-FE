@@ -1,6 +1,5 @@
 import React from "react";
 import Table from "../../components/table";
-import DashboardLayout from "../../components/layout/dashboardLayout";
 import { Button, Typography } from "@material-ui/core";
 
 const CRM_CLIENTS = () => {

@@ -1,23 +1,17 @@
 import React, { useEffect, useState } from "react";
-import DashboardLayout from "../../../components/layout/dashboardLayout";
 import Table from "../../../components/table";
-import { useGetInboundMutation } from "../../../redux/slices/call";
 import { Box, Grid } from "@material-ui/core";
 import { useLocation } from "react-router-dom";
 import Loader from "../../../components/Loader";
 
 const CallDetails = () => {
-//   const [getInbound] = useGetInboundMutation();
-//   const [inboundData, setInboundData] = useState(null);
-//   const [outboundDate,setOutboundData] = useState(null)
-  const [stateData,setStateData] = useState(null)
-  const location = useLocation()
-  
+  const [stateData, setStateData] = useState(null);
+  const location = useLocation();
+
   useEffect(() => {
-      if(location){
-        setStateData(location.state.rowData.call_details)
-      }
-    
+    if (location) {
+      setStateData(location.state.rowData.call_details);
+    }
   }, []);
   const column = [
     {
@@ -69,16 +63,20 @@ const CallDetails = () => {
       selector: "last_support_by",
     },
   ];
-  console.log(stateData)
+  console.log(stateData);
   return (
     <>
-        <Box flex={1}>
+      <Box flex={1}>
         <Grid container spacing={0}>
-            <Grid item xs={12}>
-     {stateData ? <Table columns={column} data={stateData} /> : <Loader />}
-            </Grid>
+          <Grid item xs={12}>
+            {stateData ? (
+              <Table columns={column} data={stateData} />
+            ) : (
+              <Loader />
+            )}
+          </Grid>
         </Grid>
-        </Box>
+      </Box>
     </>
   );
 };

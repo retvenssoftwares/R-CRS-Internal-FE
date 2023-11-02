@@ -20,15 +20,11 @@ import React, { useEffect, useState } from "react";
 import DashboardLayout from "../../components/layout/dashboardLayout";
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
-import MaterialUiPhoneNumber from "material-ui-phone-number";
 import { Email, Phone, Place, SearchRounded } from "@material-ui/icons";
 import logo from "../../assets/logo.webp";
 import { useHistory } from "react-router-dom";
 import { useGetAllHotelsQuery } from "../../redux/slices/hotels";
-import { DatePicker } from "antd";
 import { useForm } from "react-hook-form";
-import dayjs from "dayjs";
-import { Space } from "antd";
 import {
   useAddNewCustomerMutation,
   useGetCustomerByNumberQuery,
@@ -36,7 +32,6 @@ import {
 import swal from "sweetalert";
 import { useLocation } from "react-router-dom";
 
-const { RangePicker } = DatePicker;
 
 const CustomerLanding = () => {
   const [phoneNumber, setPhoneNumber] = useState(null);
@@ -1065,223 +1060,5 @@ const Customer_Form_With_Data = ({ data }) => {
         <Typography variant="h5" style={{ fontWeight: "600" }} />
       )}
     </Box>
-  );
-};
-
-const GetCustomerData = () => {
-  const history = useHistory();
-
-  return (
-    <Grid
-      container
-      spacing={0}
-      style={{
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        height: `calc(100vh - 10vh)`,
-      }}
-    >
-      <Grid item={8}>
-        <Grid container spacing={2}></Grid>
-        <Grid container spacing={2}>
-          <Grid
-            xs={12}
-            item
-            style={{
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              marginTop: "20px",
-            }}
-          >
-            <Grid
-              item
-              xs={8}
-              style={{
-                background: "#9ccf2a",
-                borderRadius: "20px",
-                padding: "20px",
-                height: "200px",
-                display: "flex",
-              }}
-            >
-              <Grid
-                item
-                xs={8}
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  justifyContent: "center",
-                }}
-              >
-                <Typography
-                  variant="h5"
-                  style={{ color: "#eceaea", fontSize: "15px" }}
-                >
-                  Identified by{" "}
-                  <span style={{ fontSize: "18px" }}> RETVENS SERVICES </span>
-                </Typography>
-                <Typography
-                  variant="h5"
-                  style={{
-                    color: "white",
-                    fontSize: "44px",
-                    fontWeight: "600",
-                  }}
-                >
-                  Rohit Kumar Silavat
-                </Typography>
-              </Grid>
-              <Grid
-                item
-                xs={4}
-                style={{
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                }}
-              >
-                <div
-                  style={{
-                    background: "white",
-                    padding: "30px 45px",
-                    fontSize: "44px",
-                    borderRadius: "50%",
-                  }}
-                >
-                  R
-                </div>
-              </Grid>
-            </Grid>
-          </Grid>
-          <Grid
-            xs={12}
-            item
-            style={{
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              marginTop: "-40px",
-            }}
-          >
-            <Grid
-              item
-              xs={6}
-              style={{
-                background: "white",
-                borderRadius: "20px",
-                padding: "20px",
-                boxShadow: "0px 0px 10px #75747452",
-              }}
-            >
-              <Grid
-                item
-                xs={12}
-                style={{
-                  display: "flex",
-                  justifyContent: "start",
-                  alignItems: "center",
-                  flexDirection: "row",
-                }}
-              >
-                <Grid
-                  item
-                  xs={6}
-                  style={{
-                    display: "flex",
-                    justifyContent: "start",
-                    alignItems: "center",
-                  }}
-                >
-                  <Phone />
-                  <div
-                    style={{
-                      marginLeft: "10px",
-                      fontSize: "18px",
-                      color: "#a29b9b",
-                    }}
-                  >
-                    8818856231
-                  </div>
-                </Grid>
-
-                <Grid
-                  item
-                  xs={6}
-                  style={{
-                    display: "flex",
-                    justifyContent: "start",
-                    alignItems: "center",
-                  }}
-                >
-                  <Email />
-                  <div
-                    style={{
-                      marginLeft: "10px",
-                      fontSize: "18px",
-                      color: "#a29b9b",
-                    }}
-                  >
-                    contactrohit@gmail.com
-                  </div>
-                </Grid>
-              </Grid>
-
-              {/* Column 2 */}
-              <Grid
-                item
-                xs={12}
-                style={{
-                  display: "flex",
-                  justifyContent: "start",
-                  alignItems: "center",
-                  marginTop: "40px",
-                }}
-              >
-                <Grid
-                  item
-                  xs={12}
-                  style={{
-                    display: "flex",
-                    justifyContent: "start",
-                    alignItems: "center",
-                  }}
-                >
-                  <Place />
-                  <div
-                    style={{
-                      marginLeft: "10px",
-                      fontSize: "18px",
-                      color: "#a29b9b",
-                    }}
-                  >
-                    Near mahalaxmi nagar, Bypass Road, Indore, M.P
-                  </div>
-                </Grid>
-              </Grid>
-            </Grid>
-          </Grid>
-        </Grid>
-        <Grid
-          item
-          xs={12}
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            marginTop: "20px",
-          }}
-        >
-          <Button
-            variant="outlined"
-            style={{ background: "#1853b1", color: "white" }}
-            onClick={() => history.push("/reservation")}
-          >
-            Book Now
-          </Button>
-        </Grid>
-      </Grid>
-    </Grid>
   );
 };

@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import DashboardLayout from "../../components/layout/dashboardLayout";
 import Cards from "../../components/cards/hotelSetting";
 import HotelImage from "../../assets/hotel.jpeg";
 import HotelImage2 from "../../assets/hotel2.jpeg";
@@ -19,7 +18,6 @@ import {
 
 const HotelSettings = () => {
   const { data: hotelApiData } = useNewlyAddedHotelsQuery();
-  const { data: topHotels } = useTopHotelsQuery();
   const [hotelData, setHotelDate] = useState(null);
   const [addNewHotel, setAddNewHotel] = useState(false);
   const [filterValue, setFilterValue] = useState("");
@@ -180,41 +178,6 @@ const HotelSettings = () => {
                 filteredData.length === 0 &&
                 "no data found"}
 
-            {/* <Cards
-              location={"South West, New Delhi"}
-              image={HotelImage}
-              pricing={"1,500"}
-              title={"Hotel Royal Palace"}
-              rating={4}
-            />
-            <Cards
-              location={"West  New Delhi"}
-              image={HotelImage2}
-              pricing={"2,000"}
-              title={"Pearl Hotels"}
-              rating={5}
-            />
-            <Cards
-              location={"Pahad Ganj, New Delhi"}
-              image={HotelImage3}
-              pricing={"3,400"}
-              title={"Hotel Star"}
-              rating={3}
-            />
-            <Cards
-              location={"Janak Puri, New Delhi"}
-              image={HotelImage4}
-              pricing={"1,700"}
-              title={"Royal Imperia Hotel"}
-              rating={1}
-            />
-            <Cards
-              location={"Indra Puri, New Delhi"}
-              image={HotelImage5}
-              pricing={"1,278"}
-              title={"Delhi Star Plaza"}
-              rating={5}
-            /> */}
           </Grid>
           <Grid container spacing={0}>
             <Grid xs={12}>

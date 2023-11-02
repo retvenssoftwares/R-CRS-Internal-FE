@@ -1,11 +1,8 @@
 import React, { useEffect, useState } from "react";
-import DashboardLayout from "../../components/layout/dashboardLayout";
 import { Grid, InputLabel, TextField, Typography } from "@material-ui/core";
 import Table from "../../components/table";
 import {
-  useGetCallHistoryQuery,
   useGetCallsHistoryMutation,
-  useGetCallsHistoryQuery,
 } from "../../redux/slices/call";
 import Loader from "../../components/Loader";
 

@@ -1,5 +1,4 @@
-import React, { useRef, useState } from "react";
-import DashboardLayout from "../../components/layout/dashboardLayout";
+import React, { useRef } from "react";
 import jsPDF from "jspdf";
 import { Button, Typography } from "@material-ui/core";
 

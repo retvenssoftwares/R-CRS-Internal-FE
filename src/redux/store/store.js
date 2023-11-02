@@ -4,7 +4,6 @@ import { configureStore } from "@reduxjs/toolkit";
 import roomReducer from "../slices/rooms/index";
 import dashboardBooleanReducer from "../slices/dashboard/index";
 import loginReducer from '../slices/isLogin/index'
-import logger from "redux-logger";
 import { roomsApi } from "../slices/rooms/api";
 import { crs_dashboard_api } from "../slices/dashboard/api";
 import { Location } from "../slices/location";

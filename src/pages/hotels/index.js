@@ -1,31 +1,13 @@
 import React from "react";
-import DashboardLayout from "../../components/layout/dashboardLayout";
 import { Grid } from "@material-ui/core";
-import Paper from "@material-ui/core/Paper";
 import Button from "@material-ui/core/Button";
 import { makeStyles } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
-// import Divider from '@material-ui/core/Divider';
-import CardContent from "@material-ui/core/CardContent";
-import CardActions from "@material-ui/core/CardActions";
-import CardGiftcardIcon from "@material-ui/icons/CardGiftcard";
-import { Typography } from "@material-ui/core";
-import Box from "@material-ui/core/Box";
-import LocalOfferIcon from "@material-ui/icons/LocalOffer";
-import StyleIcon from "@material-ui/icons/Style";
-import GroupWorkIcon from "@material-ui/icons/GroupWork";
 import { TextField } from "@material-ui/core";
-import Select from "@material-ui/core/Select";
-import MenuItem from "@material-ui/core/MenuItem";
-import FormControl from "@material-ui/core/FormControl";
-import InputLabel from "@material-ui/core/InputLabel";
-import MuiPhoneNumber from "material-ui-phone-number";
-import Autocomplete from "@material-ui/lab/Autocomplete";
 import { addHotel, getHotelDB } from "../../actions/hotel";
 import Alert from "@material-ui/lab/Alert";
 import CancelIcon from "@material-ui/icons/Cancel";
 import Table from "../../components/table";
-import { useGetAllHotelsQuery } from "../../redux/slices/hotels";
 import swal from 'sweetalert';
 
 
@@ -173,23 +155,6 @@ const AddHotel = () => {
           </Grid>
         </Grid>
 
-        {/* <Table dataSource={allHotels}>
-          <Column title="Hotel Name" dataIndex="hotel_name" key="hotel_name" />
-          <Column
-            title="Retvens Hotel Code"
-            dataIndex="hotel_r_code"
-            key="hotel_r_code"
-          />
-          <Column
-            title="Action"
-            key="action"
-            render={(_, record) => (
-              <Space size="middle">
-                <a>Delete</a>
-              </Space>
-            )}
-          />
-        </Table> */}
         {allHotels ? <Table columns={column} data={allHotels} /> :<>Loading...</>}
       </>
     );

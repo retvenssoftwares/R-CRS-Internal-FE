@@ -4,7 +4,6 @@ import Bookings from "../pages/bookings";
 import Dashboard from "../pages/dashboard";
 import AllEmployees from "../pages/employees/allEmployees";
 import AllHotel from "../pages/hotels";
-import Reservation from "../pages/reservation";
 import Reset from "../pages/reset";
 import { Route } from "react-router-dom";
 import Private from "../components/protectedRoutes/privateRoute";
@@ -14,9 +13,8 @@ import Sales from "../pages/sales";
 import Reports from "../pages/reports";
 import LeadsManagement from "../pages/leadsManagement";
 import HotelSettings from "../pages/hotelSettings";
-import EmailBrochure from "../pages/emailBrochure";
+// import EmailBrochure from "../pages/emailBrochure";
 import ClientInvoicing from "../pages/clientInvoicing";
-import BookingManagement from "../pages/bookingManagement";
 import OnboardBasicDetails from "../pages/hotelOnboard/onBoardForm";
 import CRM_Dashboard from "../pages/crm_dashboard";
 import CRM_CLIENTS from "../pages/crm_clients";
@@ -70,15 +68,8 @@ const Router = () => {
           <Private path="/clients" exact component={Clients} />
           <Private path="/reports" exact component={Reports} />
           <Private path="/leadsManagement" exact component={LeadsManagement} />
-          <Private
-            path="/reservation/:hotelCode"
-            exact
-            component={Reservation}
-          />
           <Private path="/hotelsettings" exact component={HotelSettings} />
-          <Private path="/emailbrochure" exact component={EmailBrochure} />
           <Private path="/clientsinvoicing" exact component={ClientInvoicing} />
-          <Private path="/reservation" exact component={BookingManagement} />
           <Private
             path="/hotelsettings:hotelonboard"
             exact

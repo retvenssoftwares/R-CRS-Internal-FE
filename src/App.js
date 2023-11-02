@@ -5,6 +5,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { setDashboardBooleanValue } from "./redux/slices/dashboard";
 import DashboardLayout from "./components/layout/dashboardLayout";
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
   const dispatch = useDispatch();
@@ -59,6 +61,7 @@ function App() {
           <Routes />
         {/* )} */}
       </Switch>
+      <ToastContainer />
     </BrowserRouter>
   );
 }

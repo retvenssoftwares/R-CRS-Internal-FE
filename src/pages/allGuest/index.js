@@ -1,13 +1,11 @@
 import { TextField, Typography } from "@material-ui/core";
 import React, { useEffect, useState } from "react";
-import DashboardLayout from "../../components/layout/dashboardLayout";
 import Table from "../../components/table";
 import { useGetAllGuestMutation } from "../../redux/slices/guest";
 import { useExcelDownloder } from 'react-xls';
 import Loader from "../../components/Loader";
 
 const AllGuest = () => {
-    const { ExcelDownloder, Type } = useExcelDownloder();
   const [getAllGuest] = useGetAllGuestMutation();
   const [guestData, setGuestData] = useState(null);
   const[Search,setSearch] = useState('')

@@ -4,17 +4,16 @@ import { useSelector } from "react-redux";
 function LoggedInTimer() {
   const isOnline = useSelector((state) => state.isOnline.isOnline);
   const getLoginTime = window.localStorage.getItem('loginTime')
+  
+useEffect(()=>{
 
-  const hms = getLoginTime
-  const [hours, minutes, secondss] = hms.split(':');
+})
+  const hms = getLoginTime || ""
+  const [hours, minutes, secondss] =  hms.split(':');
   const totalSeconds = (+hours) * 60 * 60 + (+minutes) * 60 + (+secondss);
-    // State variable to store the timer value
-    // const [timer, setTimer] = useState(0);
-    const[seconds,setSeconds] = useState(totalSeconds ? totalSeconds :0)
-    
- 
 
-console.log(totalSeconds)
+    const[seconds,setSeconds] = useState(totalSeconds ? totalSeconds :0)
+  
     useEffect(() => {
         let interval;
     
@@ -29,19 +28,7 @@ console.log(totalSeconds)
         return () => clearInterval(interval);
       }, [isOnline]);
 
-    // Effect to start the timer when the component mounts (user logs in)
-    // useEffect(() => {
-    //   const interval = setInterval(() => {
-    //     // Increment the timer by 1 second
-    //     setTimer(timer => timer + 1);
-    //   }, 1000);
-  
-    //   // Cleanup function to clear the interval when the component unmounts
-    //   return () => {
-    //     clearInterval(interval);
-    //   };
-    // }, []); 
-    // Empty dependency array means this effect runs only once on mount
+
   
 
     function secondsToHMS(seconds) {

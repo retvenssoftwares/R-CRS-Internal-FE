@@ -4,13 +4,9 @@ import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import Grid from "@material-ui/core/Grid";
 import Card from "@material-ui/core/Card";
-import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import { signIn, authenticate } from "../../actions/auth";
-// import { getHotelDB } from '../../actions/hotel';
 import Alert from "@material-ui/lab/Alert";
-import { Image } from "antd";
-// import logo from "../../assets/R-CRS.png";
 import { useSelector, useDispatch } from "react-redux";
 import { bindActionCreators } from "redux";
 import { actions } from "../../actionTypes";
@@ -18,10 +14,10 @@ import PersonIcon from "@material-ui/icons/Person";
 import LockIcon from "@material-ui/icons/Lock";
 import logo from "../../assets/logo.webp";
 import { setLoggedIn } from "../../redux/slices/isLogin";
+import { toast } from "react-toastify";
 
 const useStyles = makeStyles({
   form: {
-    // padding:"22px 17px 22px 17px",
     padding: "0px",
     borderRadius: "10px",
     margin: "5px",
@@ -108,7 +104,6 @@ const LoginForm = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     setLogin({ ...login, isLoading: true });
-    console.log("hey");
     signIn({
       userName: login.credentials.userName,
       password: login.credentials.password,
@@ -117,7 +112,6 @@ const LoginForm = () => {
         setLogin({ ...login, isLoading: false, success: value.message });
         authenticate(value, () => {
           let userDataFromServer = value.employee;
-          console.log(value.details.department[0].role);
           window.localStorage.setItem(
             "employee_id",
             JSON.stringify(value.details.employee_id)
@@ -130,31 +124,14 @@ const LoginForm = () => {
           } else if (value.details.department[0].role === "SuperAdmin") {
             history.push("/superadmin/dashboard");
           }
-          // fetchAllHotel(e)
         });
-        console.log("Something went wrong");
       })
       .catch((err) => {
-        console.log(err);
+        toast.error(err.response.data.msg,{position:'bottom-right'})
         setLogin({ ...login, isLoading: false, error: err.error });
       });
   };
 
-  //  const fetchAllHotel = (e) => {
-  //   e.preventDefault()
-  //   getHotelDB()
-  //     .then((value) => {
-  //       console.log(hotelsDataFromStore)
-  //       let hotelsDataFromServer = value.hotels
-  //       console.log(hotelsDataFromServer)
-  //       get_hotel_list(hotelsDataFromServer)
-  //       console.log(hotelsDataFromStore)
-  //       history.push("/dashboard")
-  //     })
-  //     .catch((err) => {
-  //       console.log("Error fetching all hotels:", err)
-  //     })
-  // }
 
   return (
     <>
@@ -178,7 +155,6 @@ const LoginForm = () => {
                     container
                     justifyContent="center"
                     style={{
-                      // background: "#28bf79",
                       background: "white",
                       height: "100px",
                       width: "100%",
@@ -199,16 +175,7 @@ const LoginForm = () => {
                         justifyContent: "center",
                       }}
                     >
-                      {/* <Typography
-                        style={{
-                          textAlign: "center",
-                          fontSize: "30px",
-                          fontWeight: "600",
-                          color: "white",
-                        }}
-                      >
-                        Retvens Services
-                      </Typography> */}
+                     
                       <img
                         src={logo}
                         height={"100px"}
@@ -216,7 +183,6 @@ const LoginForm = () => {
                       />
                     </Grid>
 
-                    {/* <img src={logo} className={classes.logo} alt='logo'/> */}
                   </Grid>
                   {login.success && (
                     <Alert severity="success">{login.success}</Alert>
@@ -311,11 +277,7 @@ const LoginForm = () => {
                       </Grid>
                     </Grid>
                     <br />
-                    {/* <Grid container justify='center'>
-                       <Typography variant="body1">
-                         Forget password
-                       </Typography>
-                     </Grid> */}
+                    
                   </form>
                 </Card>
               </Grid>
@@ -331,26 +293,3 @@ const LoginForm = () => {
 
 export default LoginForm;
 
-// const Signup = () => {
-//   return (
-//     <Grid container spacing={2}>
-//       <Grid item xs={12}>
-//         <Typography
-//           variant="h5"
-//           style={{ fontWeight: "600", marginBottom: "40px" }}
-//         >
-//           Create User
-//         </Typography>
-//       </Grid>
-//       <Grid item xs={4}>
-//         <TextField variant="outlined" label="Enter Username" />
-//       </Grid>
-//       <Grid item xs={4}>
-//         <TextField variant="outlined" label="Enter Firstname" />
-//       </Grid>
-//       <Grid item xs={4}>
-//         <TextField variant="outlined" label="Enter Lastname" />
-//       </Grid>
-//     </Grid>
-//   );
-// };

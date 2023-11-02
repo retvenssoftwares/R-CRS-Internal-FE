@@ -1,21 +1,17 @@
-import React, { useEffect } from "react";
-import DashboardLayout from "../../components/layout/dashboardLayout";
+import React from "react";
 import { styled } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
 import Grid from "@mui/material/Grid";
 import { App } from "../charts/lineChart";
 import { BarChart } from "../charts/barChart";
-import { AreaChart } from "../charts/areaChart";
 import { MultiTypeChart } from "../charts/multiTypeChart";
 import CountUp from "react-countup/";
 import { Typography } from "@mui/material";
 import { useFetchDataQuery } from "../../redux/slices/dashboard/api";
 import { useGetAllCallsDetails_adminQuery, useGetWeekendCallDetailsQuery } from "../../redux/slices/call";
-import { useAgentInboundOutboundQuery } from "../../redux/slices/agent";
 import { RotatingLines } from "react-loader-spinner";
 import { TopFiveReservation } from "../charts/topFiveReservationChart";
-// import {useFetchDataQuery} from '../../redux/slices/Dashboard/api'
 
 const Admin_Dashboard = () => {
   const Item = styled(Paper)(({ theme }) => ({

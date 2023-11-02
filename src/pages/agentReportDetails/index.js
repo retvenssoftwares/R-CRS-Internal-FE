@@ -1,9 +1,5 @@
 import {
-  FormControl,
   Grid,
-  InputLabel,
-  MenuItem,
-  Select,
   TextField,
   Typography,
 } from "@material-ui/core";
@@ -211,24 +207,8 @@ const AgentReportDetails = () => {
     }
   },[objects]);
 
-    // useEffect(()=>{
-    // //     refState &&
-    // // refState.map((items) => {
-    // //         return setNewState (prevArray) => [...prevArray, {
-    // //             name: items.label.split("_").join(" ").replace("guest", ""),
-    // //             selector: (row) => row?.[items.label],
-    // //         }];
-    // //     });
-    // console.log(refState)
-    // if (refState == null || refState.length === 0) {
-    //     console.log("empty")
-    // } else {
-    //     setFilterTest(prevItems => [...columnCalls, ...refState])
-    // }
-    // },[refState,ref])
 
   const handleChange = (event) => {
-    // setSelectedOptions(event.target.value);
     if (event == null || event.length === 0) {
         setFilterTest(prevItems => [...columnCalls])
     } else {
@@ -246,13 +226,10 @@ const AgentReportDetails = () => {
         name: items.label.split("_").join(" ").replace("guest", ""),
         selector: (row) => row?.[items.label],
       };
-    //   setFilterTest = columnCalls.concat([newData])
-    //   setRefState((prevArray) => [...prevArray, items]);
-    //   return setObjects((prevArray) => [...prevArray, newData]);
+
 
       return setObjects((prevArray) => [...prevArray, newData]);
 
-      //  return setObjects([newData]);
     });
   };
   
@@ -286,29 +263,6 @@ const AgentReportDetails = () => {
         Call Details
       </Typography>
       <Grid item xs={4}>
-        {/* <FormControl variant="outlined" fullWidth>
-        <InputLabel id="multi-select-label">Select Fields</InputLabel>
-        <Select
-          labelId="multi-select-label"
-          id="multi-select"
-          multiple
-          value={selectedOptions}
-          onChange={handleChange}
-          label="Select Options"
-          renderValue={(selected) => selected.join(", ")}
-        >
-          {options && options.map((option) => (
-            <MenuItem key={option} value={option} innerRef={ref} >
-              <input
-                type="checkbox"
-                checked={selectedOptions.indexOf(option) > -1}
-              />
-              &nbsp;{String(option).split("_").join(" ")}
-            </MenuItem>
-          ))}
-        </Select>
-      </FormControl> */}
-
         <ReactMultiSelectCheckboxes
           onChange={handleChange}
           ref={ref}

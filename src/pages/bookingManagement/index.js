@@ -1,8 +1,6 @@
 import React, { useState } from "react";
-import DashboardLayout from "../../components/layout/dashboardLayout";
 import { Autocomplete, Stack, TextField } from "@mui/material";
 import { Button, Grid, Typography } from "@material-ui/core";
-import { getHotelDB } from "../../actions/hotel";
 import Table from "../../components/table";
 import Reservation from "../reservation";
 import { useGetAllHotelsQuery } from "../../redux/slices/hotels";

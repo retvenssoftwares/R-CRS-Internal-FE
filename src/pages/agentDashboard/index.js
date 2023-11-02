@@ -1,23 +1,18 @@
-import React, { useEffect } from "react";
-import DashboardLayout from "../../components/layout/dashboardLayout";
+import React from "react";
 import { styled } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
 import Grid from "@mui/material/Grid";
 import { App } from "../charts/lineChart";
 import { BarChart } from "../charts/barChart";
-import { AreaChart } from "../charts/areaChart";
 import { MultiTypeChart } from "../charts/multiTypeChart";
 import CountUp from "react-countup/";
 import { Typography } from "@mui/material";
-import { useFetchDataQuery } from "../../redux/slices/dashboard/api";
 import { useGetWeekendCallDetailsQuery } from "../../redux/slices/call";
 import { useAgentInboundOutboundQuery } from "../../redux/slices/agent";
 import { RotatingLines } from "react-loader-spinner";
 import { TopFiveReservation } from "../charts/topFiveReservationChart";
 import { useGetWeekendBookingQuery } from "../../redux/slices/booking";
-import { WeekendBooking } from "../charts/weekend_booking";
-// import {useFetchDataQuery} from '../../redux/slices/Dashboard/api'
 
 const Agent_Dashboard = () => {
   const Item = styled(Paper)(({ theme }) => ({
@@ -28,17 +23,13 @@ const Agent_Dashboard = () => {
     borderRadius: "20px",
     color: theme.palette.text.secondary,
   }));
-  const { data, refetch, isError } = useFetchDataQuery();
   const employeeID = JSON.parse(window.localStorage.getItem("employee_id"));
   const { data: agentInboundOutbound } = useAgentInboundOutboundQuery({
     employeeId: employeeID,
   });
-  // useGetWeekendBookingQuery
   const date = new Date();
 
-  // let day = date.getDate();
-  // let month = date.getMonth() + 1;
-  // let year = date.getFullYear();
+
 
   function formatDate(date) {
     const day = String(date.getDate()).padStart(2, '0');
@@ -47,12 +38,6 @@ const Agent_Dashboard = () => {
     return `${day}-${month}-${year}`;
   }
   
-
-  // This arrangement can be altered based on how we want the date's format to appear.
-  // let currentDate = `${day}-${month}-${year}`;
-  // let currentDate = `${day}-${month}-${year}`;
-
-// const convertedDate = currentDate ? new Date(currentDate).toISOString().slice(0,10) : new Date().toISOString().slice(0,10) 
 const convertedDate = formatDate(date)
 console.log(convertedDate)
 
@@ -170,11 +155,7 @@ console.log(convertedDate)
               )}
             </Item>
           </Grid>
-          {/* <Grid item xs={8}>
-              <Item>
-                <AreaChart />
-              </Item>
-            </Grid> */}
+      
           <Grid item xs={4}>
             <Item>
               {" "}
@@ -205,7 +186,6 @@ console.log(convertedDate)
             </Item>
           </Grid>
           <Grid item xs={4}>
-          {/* {WeekendBooking &&<WeekendBooking apiData={WeekendBookings} />} */}
           </Grid>
         </Grid>
       </Box>

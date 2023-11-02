@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import DashboardLayout from "../../components/layout/dashboardLayout";
 import {
   Button,
   FormControl,
@@ -22,7 +21,6 @@ const AddAdmin = () => {
   const Item = styled(Paper)(({ theme }) => ({
     backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
     ...theme.typography.body2,
-    // padding: theme.spacing(2),
     padding: "40px 20px",
     textAlign: "center",
     borderRadius: "20px",

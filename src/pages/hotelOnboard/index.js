@@ -13,7 +13,7 @@ import Step from "@mui/material/Step";
 import StepLabel from "@mui/material/StepLabel";
 import Button from "@material-ui/core/Button";
 import { styled } from "@mui/material/styles";
-import React, { useEffect, useState } from "react";
+import React, {  useState } from "react";
 import Select from "@material-ui/core/Select";
 import {
   useCitiesQuery,
@@ -23,7 +23,6 @@ import {
 import { Form, useForm } from "react-hook-form";
 import { useAddNewHotelMutation } from "../../redux/slices/hotels";
 import CloudUploadIcon from "@material-ui/icons/CloudUpload";
-import { converBase64ToImage } from "convert-base64-to-image";
 import ImageIcon from "@material-ui/icons/Image";
 
 const HotelOnBoard = () => {
@@ -69,18 +68,13 @@ const HotelOnBoard = () => {
       ...prevValue,
       [name]: value,
     }));
-    // setBasicDetails({ ...basicDetails, [name]: value });
   };
 
   return (
     <Box flex={1}>
       <Grid container style={{ display: "flex", justifyContent: "center" }}>
         <Grid item xs={6}>
-          {/* <StepperComponent
-            activeState={activeStep}
-            nextStep={nextStep}
-            previousStep={previousStep}
-          /> */}
+     
         </Grid>
       </Grid>
       <MemoizedComponent />

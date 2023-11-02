@@ -1,5 +1,4 @@
-import React, { useEffect } from "react";
-import DashboardLayout from "../../components/layout/dashboardLayout";
+import React from "react";
 import { styled } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
