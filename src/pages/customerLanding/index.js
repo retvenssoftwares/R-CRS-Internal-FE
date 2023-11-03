@@ -17,8 +17,6 @@ import {
   Typography,
 } from "@material-ui/core";
 import React, { useEffect, useState } from "react";
-import DashboardLayout from "../../components/layout/dashboardLayout";
-import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
 import { Email, Phone, Place, SearchRounded } from "@material-ui/icons";
 import logo from "../../assets/logo.webp";

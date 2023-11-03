@@ -64,28 +64,8 @@ export function WeekendBooking({apiData}) {
         data: apiData.map((data)=>{
               return data.totalRecords
             }),
-        // data: labels.map(() => faker.datatype.number({ min: 0, max: 1000 })),
         backgroundColor: 'rgba(255, 99, 132, 0.5)',
       },
-      // {
-      //   label: 'Dataset 2',
-      //   data: labels.map(() => faker.datatype.number({ min: 0, max: 1000 })),
-      //   backgroundColor: 'rgba(53, 162, 235, 0.5)',
-      // },
-      // {
-      //   type: "line",
-      //   label: `Highest Disposition of Week till ${apiData[0].date}` ,
-      //   borderColor: "rgb(255, 99, 132)",
-      //   borderWidth: 2,
-      //   fill: false,
-      //   data: apiData.map((data)=>{
-      //     return data.highestDisposition['count']
-      //   }),
-
-      //   // data: labels.map(() =>
-      //   //   faker.datatype.number({ min: -1000, max: 1000 })
-      //   // ),
-      // },
     ],
   };
 

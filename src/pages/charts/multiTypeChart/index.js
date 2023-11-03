@@ -42,10 +42,6 @@ export function MultiTypeChart({ apiData, type }) {
         data: apiData.map((data)=>{
           return data.highestDisposition['count']
         }),
-
-        // data: labels.map(() =>
-        //   faker.datatype.number({ min: -1000, max: 1000 })
-        // ),
       },
     ],
   };

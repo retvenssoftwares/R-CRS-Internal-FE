@@ -10,7 +10,6 @@ import { MultiTypeChart } from "../charts/multiTypeChart";
 import CountUp from "react-countup/";
 import { Typography } from "@mui/material";
 import { useFetchDataQuery } from "../../redux/slices/dashboard/api";
-// import {useFetchDataQuery} from '../../redux/slices/Dashboard/api'
 
 const CRM_Dashboard = () => {
   const Item = styled(Paper)(({ theme }) => ({
