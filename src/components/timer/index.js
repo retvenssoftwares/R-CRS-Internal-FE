@@ -47,7 +47,7 @@ useEffect(()=>{
 
     return (
       <div style={{fontSize:'16px'}}>
-        <p>Login Time : {secondsToHMS(seconds)}</p>
+        <p>{secondsToHMS(seconds)}</p>
       </div>
     );
   }

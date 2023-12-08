@@ -1,6 +1,8 @@
+import { useHistory } from "react-router-dom"
 import { useDispatch } from "react-redux";
 import axios from "../utils/axios";
 import cookie from "js-cookie";
+
 
 export function onBoard(credentials) {
   return new Promise((resolve, reject) => {
@@ -40,11 +42,13 @@ export  function signIn(credentials) {
       .post("/login/user", credentials)
       .then((response) => {
         if (response.status === 200) {
+          alert("Login")
           window.localStorage.setItem(
             "userContext",
             JSON.stringify(response.data)
           );
           if(response.data.details.department[0].role === 'Agent'){
+            
           }else if(response.data.details.department[0].role === 'Admin'){
 
           }else if(response.data.details.department[0].role === 'SuperAdmin'){

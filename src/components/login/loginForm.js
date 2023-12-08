@@ -117,6 +117,7 @@ const LoginForm = () => {
             JSON.stringify(value.details.employee_id)
           );
           dispatch(setLoggedIn(true))
+          debugger
           if (value.details.department[0].role === "Admin") {
             history.push("/admin/dashboard");
           } else if (value.details.department[0].role === "Agent") {
